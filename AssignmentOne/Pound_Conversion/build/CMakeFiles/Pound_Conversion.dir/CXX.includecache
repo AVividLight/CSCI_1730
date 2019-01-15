@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion/src/main.cc
+iostream
+-
+string
+-
+
