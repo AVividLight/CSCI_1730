@@ -1,7 +1,7 @@
-/usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion/build/CMakeFiles/install/local.dir
-/usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion/build/CMakeFiles/install/strip.dir
-/usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion/build/CMakeFiles/install.dir
-/usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion/build/CMakeFiles/list_install_components.dir
-/usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion/build/CMakeFiles/rebuild_cache.dir
-/usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion/build/CMakeFiles/edit_cache.dir
-/usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion/build/CMakeFiles/Pound_Conversion.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/CMakeFiles/install/local.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/CMakeFiles/install/strip.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/CMakeFiles/install.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/CMakeFiles/list_install_components.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/CMakeFiles/rebuild_cache.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/CMakeFiles/edit_cache.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/CMakeFiles/Pound_Conversion.dir

@@ -1,4 +1,4 @@
-# Install script for directory: /usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion
+# Install script for directory: /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -41,7 +41,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/bin" TYPE EXECUTABLE FILES "/usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion/build/bin/Pound_Conversion")
+file(INSTALL DESTINATION "/bin" TYPE EXECUTABLE FILES "/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/bin/Pound_Conversion")
   if(EXISTS "$ENV{DESTDIR}/bin/Pound_Conversion" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}/bin/Pound_Conversion")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -58,5 +58,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/usr/local/acct/development/projects/CSCI_1730/01142019/Pound_Conversion/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

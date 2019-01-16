@@ -3,6 +3,9 @@
 
 
 //20 shillings to a pound, and 12 pence to a shilling
+const int SHILLINGS_PER_POUND = 20;
+const int PENCE_PER_SHILLING = 12;
+const int PENCE_CONVERSION_RATE = 240;
 
 
 struct new_pounds
@@ -49,8 +52,6 @@ old_pounds ask_for_input ()
 	std::cout << "Enter a value in old-pounds (matching pattern #.#.#): ";
 	std::cin >> old_pounds_value.pounds >> dot >> old_pounds_value.shillings >> dot >> old_pounds_value.pence;
 
-	//std::cout << "Value: " << old_pounds_value.to_string () << std::endl;
-
 	return old_pounds_value;
 }
 
@@ -58,22 +59,36 @@ old_pounds ask_for_input ()
 std::string sum_old_pounds (old_pounds value_one, old_pounds value_two)
 {
 	
-	int pence_sum = value_one.pence + value_two.pence;
-	int shillings_sum = value_one.shillings + value_two.shillings;
-	int pounds_sum = value_one.pounds + value_two.pounds;
+	old_pounds sum;
 	
-	shillings_sum += pence_sum/12;
-	pence_sum = pence_sum%12;
+	sum.pence = value_one.pence + value_two.pence;
+	sum.shillings = value_one.shillings + value_two.shillings;
+	sum.pounds = value_one.pounds + value_two.pounds;
 	
-	pounds_sum += shillings_sum/20;
-	shillings_sum = shillings_sum%20;
+	sum.shillings += sum.pence / PENCE_PER_SHILLING;
+	sum.pence = sum.pence % PENCE_PER_SHILLING;
+	
+	sum.pounds += sum.shillings / SHILLINGS_PER_POUND;
+	sum.shillings = sum.shillings % SHILLINGS_PER_POUND;
+	
+	return sum.to_string();
 }
 
 
-std::string sum_new_pounds ()
+std::string sum_new_pounds (old_pounds value_one, old_pounds value_two)
 {
 	
+	new_pounds sum;
 	
+	int pence_sum = value_one.pence + value_two.pence;
+	int shilling_sum = (value_one.shillings + value_two.shillings) * PENCE_PER_SHILLING;
+	int pounds_sum = ((value_one.pounds + value_two.pounds) * SHILLINGS_PER_POUND) * PENCE_PER_SHILLING;
+
+	int sum_in_pence = (pence_sum + shilling_sum + pounds_sum);
+	sum.pounds = (sum_in_pence / PENCE_CONVERSION_RATE);
+	sum.pence = (sum_in_pence % PENCE_CONVERSION_RATE)/2.4;
+	
+	return sum.to_string ();
 }
 
 
@@ -86,7 +101,7 @@ int main (int argc, char const *argv[])
 	old_pounds value_two = ask_for_input ();
 	
 	std::cout << "Old-pound total: " << sum_old_pounds (value_one, value_two) << std::endl;
-	std::cout << "New-pound total: " << sum_new_pounds () << std::endl;
+	std::cout << "New-pound total: " << sum_new_pounds (value_one, value_two) << std::endl;
 	
 	return 0;
 }
