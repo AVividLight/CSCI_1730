@@ -1,0 +1,7 @@
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build/CMakeFiles/install/local.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build/CMakeFiles/install/strip.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build/CMakeFiles/install.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build/CMakeFiles/list_install_components.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build/CMakeFiles/rebuild_cache.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build/CMakeFiles/edit_cache.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build/CMakeFiles/Pound_Conversion_Simple.dir
