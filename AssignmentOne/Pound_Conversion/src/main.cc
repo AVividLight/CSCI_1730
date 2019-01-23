@@ -2,7 +2,6 @@
 #include <string>
 
 
-//20 shillings to a pound, and 12 pence to a shilling
 const int SHILLINGS_PER_POUND = 20;
 const int PENCE_PER_SHILLING = 12;
 const int PENCE_CONVERSION_RATE = 240;
