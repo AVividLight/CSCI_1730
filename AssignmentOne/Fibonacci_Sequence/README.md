@@ -12,15 +12,17 @@ c)	 Use a do loop to control the program repetition for finding more Fibonacci n
 
 Following is a sample output from the program (user input is bold):
 
-Enter a positive integer n: -3
-Enter a positive integer n: 0
-Enter a positive integer n: 8
+```
+Enter a positive integer n: ___-3___
+Enter a positive integer n: ***0***
+Enter a positive integer n: **8**
 8th Finbonacci number 13
-Continue (y or n)? y
-Enter a positive integer n: 5
+Continue (y or n)? **y**
+Enter a positive integer n: **5**
 5th Finbonacci number 3
-Continue (y or n)? n
+Continue (y or n)? **n**
 
 --------------------------------
 Process exited after 37.34 seconds with return value 0
 Press any key to continue . . .
+```
