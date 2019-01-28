@@ -1,54 +1,40 @@
 #include <iostream>
 
 
-const class nullptr_t {
-public:
-   template<class T> operator T*() const {return 0;}
-   template<class C, class T> operator T C::*() const {return 0;}   
-
-private:
-   void operator &() const;
-
-} nullptr = {};     
-
-
-
 struct fraction {
 	int numerator;
 	int denominator;
-	
-	const char *as_string ();
 };
 
 
-const char *fraction::as_string ()
-{
-	
-	const static char result[] = {numerator + '/' + denominator};
-	
-	return result;
-}
 
-
-fraction result (const fraction *fraction_one, const char *op, const fraction *fraction_two)
+fraction result (const fraction fraction_one, const char op, const fraction fraction_two)
 {
 	
 	fraction fraction_result;
 	
-	switch (*op)
+	switch (op)
 	{
 		
 		case '+':
+		fraction_result.numerator = (fraction_one.numerator * fraction_two.denominator) + (fraction_two.numerator * fraction_one.denominator);
+		fraction_result.denominator = fraction_one.denominator * fraction_two.denominator;
 		break;
 		
 		case '-':
+		fraction_result.numerator = (fraction_one.numerator * fraction_two.denominator) - (fraction_two.numerator * fraction_one.denominator);
+		fraction_result.denominator = fraction_one.denominator * fraction_two.denominator;
 		break;
 		
 		case '*':
 		case 'x':
+		fraction_result.numerator = fraction_one.numerator * fraction_two.numerator;
+		fraction_result.denominator = fraction_one.denominator * fraction_two.denominator;
 		break;
 		
 		case '/':
+		fraction_result.numerator = fraction_one.numerator * fraction_two.denominator;
+		fraction_result.denominator = fraction_one.denominator * fraction_two.numerator;
 		break;
 		
 		default:
@@ -59,26 +45,26 @@ fraction result (const fraction *fraction_one, const char *op, const fraction *f
 }
 
 
-void output (const fraction *fraction_one, const char *op, const fraction *fraction_two)
+void output (const fraction fraction_one, const char op, const fraction fraction_two)
 {
 	
 	
 	
-	std::cout << fraction_one->as_string() << std::endl;
+	std::cout << result(fraction_one, op, fraction_two).numerator << '/' << result(fraction_one, op, fraction_two).denominator << std::endl;
 }
 
 
-void prompt_for_input (fraction *fract, char *op = nullptr)
+void prompt_for_input (fraction *fract, char *op = '\0')
 {
 	
-	if (fract != nullptr)
+	if (fract != NULL)
 	{
 		
 		char slash;
 	
 		std::cout << "Enter a fraction (match the pattern x/y): ";
 		std::cin >> fract->numerator >> slash >> fract->denominator;
-	} else if (op != nullptr)
+	} else if (op != '\0')
 	{
 		
 		std::cout << "Enter an operation (+ - * /): ";
@@ -102,10 +88,10 @@ int main (int argc, char const *argv[])
 	{
 		
 		prompt_for_input (&fraction_one);
-		prompt_for_input (nullptr, &operation);
+		prompt_for_input (NULL, &operation);
 		prompt_for_input (&fraction_two);
 		
-		output (&fraction_one, &operation, &fraction_two);
+		output (fraction_one, operation, fraction_two);
 		
 		std::cout << "Continue? (y/n) ";
 		std::cin >> again;
