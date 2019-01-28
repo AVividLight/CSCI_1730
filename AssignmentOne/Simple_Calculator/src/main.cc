@@ -1,10 +1,33 @@
 #include <iostream>
 
 
+const class nullptr_t {
+public:
+   template<class T> operator T*() const {return 0;}
+   template<class C, class T> operator T C::*() const {return 0;}   
+
+private:
+   void operator &() const;
+
+} nullptr = {};     
+
+
+
 struct fraction {
 	int numerator;
 	int denominator;
+	
+	const char *as_string ();
 };
+
+
+const char *fraction::as_string ()
+{
+	
+	const static char result[] = {numerator + '/' + denominator};
+	
+	return result;
+}
 
 
 fraction result (const fraction *fraction_one, const char *op, const fraction *fraction_two)
@@ -41,7 +64,7 @@ void output (const fraction *fraction_one, const char *op, const fraction *fract
 	
 	
 	
-	std::cout << "" << std::endl;
+	std::cout << fraction_one->as_string() << std::endl;
 }
 
 
@@ -87,7 +110,7 @@ int main (int argc, char const *argv[])
 		std::cout << "Continue? (y/n) ";
 		std::cin >> again;
 		
-	} while (again != 'y' || again != 'Y');
+	} while (tolower(again) == 'y');
 	
 	return 0;
 }
