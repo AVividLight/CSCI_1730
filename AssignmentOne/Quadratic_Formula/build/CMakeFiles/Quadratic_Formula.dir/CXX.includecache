@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Quadratic_Formula/src/main.cc
+iostream
+-
+cmath
+-
+complex
+-
+
