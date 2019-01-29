@@ -2,6 +2,7 @@ Complete as of 1/16/2019
 ===
 
 Note: Rebuilt to specifications: _Do not use structs or functions, std::string, etc_
+-
 
 Before the 1950’s, Great Britain used a monetary system based on pounds, shillings, and pence. There were 20 shillings to a pound, and 12 pence to a shilling. The notation for this old system used the pound sign, £, and two decimal points, so that, for example, £5.2.8 meant 5 pounds, 2 shillings, and 8 pence. We'll call this system old-pounds. The new monetary system, introduced in the 1950’s, consists of only pounds and pence, with 100 pence to a pound (like U.S. dollars and cents). We’ll call this system decimal-pounds. So, £5.2.8 in the old-pounds is £5.13 in decimal-pounds. 
 
