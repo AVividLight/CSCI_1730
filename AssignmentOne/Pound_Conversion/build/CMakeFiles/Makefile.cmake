@@ -47,5 +47,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/Pound_Conversion_Simple.dir/DependInfo.cmake"
+  "CMakeFiles/Pound_Conversion.dir/DependInfo.cmake"
   )

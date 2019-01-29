@@ -6,5 +6,5 @@ CXX_FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/Ma
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/include/Pound_Conversion_Simple 
+CXX_INCLUDES = -I/usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/include/Pound_Conversion 
 

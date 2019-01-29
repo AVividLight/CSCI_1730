@@ -48,10 +48,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple
+CMAKE_SOURCE_DIR = /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build
+CMAKE_BINARY_DIR = /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,9 +126,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build/CMakeFiles /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/CMakeFiles /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion_Simple/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCI_1730/AssignmentOne/Pound_Conversion/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -157,17 +157,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Pound_Conversion_Simple
+# Target rules for targets named Pound_Conversion
 
 # Build rule for target.
-Pound_Conversion_Simple: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Pound_Conversion_Simple
-.PHONY : Pound_Conversion_Simple
+Pound_Conversion: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Pound_Conversion
+.PHONY : Pound_Conversion
 
 # fast build rule for target.
-Pound_Conversion_Simple/fast:
-	$(MAKE) -f CMakeFiles/Pound_Conversion_Simple.dir/build.make CMakeFiles/Pound_Conversion_Simple.dir/build
-.PHONY : Pound_Conversion_Simple/fast
+Pound_Conversion/fast:
+	$(MAKE) -f CMakeFiles/Pound_Conversion.dir/build.make CMakeFiles/Pound_Conversion.dir/build
+.PHONY : Pound_Conversion/fast
 
 src/main.o: src/main.cc.o
 
@@ -175,7 +175,7 @@ src/main.o: src/main.cc.o
 
 # target to build an object file
 src/main.cc.o:
-	$(MAKE) -f CMakeFiles/Pound_Conversion_Simple.dir/build.make CMakeFiles/Pound_Conversion_Simple.dir/src/main.cc.o
+	$(MAKE) -f CMakeFiles/Pound_Conversion.dir/build.make CMakeFiles/Pound_Conversion.dir/src/main.cc.o
 .PHONY : src/main.cc.o
 
 src/main.i: src/main.cc.i
@@ -184,7 +184,7 @@ src/main.i: src/main.cc.i
 
 # target to preprocess a source file
 src/main.cc.i:
-	$(MAKE) -f CMakeFiles/Pound_Conversion_Simple.dir/build.make CMakeFiles/Pound_Conversion_Simple.dir/src/main.cc.i
+	$(MAKE) -f CMakeFiles/Pound_Conversion.dir/build.make CMakeFiles/Pound_Conversion.dir/src/main.cc.i
 .PHONY : src/main.cc.i
 
 src/main.s: src/main.cc.s
@@ -193,7 +193,7 @@ src/main.s: src/main.cc.s
 
 # target to generate assembly for a file
 src/main.cc.s:
-	$(MAKE) -f CMakeFiles/Pound_Conversion_Simple.dir/build.make CMakeFiles/Pound_Conversion_Simple.dir/src/main.cc.s
+	$(MAKE) -f CMakeFiles/Pound_Conversion.dir/build.make CMakeFiles/Pound_Conversion.dir/src/main.cc.s
 .PHONY : src/main.cc.s
 
 # Help Target
@@ -208,7 +208,7 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... Pound_Conversion_Simple"
+	@echo "... Pound_Conversion"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
