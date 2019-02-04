@@ -23,7 +23,6 @@ fraction result (const fraction fraction_one, const char op, const fraction frac
 {
 	
 	fraction fraction_result;
-	int gcd;
 	
 	switch (op)
 	{
@@ -53,7 +52,7 @@ fraction result (const fraction fraction_one, const char op, const fraction frac
 		break;
 	}
 	
-	gcd = fraction_result.find_gcd (fraction_result.numerator, fraction_result.denominator);
+	const int gcd = fraction_result.find_gcd (fraction_result.numerator, fraction_result.denominator);
 	fraction_result.numerator /= gcd;
 	fraction_result.denominator /= gcd;
 	
