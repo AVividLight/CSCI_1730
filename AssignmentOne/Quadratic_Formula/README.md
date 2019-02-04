@@ -1,4 +1,4 @@
-Incomplete as of 1/28/2019
+Complete as of 2/3/2019
 ===
 
 Recall that a quadratic equation is one of the form  , where the coefficients  a, b, and c are real numbers and  . The solutions to a quadratic equation can found using the quadratic formula:
