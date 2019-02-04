@@ -52,9 +52,9 @@ int main (int argc, char const *argv[])
 	
 	std::cout << std::endl << "Project 4 from Assignment 1" << std::endl << "Quadratic Formula" << std::endl << std::endl << "This program will prompt for three inputs A, B, and C, then return the solution from the quadratic formula." << std::endl << std::endl;
 	
-	float const a = get_input ('A', true);
-	float const b = get_input ('B');
-	float const c = get_input ('C');
+	const float a = get_input ('A', true);
+	const float b = get_input ('B');
+	const float c = get_input ('C');
 	
 	std::cout << "The solution(s) are: ";
 	calculate_and_print (a, b, c);
