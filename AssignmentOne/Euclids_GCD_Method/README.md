@@ -1,5 +1,7 @@
-Incomplete as of 2/3/2019
+Complete as of 2/3/2019
 ===
+NOTE: Only contains code for finding GCD. See Modified_Calculator for completed question.
+---
 
 6. Euclid’s method for finding the greatest common divisor (GCD) of two positive integers is given by the following algorithm:
 Divide the larger number by the smaller and retain the remainder.
