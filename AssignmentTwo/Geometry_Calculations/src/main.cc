@@ -15,7 +15,17 @@ struct circle
 struct rectangle
 {
 
-	float s;
+	float length;
+	float width;
+};
+
+
+struct triangle
+{
+
+	float side_one;
+	float side_two;
+	float side_three;
 };
 
 
@@ -27,17 +37,28 @@ void get_dimensions (circle &new_circle)
 }
 
 
-void get_dimensions (float length, float width)
+void get_dimensions (rectangle &new_rectangle)
 {
 	
+	std::cout << "Enter rectangle length: ";
+	std::cin >> new_rectangle.length;
 	
+	std::cout << "Enter rectangle width: ";
+	std::cin >> new_rectangle.width;
 }
 
 
-void get_dimensions (float side_one, float side_two, float side_three)
+void get_dimensions (triangle &new_triangle)
 {
 	
+	std::cout << "Enter triangle side one: ";
+	std::cin >> new_triangle.side_one;
 	
+	std::cout << "Enter triangle side two: ";
+	std::cin >> new_triangle.side_two;
+	
+	std::cout << "Enter triangle side three: ";
+	std::cin >> new_triangle.side_three;
 }
 
 
@@ -65,11 +86,13 @@ int main (int argc, char const *argv[])
 			break;
 			
 			case 'r':
-			//get_dimensions ();
+			rectangle new_rectangle;
+			get_dimensions (new_rectangle);
 			break;
 			
 			case 't':
-			//get_dimensions ();
+			triangle new_triangle;
+			get_dimensions (new_triangle);
 			break;
 			
 			default:
