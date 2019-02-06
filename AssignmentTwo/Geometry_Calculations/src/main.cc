@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 
 const char *ascii_menu = "    x  x         +---------+  	     /\\\n x        x      |         |  	    /  \\\nx          x	 |         |  	   /    \\\nx          x     |         |  	  /      \\\n x        x      |         |  	 /        \\\n    x  x         +---------+  	/__________\\\n (c) Circle	(r) Rectangle    (t) Triangle";
@@ -59,6 +60,26 @@ void get_dimensions (triangle &new_triangle)
 	
 	std::cout << "Enter triangle side three: ";
 	std::cin >> new_triangle.side_three;
+}
+
+
+float area (const circle &new_circle)
+{
+	
+	return (pi * new_circle.radius * new_circle.radius);
+}
+
+
+float area (const rectangle &new_rectangle)
+{
+	
+	return (new_rectangle.length * new_rectangle.width);
+}
+
+float area (const triangle &new_triangle)
+{
+	
+	
 }
 
 
