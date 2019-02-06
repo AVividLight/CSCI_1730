@@ -1,18 +1,43 @@
 #include <iostream>
 
 
-//const char *ascii_circle = "    x  x\n x        x\nx          x\nx          x\n x        x\n    x  x";
-//const char *ascii_rectangle = "+---------+\n|         |\n|         |\n|         |\n|         |\n+---------+";
-//const char *ascii_triangle = "     /\\\n    /  \\\n   /    \\\n  /      \\\n /        \\\n/__________\\";
-
 const char *ascii_menu = "    x  x         +---------+  	     /\\\n x        x      |         |  	    /  \\\nx          x	 |         |  	   /    \\\nx          x     |         |  	  /      \\\n x        x      |         |  	 /        \\\n    x  x         +---------+  	/__________\\\n (c) Circle	(r) Rectangle    (t) Triangle";
 const float pi = 3.141592654;
 
 
-void get_dimensions ()
+struct circle
 {
 	
-	std::cout << "Enter ";
+	float radius;
+};
+
+
+struct rectangle
+{
+
+	float s;
+};
+
+
+void get_dimensions (circle &new_circle)
+{
+	
+	std::cout << "Enter circle radius: ";
+	std::cin >> new_circle.radius;
+}
+
+
+void get_dimensions (float length, float width)
+{
+	
+	
+}
+
+
+void get_dimensions (float side_one, float side_two, float side_three)
+{
+	
+	
 }
 
 
@@ -25,8 +50,9 @@ int main (int argc, char const *argv[])
 	
 	do {
 		std::cout << ascii_menu << std::endl << std::endl;
-		std::cout << " (e) Exit" << std::endl;
+		std::cout << " (e) Exit" << std::endl << std::endl;
 		
+		std::cout << "Enter selection: ";
 		std::cin >> menu;
 		menu = tolower (menu);
 		
@@ -34,15 +60,16 @@ int main (int argc, char const *argv[])
 		{
 			
 			case 'c':
-			get_dimensions ();
+			circle new_circle;
+			get_dimensions (new_circle);
 			break;
 			
 			case 'r':
-			get_dimensions ();
+			//get_dimensions ();
 			break;
 			
 			case 't':
-			get_dimensions ();
+			//get_dimensions ();
 			break;
 			
 			default:
