@@ -10,6 +10,8 @@ struct circle
 {
 	
 	float radius;
+	
+	circle (): radius (0) {}
 };
 
 
@@ -18,6 +20,8 @@ struct rectangle
 
 	float length;
 	float width;
+	
+	rectangle (): length (0), width (0) {}
 };
 
 
@@ -27,6 +31,8 @@ struct triangle
 	float side_one;
 	float side_two;
 	float side_three;
+	
+	triangle (): side_one (0), side_two (0), side_three (0) {}
 };
 
 
@@ -63,23 +69,52 @@ void get_dimensions (triangle &new_triangle)
 }
 
 
-float area (const circle &new_circle)
+const float area (const circle &circ)
 {
 	
-	return (pi * new_circle.radius * new_circle.radius);
+	return (pi * circ.radius * circ.radius);
 }
 
 
-float area (const rectangle &new_rectangle)
+const float area (const rectangle &rect)
 {
 	
-	return (new_rectangle.length * new_rectangle.width);
+	return (rect.length * rect.width);
 }
 
-float area (const triangle &new_triangle)
+const float area (const triangle &tri)
 {
 	
+	float half_sides = ((tri.side_one + tri.side_two + tri.side_three)/2);
+	return (sqrt (half_sides * (half_sides - tri.side_one) * (half_sides - tri.side_two) * (half_sides - tri.side_three)));
+}
+
+
+const float perimeter (const circle &circ)
+{
 	
+	return (2 * pi * circ.radius);
+}
+
+
+const float perimeter (const rectangle &rect)
+{
+	
+	return ((2 * rect.length) + (2 * rect.width));
+}
+
+
+const float perimeter (const triangle &tri)
+{
+	
+	return (tri.side_one + tri.side_two + tri.side_three);
+}
+
+
+const void display (const char *menu, const float found_area, const float found_perimeter)
+{
+	
+	std::cout << std::endl << menu << " Area: " << found_area << ", " << menu << " Perimeter: " << found_perimeter << std::endl << std::endl << std::endl;;
 }
 
 
@@ -90,7 +125,12 @@ int main (int argc, char const *argv[])
 	
 	char menu;
 	
+	circle circ;
+	rectangle rect;
+	triangle tri;
+	
 	do {
+		std::cout << "AREA/PERIMETER CALCULATOR" << std::endl;
 		std::cout << ascii_menu << std::endl << std::endl;
 		std::cout << " (e) Exit" << std::endl << std::endl;
 		
@@ -98,29 +138,36 @@ int main (int argc, char const *argv[])
 		std::cin >> menu;
 		menu = tolower (menu);
 		
+		std::cout << std::endl;
+		
 		switch (menu)
 		{
 			
 			case 'c':
-			circle new_circle;
-			get_dimensions (new_circle);
+			case '1':
+			get_dimensions (circ);
+			display ("Circle", area (circ), perimeter (circ));
 			break;
 			
 			case 'r':
-			rectangle new_rectangle;
-			get_dimensions (new_rectangle);
+			case '2':
+			get_dimensions (rect);
+			display ("Rectangle", area (rect), perimeter (rect));
 			break;
 			
 			case 't':
-			triangle new_triangle;
-			get_dimensions (new_triangle);
+			case '3':
+			get_dimensions (tri);
+			display ("Triangle", area (tri), perimeter (tri));
 			break;
 			
 			default:
 			break;
 		}
 		
-	} while (menu != 'e');
+	} while (menu != 'e' && menu != '4');
+	
+	std::cout << "Bye..." << std::endl;
 	
 	return 0;
 }

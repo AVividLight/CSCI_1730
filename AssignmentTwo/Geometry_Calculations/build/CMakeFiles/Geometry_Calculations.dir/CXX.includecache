@@ -6,7 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Geometry_Calculations/src/main.cc
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Geometry_Calculations/src/main.cc
 iostream
+-
+cmath
 -
 

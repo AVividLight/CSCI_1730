@@ -1,4 +1,4 @@
-# Install script for directory: /usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Geometry_Calculations
+# Install script for directory: /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Geometry_Calculations
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "DEBUG")
+    set(CMAKE_INSTALL_CONFIG_NAME "")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -41,7 +41,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/bin" TYPE EXECUTABLE FILES "/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Geometry_Calculations/build/bin/Geometry_Calculations")
+file(INSTALL DESTINATION "/bin" TYPE EXECUTABLE FILES "/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Geometry_Calculations/build/bin/Geometry_Calculations")
   if(EXISTS "$ENV{DESTDIR}/bin/Geometry_Calculations" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}/bin/Geometry_Calculations")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -58,5 +58,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Geometry_Calculations/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Geometry_Calculations/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
