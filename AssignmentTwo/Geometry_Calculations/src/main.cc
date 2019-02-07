@@ -36,36 +36,36 @@ struct triangle
 };
 
 
-void get_dimensions (circle &new_circle)
+void get_dimensions (circle &circ)
 {
 	
 	std::cout << "Enter circle radius: ";
-	std::cin >> new_circle.radius;
+	std::cin >> circ.radius;
 }
 
 
-void get_dimensions (rectangle &new_rectangle)
+void get_dimensions (rectangle &rect)
 {
 	
 	std::cout << "Enter rectangle length: ";
-	std::cin >> new_rectangle.length;
+	std::cin >> rect.length;
 	
 	std::cout << "Enter rectangle width: ";
-	std::cin >> new_rectangle.width;
+	std::cin >> rect.width;
 }
 
 
-void get_dimensions (triangle &new_triangle)
+void get_dimensions (triangle &tri)
 {
 	
 	std::cout << "Enter triangle side one: ";
-	std::cin >> new_triangle.side_one;
+	std::cin >> tri.side_one;
 	
 	std::cout << "Enter triangle side two: ";
-	std::cin >> new_triangle.side_two;
+	std::cin >> tri.side_two;
 	
 	std::cout << "Enter triangle side three: ";
-	std::cin >> new_triangle.side_three;
+	std::cin >> tri.side_three;
 }
 
 
