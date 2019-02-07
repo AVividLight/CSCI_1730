@@ -28,12 +28,12 @@ Extra code needed:
 -
 a) You need to add these to your #includes list:
 
-	`#include <cstdlib>`
-	`#include <ctime>`
+	#include <cstdlib>
+	#include <ctime>
 
 b) You need to include this call to the `srand` function after your variable declarations in main in order to “seed” the rand function:
 
-	`srand(time(NULL));`
+	srand(time(NULL));
 
 Here is the output from a sample run of the program (user input in bold):
 

@@ -9,16 +9,18 @@ Before the 1950’s, Great Britain used a monetary system based on pounds, shill
 Write a program that asks the user to enter two money amounts expressed in old-pounds and will then add the two amounts and display the answer both in old-pounds and in decimal-pounds. 
 
 Program requirements: 
+
 a)	Read the numbers into integer variables and then make use of the integer division and remainder (%) operators to do the needed arithmetic for both calculations of the old-pounds sum as well as the decimal-pounds equivalent.
+
 b)	To read in the old-pound amounts, make use of the fact that the extraction operator (>>) can be chained to read in more than one quantity at once. For example:
 
-`cin >> pound >> dot >> shill >> dot >> pence;`
+	cin >> pound >> dot >> shill >> dot >> pence;
 
 will read an old-pound amount into integer variables pound, shill, and pence, and read the "dots" into the character variables dot and dot. 
 
 Here is an example of a user’s interaction with the program (user input is bold):
 
-><pre>Enter first old-pound amount: <b>5.10.11</b>
->Enter second old-pound amount: <b>3.19.5</b>
->Old-pound total = 9.10.4
->Decimal-pound total = 9.51</pre>
+<pre>Enter first old-pound amount: <b>5.10.11</b>
+Enter second old-pound amount: <b>3.19.5</b>
+Old-pound total = 9.10.4
+Decimal-pound total = 9.51</pre>

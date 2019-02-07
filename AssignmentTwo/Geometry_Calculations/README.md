@@ -22,11 +22,11 @@ Note: Your program should also include a global named constant PI initialized to
 
 Area and Perimeter Formulas:
 
-`Circle: A=pi*r^2, P=2pi*r, where r is the circle radius.`
+>Circle: `A=pi*r^2`, `P=2pi*r`, where r is the circle radius.
 
-`Rectangle: A=l*w, P=2l+2w, where l and w are the rectangle length and width.`
+> Rectangle: `A=l*w`, `P=2l+2w`, where l and w are the rectangle length and width.
 
-`Triangle: A=sqrt(s(s-a)(s-b)(s-c)), where s= (a+b+c)/2, P=a+b+c, where a, b, and c are the lengths of the sides of the triangle.`
+>Triangle: `A=sqrt(s(s-a)(s-b)(s-c))`, where `s=(a+b+c)/2`, `P=a+b+c`, where a, b, and c are the lengths of the sides of the triangle.
 
 Here is the output from a sample run of the program (user input in bold):
 

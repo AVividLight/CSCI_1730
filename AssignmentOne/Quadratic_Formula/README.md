@@ -7,10 +7,14 @@ Recall that a quadratic equation is one of the form  , where the coefficients  a
 Write a program that will prompt for and read the values of the coefficients a, b, and c, and then calculate and display the solutions of the quadratic equation having those coefficients.
 
 Program requirements: 
+
 a)	Use floating point variables to hold the values of a, b, and c.
+
 b)	Your program should generate an error message and force reentry if the user enters a value of zero for a.
+
 c)	Your program should work whether the quadratic equation has two real number roots, one real number root, or two complex number roots.
-d)	The function sqrt should be used to calculate the needed square root. To find the square root of a variable x, include this code: sqrt(x) Note: To use this function, you need to add #include <cmath> after the other include statement at the beginning of your code. To find the square root of a variable x, include this code: sqrt(x)
+
+d)	The function `sqrt` should be used to calculate the needed square root. To find the square root of a variable x, include this code: `sqrt(x)` Note: To use this function, you need to add `#include <cmath>` after the other include statement at the beginning of your code. To find the square root of a variable x, include this code: `sqrt(x)`
 
 Here are examples of a user’s interaction with the program:
 <pre>

@@ -6,8 +6,11 @@ The Fibonacci sequence is 0, 1, 1, 2, 3, 5, 8, 13, 21, … where the first two t
 Write a program that repeatedly prompts for and reads a positive integer value n and then calculates and displays the nth number in the Fibonacci sequence (the program should force reentry if the user enters a non-positive n). For example, if n = 8, then the program would display 13. 
 
 Program requirements: 
+
 a)	Use a do loop to ensure that the user enters a positive value for n.
+
 b)	Use a for loop to perform the calculations needed to determine the nth Fibonacci number.
+
 c)	 Use a do loop to control the program repetition for finding more Fibonacci numbers.
 
 Following is a sample output from the program (user input is bold):
