@@ -1,7 +1,7 @@
 #include "fibonacci_sequence.h"
 
 
-int Fibonacci_Number::next_fibonacci_number (const int input)
+int Fibonacci_Number::fibonacci_number (const int input)
 {
 	
 	int target = 0;

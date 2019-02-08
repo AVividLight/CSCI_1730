@@ -14,7 +14,7 @@ public:
 		consecutive_wins += 1;
 		consecutive_losses = 0;
 		
-		experience += (fib_num.next_fibonacci_number (level)/level);
+		experience += (fib_num.fibonacci_number (level)/level);
 		check_for_levelup ();
 	}
 	void lost () {
@@ -22,6 +22,10 @@ public:
 		consecutive_losses += 1;
 		consecutive_wins = 0;
 	}
+	
+	const char *get_name () {return name;};
+	const bool predict_hand ();
+	void display_current_stats ();
 
 private:
 	char *name;
@@ -37,8 +41,8 @@ private:
 	int level_exp;
 	static const int MAX_LEVEL = 20;
 	
-	int hand;
-	int detect_chance () {return (level);};
+	char hand;
+	int detect_chance () {return (level/* divided by MAX_LEVEL ? */);};
 	
 	void ask_for_name (char *name);
 	
@@ -50,7 +54,7 @@ private:
 player::player (void)
 {
 	
-	name = new char[512];
+	name = new char[64];
 	ask_for_name (name);
 
 	wins = 0;
@@ -60,7 +64,7 @@ player::player (void)
 	
 	experience = 0;
 	level = 1;
-	level_exp = fib_num.next_fibonacci_number (level);
+	level_exp = fib_num.fibonacci_number (4);
 }
 
 
@@ -100,21 +104,146 @@ void player::levelup ()
 {
 	
 	level += 1;
-	level_exp = fib_num.next_fibonacci_number (level);
+	level_exp = fib_num.fibonacci_number (level);
 	
 	std::cout << std::endl << std::endl << "Congratulations, " << name << "! You have reached level " << level << '!' << std::endl << "Due to your newly earned skill, you have a " << detect_chance () << '/' << MAX_LEVEL << " chance to correctly predict your opponent's hand." << std::endl;
+}
+
+
+void player::display_current_stats ()
+{
+	
+	std::cout << std::endl << "Level: " << level << std::endl;
+	std::cout << "Progress Towards Next Level: " << ((level * 10.0)/(level_exp * 10.0))*100 << '%' << std::endl;
+	
+	std::cout << "Prediction Accuracy: " << detect_chance () << std::endl << std::endl;
+}
+
+
+const bool player::predict_hand ()
+{
+	
+	const int rand_num = std::rand () % MAX_LEVEL;
+	
+	if (rand_num - detect_chance () <= 0)
+		return true;
+	else
+		return false;
+}
+
+
+void get_rand_hand (char &hand)
+{
+	
+	const int rand_num = std::rand () % 3;
+	
+	switch (rand_num)
+	{
+		
+		case 0:
+		hand = 'r';
+		break;
+		
+		case 1:
+		hand = 'p';
+		break;
+		
+		case 2:
+		hand = 's';
+		break;
+		
+		default:
+		throw std::runtime_error ("Random number out of bounds in `void get_rand_hand (char &hand)`");
+		break;
+	}
+}
+
+
+void display_guess (player &user, char &comp_hand, char &guess)
+{
+	
+	//std::cout << comp_hand << std::endl;
+	
+	if (user.predict_hand ())
+	{
+		guess = comp_hand;
+		//std::cout << "success" << std::endl;
+	} else {
+		get_rand_hand (guess);
+		//std::cout << "failure" << std::endl;
+	}
+	
+	std::cout << "You think that your opponent will play ";
+	
+	switch (guess)
+	{
+		
+		case 'r':
+		std::cout << "rock";
+		break;
+		
+		case 'p':
+		std::cout << "paper";
+		break;
+		
+		case 's':
+		std::cout << "scissors";
+		break;
+	}
+	
+	std::cout << '.' << std::endl;
+}
+
+
+void get_user_selection (player &user)
+{
+	
+	std::cout << "What will you play? (r) Rock, (p) Paper, (s) Scissors: ";
+	std::cin >> user.hand
+}
+
+
+void play_results ()
+{
+	
+	
+}
+
+
+void final_results ()
+{
+	
+	
 }
 
 
 int main (int argc, char const *argv[])
 {
 	
-	std::cout << std::endl << "Project 2 from Assignment 2" << std::endl << "Rock Paper Scissors" << std::endl << std::endl << "This is a random-chance game of rock paper scissors." << std::endl << std::endl;
+	std::cout << std::endl << "Project 2 from Assignment 2" << std::endl << "Rock Paper Scissors" << std::endl << std::endl << "This is a random-chance game of rock paper scissors." << std::endl << "===" << std::endl << std::endl;
 	
 	std::srand (std::time (NULL));
-	//std::cout << std::rand() % 3 << std::endl << std::endl;
 	
-	player human;
+	player user;
+	char comp_hand;
+	char guess;
+	
+	std::cout << user.get_name () << ", it's time to play Rock Paper Scissors!" << std::endl;
+	
+	char play_again;
+	do
+	{
+		
+		get_rand_hand (comp_hand);
+		display_guess (user, comp_hand, guess);
+		get_user_hand (user);
+		
+		user.display_current_stats ();
+		std::cout << "Continue playing? (y/n)" << std::endl;
+		std::cin >> play_again;
+	} while (play_again != tolower ('n'));
+	
+	final_results ();
 	
 	return 0;
 }

@@ -4,7 +4,7 @@
 struct Fibonacci_Number
 {
 
-	int next_fibonacci_number (const int input);
+	int fibonacci_number (const int input);
 };
 
 #endif /* end of include guard: FIBONACCI_SEQUENCE */
