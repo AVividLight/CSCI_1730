@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Rock_Paper_Scissors.dir/src/main.cc.o"
+  "CMakeFiles/Rock_Paper_Scissors.dir/src/fibonacci_sequence.cc.o"
   "bin/Rock_Paper_Scissors.pdb"
   "bin/Rock_Paper_Scissors"
 )

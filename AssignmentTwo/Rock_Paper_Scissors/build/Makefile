@@ -169,6 +169,33 @@ Rock_Paper_Scissors/fast:
 	$(MAKE) -f CMakeFiles/Rock_Paper_Scissors.dir/build.make CMakeFiles/Rock_Paper_Scissors.dir/build
 .PHONY : Rock_Paper_Scissors/fast
 
+src/fibonacci_sequence.o: src/fibonacci_sequence.cc.o
+
+.PHONY : src/fibonacci_sequence.o
+
+# target to build an object file
+src/fibonacci_sequence.cc.o:
+	$(MAKE) -f CMakeFiles/Rock_Paper_Scissors.dir/build.make CMakeFiles/Rock_Paper_Scissors.dir/src/fibonacci_sequence.cc.o
+.PHONY : src/fibonacci_sequence.cc.o
+
+src/fibonacci_sequence.i: src/fibonacci_sequence.cc.i
+
+.PHONY : src/fibonacci_sequence.i
+
+# target to preprocess a source file
+src/fibonacci_sequence.cc.i:
+	$(MAKE) -f CMakeFiles/Rock_Paper_Scissors.dir/build.make CMakeFiles/Rock_Paper_Scissors.dir/src/fibonacci_sequence.cc.i
+.PHONY : src/fibonacci_sequence.cc.i
+
+src/fibonacci_sequence.s: src/fibonacci_sequence.cc.s
+
+.PHONY : src/fibonacci_sequence.s
+
+# target to generate assembly for a file
+src/fibonacci_sequence.cc.s:
+	$(MAKE) -f CMakeFiles/Rock_Paper_Scissors.dir/build.make CMakeFiles/Rock_Paper_Scissors.dir/src/fibonacci_sequence.cc.s
+.PHONY : src/fibonacci_sequence.cc.s
+
 src/main.o: src/main.cc.o
 
 .PHONY : src/main.o
@@ -209,6 +236,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Rock_Paper_Scissors"
+	@echo "... src/fibonacci_sequence.o"
+	@echo "... src/fibonacci_sequence.i"
+	@echo "... src/fibonacci_sequence.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

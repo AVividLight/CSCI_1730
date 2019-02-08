@@ -192,6 +192,10 @@ CMAKE_STRIP:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/Xcode
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
 
+CXX_STANDARD:STRING=98
+
+CXX_STANDARD_REQUIRED:STRING=98
+
 //Value Computed by CMake
 Rock_Paper_Scissors_BINARY_DIR:STATIC=/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Rock_Paper_Scissors/build
 

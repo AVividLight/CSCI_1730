@@ -6,7 +6,13 @@
 
 #IncludeRegexTransform: 
 
+../include/Rock_Paper_Scissors/fibonacci_sequence.h
+
 /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Rock_Paper_Scissors/src/main.cc
 iostream
 -
+cstdlib
+-
+fibonacci_sequence.h
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Rock_Paper_Scissors/src/fibonacci_sequence.h
 
