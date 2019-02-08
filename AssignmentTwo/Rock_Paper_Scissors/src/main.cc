@@ -9,6 +9,8 @@ class player
 public:
 	player ();
 	
+	char hand;
+	
 	void won () {
 		wins += 1;
 		consecutive_wins += 1;
@@ -17,10 +19,18 @@ public:
 		experience += (fib_num.fibonacci_number (level)/level);
 		check_for_levelup ();
 	}
+	
 	void lost () {
 		losses += 1;
 		consecutive_losses += 1;
 		consecutive_wins = 0;
+	}
+	
+	void tie () {
+		ties += 1;
+		consecutive_ties += 1;
+		consecutive_wins = 0;
+		consecutive_losses = 0;
 	}
 	
 	const char *get_name () {return name;};
@@ -34,6 +44,8 @@ private:
 	int consecutive_wins;
 	int losses;
 	int consecutive_losses;
+	int ties;
+	int consecutive_ties;
 	
 	Fibonacci_Number fib_num;
 	int experience;
@@ -41,7 +53,6 @@ private:
 	int level_exp;
 	static const int MAX_LEVEL = 20;
 	
-	char hand;
 	int detect_chance () {return (level/* divided by MAX_LEVEL ? */);};
 	
 	void ask_for_name (char *name);
@@ -195,25 +206,71 @@ void display_guess (player &user, char &comp_hand, char &guess)
 }
 
 
-void get_user_selection (player &user)
+void get_user_hand (char &user_hand)
 {
 	
-	std::cout << "What will you play? (r) Rock, (p) Paper, (s) Scissors: ";
-	std::cin >> user.hand
+	char input;
+	char confirm;
+	
+	do
+	{
+		
+		confirm = '\0';
+	
+		std::cout << "What will you play? (r) Rock, (p) Paper, (s) Scissors: ";
+		std::cin >> input;
+		
+		switch (input)
+		{
+			
+			case 1:
+			case 'r':
+			std::cout << "You'll play rock!" << std::endl;
+			break;
+		
+			case 2:
+			case 'p':
+			std::cout << "You'll play paper!" << std::endl;
+			break;
+		
+			case 3:
+			case 's':
+			std::cout << "You'll play scissors!" << std::endl;
+			break;
+			
+			default:
+			confirm = 'n';
+			std::cout << "I couldn't understand what you meant by " << input << '.' << std::endl;
+			break;
+		}
+		
+		if (confirm != 'n')
+		{
+			
+			std::cout << "Is that right? (y/n): ";
+			std::cin >> confirm;
+			std::cout << std::endl;
+		}
+		
+	} while (confirm != tolower ('y'));
+	
+	user_hand = input;
 }
 
 
-void play_results ()
+void play_results (const char user_hand, const char comp_hand)
 {
 	
-	
+	//compare hands
+	//player.won () or player.lost ()
+	//cout
 }
 
 
-void final_results ()
+void final_results (const player &user)
 {
 	
-	
+	//cout user score
 }
 
 
@@ -236,14 +293,16 @@ int main (int argc, char const *argv[])
 		
 		get_rand_hand (comp_hand);
 		display_guess (user, comp_hand, guess);
-		get_user_hand (user);
+		get_user_hand (user.hand);
+		
+		play_results (user.hand, comp_hand);
 		
 		user.display_current_stats ();
 		std::cout << "Continue playing? (y/n)" << std::endl;
 		std::cin >> play_again;
 	} while (play_again != tolower ('n'));
 	
-	final_results ();
+	final_results (user);
 	
 	return 0;
 }
