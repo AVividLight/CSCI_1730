@@ -1,4 +1,4 @@
-Incomplete as of 2/6/2019
+Incomplete as of 2/8/2019
 ===
 
 Write a C++ program that lets the user play the game of Rock, Paper, Scissors against the computer. The program should work as follows.
