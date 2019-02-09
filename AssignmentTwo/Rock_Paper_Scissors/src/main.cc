@@ -47,7 +47,7 @@ public:
 		consecutive_wins += 1;
 		consecutive_losses = 0;
 		
-		experience += (/*(fib_num.fibonacci_number (level)/level) **/ 1+consecutive_wins);
+		experience += ((1.0/level) + consecutive_wins/4.0);
 		check_for_levelup ();
 	}
 	
@@ -65,12 +65,14 @@ public:
 	}
 	
 	char *get_name () const {return name;};
+	int get_level () const {return level;};
 	HAND get_hand () const {return hand;};
 	void set_hand (HAND new_hand) {hand = new_hand;};
 	const bool predict_hand ();
 	int get_wins () const {return wins;};
 	int get_losses () const {return losses;};
 	int get_ties () const {return ties;};
+	int games_played () const {return (wins + ties + losses + 1);};
 	void display_current_stats () const;
 
 private:
@@ -85,9 +87,9 @@ private:
 	int consecutive_ties;
 	
 	Fibonacci_Number fib_num;
-	int experience;
+	float experience;
 	int level;
-	int level_exp;
+	float level_exp;
 	static const int MAX_LEVEL = 20;
 	
 	int detect_chance () const {return (level/* divided by MAX_LEVEL ? */);};
@@ -110,9 +112,9 @@ player::player (void)
 	losses = 0;
 	consecutive_losses = 0;
 	
-	experience = 0;
+	experience = 0.0;
 	level = 1;
-	level_exp = fib_num.fibonacci_number (4);
+	level_exp = 1;
 }
 
 
@@ -154,7 +156,7 @@ void player::levelup ()
 	level += 1;
 	level_exp = fib_num.fibonacci_number (level);
 	
-	std::cout << std::endl << std::endl << "Congratulations, " << name << "! You have reached level " << level << '!' << std::endl << "Due to your newly earned skill, you have a " << detect_chance () << '/' << MAX_LEVEL << " chance to correctly predict your opponent's hand." << std::endl;
+	std::cout << std::endl << std::endl << "LEVEL UP!" << std::endl << "Congratulations, " << name << ", you have reached level " << level << '!' << std::endl << "Due to your newly earned skill, you have a " << detect_chance () << '/' << MAX_LEVEL << " chance to correctly predict your opponent's hand." << std::endl;
 }
 
 
@@ -162,9 +164,9 @@ void player::display_current_stats () const
 {
 	
 	std::cout << std::endl << "Level: " << level << std::endl;
-	std::cout << "Progress Towards Next Level: " << 100/(level_exp - level) << '%' << std::endl;
+	std::cout << "Progress Towards Next Level: " << 100 - ((level_exp - experience)/level_exp * 100) << '%' << std::endl;
 	
-	std::cout << "Prediction Accuracy: " << detect_chance ()/MAX_LEVEL << '%' << std::endl << std::endl;
+	std::cout << "Prediction Accuracy: " << detect_chance () << '/' << MAX_LEVEL << std::endl << std::endl;
 }
 
 
@@ -190,15 +192,15 @@ HAND get_rand_hand ()
 void display_guess (player &user, HAND &comp_hand, HAND &guess)
 {
 	
-	std::cout << comp_hand << std::endl;
+	//std::cout << "Computer hand: " << comp_hand << std::endl;
 	
 	if (user.predict_hand ())
 	{
 		guess = comp_hand;
-		std::cout << "success" << std::endl;
+		//std::cout << "Guess Succeeded" << std::endl;
 	} else {
 		guess = get_rand_hand ();
-		std::cout << "failure" << std::endl;
+		//std::cout << "Guess Failed, Random Guess:" << std::endl;
 	}
 	
 	std::cout << "You think that your opponent will play ";
@@ -288,7 +290,7 @@ void play_results (player &user, const HAND comp_hand)
 		user.won ();
 	} else if (user.get_hand () == comp_hand) {
 		
-		std::cout << "You tied! " << user.get_hand () << " is " << comp_hand << std::endl;
+		std::cout << "You tied! " << std::endl;
 		user.tied ();
 	} else {
 		
@@ -301,7 +303,7 @@ void play_results (player &user, const HAND comp_hand)
 void final_results (const player &user)
 {
 	
-	std::cout << std::endl << "The final scores are in!" << std::endl << user.get_name () << " won " << user.get_wins () << " games, lost " << user.get_losses () << " games, and tied " << user.get_ties () << " games." << user.get_name () << std::endl;
+	std::cout << std::endl << "The final scores are in!" << std::endl << user.get_name () << " played " << user.games_played () << " games, winning " << user.get_wins () << ". " << user.get_name () << " lost " << user.get_losses () << " games, and tied " << user.get_ties () << '.' << std::endl;
 	user.display_current_stats ();
 }
 
@@ -323,7 +325,7 @@ void countdown ()
 bool replay (char &play_again)
 {
 	
-	std::cout << "Continue playing? (y/n)" << std::endl;
+	std::cout << "Continue playing? (y/n): ";
 	std::cin >> play_again;
 	std::cout << std::endl;
 	
@@ -351,8 +353,13 @@ int main (int argc, char const *argv[])
 	do
 	{
 		
+		std::cout << "Round " << user.games_played () << std::endl;
+		
 		comp_hand = get_rand_hand ();
-		display_guess (user, comp_hand, guess);
+		
+		if (user.get_level () > 1)
+			display_guess (user, comp_hand, guess);
+		
 		user.set_hand (ask_user_hand ());
 		
 		countdown ();
