@@ -4,6 +4,15 @@
 #include "fibonacci_sequence.h"
 
 
+#ifdef _WIN32
+	#include <windows.h>
+	void sleep_seconds (const unsigned int sleepMSs) { Sleep (sleepMSs); }
+#elif defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+	#include <unistd.h>
+	void sleep_seconds (const unsigned int sleepMSs) { usleep (sleepMSs * 1000000); }
+#endif
+	
+
 class player
 {
 public:
@@ -274,6 +283,18 @@ void final_results (const player &user)
 }
 
 
+void countdown ()
+{
+	
+	for (int i = 3; i > 0; i -= 1)
+	{
+		
+		std::cout << i << "..." << std::endl;
+		sleep_seconds (1);
+	}
+}
+
+
 int main (int argc, char const *argv[])
 {
 	
@@ -294,6 +315,9 @@ int main (int argc, char const *argv[])
 		get_rand_hand (comp_hand);
 		display_guess (user, comp_hand, guess);
 		get_user_hand (user.hand);
+		
+		countdown ();
+		std::cout << "Shoot!" << std::endl << std::endl;
 		
 		play_results (user.hand, comp_hand);
 		
