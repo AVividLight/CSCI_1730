@@ -11,6 +11,30 @@
 	#include <unistd.h>
 	void sleep_seconds (const unsigned int sleepMSs) { usleep (sleepMSs * 1000000); }
 #endif
+
+
+enum HAND { Rock = 0, Paper = 1, Scissors = 2 };
+std::ostream &operator<< (std::ostream &out, const HAND &hand)
+{
+	
+	switch (hand)
+	{
+		
+		case 0:
+		std::cout << "Rock";
+		break;
+		
+		case 1:
+		std::cout << "Paper";
+		break;
+		
+		case 2:
+		std::cout << "Scissors";
+		break;
+	}
+	
+	return out;
+}
 	
 
 class player
@@ -18,14 +42,12 @@ class player
 public:
 	player ();
 	
-	char hand;
-	
 	void won () {
 		wins += 1;
 		consecutive_wins += 1;
 		consecutive_losses = 0;
 		
-		experience += (fib_num.fibonacci_number (level)/level);
+		experience += (/*(fib_num.fibonacci_number (level)/level) **/ 1+consecutive_wins);
 		check_for_levelup ();
 	}
 	
@@ -35,19 +57,25 @@ public:
 		consecutive_wins = 0;
 	}
 	
-	void tie () {
+	void tied () {
 		ties += 1;
 		consecutive_ties += 1;
 		consecutive_wins = 0;
 		consecutive_losses = 0;
 	}
 	
-	const char *get_name () {return name;};
+	char *get_name () const {return name;};
+	HAND get_hand () const {return hand;};
+	void set_hand (HAND new_hand) {hand = new_hand;};
 	const bool predict_hand ();
-	void display_current_stats ();
+	int get_wins () const {return wins;};
+	int get_losses () const {return losses;};
+	int get_ties () const {return ties;};
+	void display_current_stats () const;
 
 private:
 	char *name;
+	HAND hand;
 	
 	int wins;
 	int consecutive_wins;
@@ -62,7 +90,7 @@ private:
 	int level_exp;
 	static const int MAX_LEVEL = 20;
 	
-	int detect_chance () {return (level/* divided by MAX_LEVEL ? */);};
+	int detect_chance () const {return (level/* divided by MAX_LEVEL ? */);};
 	
 	void ask_for_name (char *name);
 	
@@ -99,7 +127,7 @@ void player::ask_for_name (char *name)
 		std::cout << "What is your name?" << std::endl;
 		std::cin >> name;
 		std::cout << std::endl;
-		std::cout << "Hello, " << name << "! Is this the name that you want to use (y/n)?" << std::endl;
+		std::cout << "Hello, " << name << "! Is this the name that you want to use? (y/n): ";
 		std::cin >> confirm;
 		std::cout << std::endl;
 	} while (confirm != tolower ('y'));
@@ -130,13 +158,13 @@ void player::levelup ()
 }
 
 
-void player::display_current_stats ()
+void player::display_current_stats () const
 {
 	
 	std::cout << std::endl << "Level: " << level << std::endl;
-	std::cout << "Progress Towards Next Level: " << ((level * 10.0)/(level_exp * 10.0))*100 << '%' << std::endl;
+	std::cout << "Progress Towards Next Level: " << 100/(level_exp - level) << '%' << std::endl;
 	
-	std::cout << "Prediction Accuracy: " << detect_chance () << std::endl << std::endl;
+	std::cout << "Prediction Accuracy: " << detect_chance ()/MAX_LEVEL << '%' << std::endl << std::endl;
 }
 
 
@@ -152,45 +180,25 @@ const bool player::predict_hand ()
 }
 
 
-void get_rand_hand (char &hand)
+HAND get_rand_hand ()
 {
 	
-	const int rand_num = std::rand () % 3;
-	
-	switch (rand_num)
-	{
-		
-		case 0:
-		hand = 'r';
-		break;
-		
-		case 1:
-		hand = 'p';
-		break;
-		
-		case 2:
-		hand = 's';
-		break;
-		
-		default:
-		throw std::runtime_error ("Random number out of bounds in `void get_rand_hand (char &hand)`");
-		break;
-	}
+	return static_cast<HAND> (std::rand () % 3);
 }
 
 
-void display_guess (player &user, char &comp_hand, char &guess)
+void display_guess (player &user, HAND &comp_hand, HAND &guess)
 {
 	
-	//std::cout << comp_hand << std::endl;
+	std::cout << comp_hand << std::endl;
 	
 	if (user.predict_hand ())
 	{
 		guess = comp_hand;
-		//std::cout << "success" << std::endl;
+		std::cout << "success" << std::endl;
 	} else {
-		get_rand_hand (guess);
-		//std::cout << "failure" << std::endl;
+		guess = get_rand_hand ();
+		std::cout << "failure" << std::endl;
 	}
 	
 	std::cout << "You think that your opponent will play ";
@@ -198,15 +206,15 @@ void display_guess (player &user, char &comp_hand, char &guess)
 	switch (guess)
 	{
 		
-		case 'r':
+		case Rock:
 		std::cout << "rock";
 		break;
 		
-		case 'p':
+		case Paper:
 		std::cout << "paper";
 		break;
 		
-		case 's':
+		case Scissors:
 		std::cout << "scissors";
 		break;
 	}
@@ -215,7 +223,7 @@ void display_guess (player &user, char &comp_hand, char &guess)
 }
 
 
-void get_user_hand (char &user_hand)
+HAND ask_user_hand ()
 {
 	
 	char input;
@@ -229,22 +237,25 @@ void get_user_hand (char &user_hand)
 		std::cout << "What will you play? (r) Rock, (p) Paper, (s) Scissors: ";
 		std::cin >> input;
 		
-		switch (input)
+		switch (tolower (input))
 		{
 			
-			case 1:
+			case '1':
 			case 'r':
 			std::cout << "You'll play rock!" << std::endl;
+			input = 0;
 			break;
 		
-			case 2:
+			case '2':
 			case 'p':
 			std::cout << "You'll play paper!" << std::endl;
+			input = 1;
 			break;
 		
-			case 3:
+			case '3':
 			case 's':
 			std::cout << "You'll play scissors!" << std::endl;
+			input = 2;
 			break;
 			
 			default:
@@ -263,23 +274,35 @@ void get_user_hand (char &user_hand)
 		
 	} while (confirm != tolower ('y'));
 	
-	user_hand = input;
+	return static_cast<HAND> (input);
 }
 
 
-void play_results (const char user_hand, const char comp_hand)
+void play_results (player &user, const HAND comp_hand)
 {
 	
-	//compare hands
-	//player.won () or player.lost ()
-	//cout
+	if ((user.get_hand () == Rock && comp_hand == Scissors) || (user.get_hand () == Scissors && comp_hand == Paper) || (user.get_hand () == Paper && comp_hand == Rock))
+	{
+		
+		std::cout << "You won! " << user.get_hand () << " beats " << comp_hand << std::endl;
+		user.won ();
+	} else if (user.get_hand () == comp_hand) {
+		
+		std::cout << "You tied! " << user.get_hand () << " is " << comp_hand << std::endl;
+		user.tied ();
+	} else {
+		
+		std::cout << "You lost! " << user.get_hand () << " loses to " << comp_hand << std::endl;
+		user.lost ();
+	}
 }
 
 
 void final_results (const player &user)
 {
 	
-	//cout user score
+	std::cout << std::endl << "The final scores are in!" << std::endl << user.get_name () << " won " << user.get_wins () << " games, lost " << user.get_losses () << " games, and tied " << user.get_ties () << " games." << user.get_name () << std::endl;
+	user.display_current_stats ();
 }
 
 
@@ -292,6 +315,22 @@ void countdown ()
 		std::cout << i << "..." << std::endl;
 		sleep_seconds (1);
 	}
+	
+	std::cout << "Shoot!" << std::endl << std::endl;
+}
+
+
+bool replay (char &play_again)
+{
+	
+	std::cout << "Continue playing? (y/n)" << std::endl;
+	std::cin >> play_again;
+	std::cout << std::endl;
+	
+	if (play_again != tolower ('n'))
+		return true;
+	else
+		return false;
 }
 
 
@@ -303,28 +342,25 @@ int main (int argc, char const *argv[])
 	std::srand (std::time (NULL));
 	
 	player user;
-	char comp_hand;
-	char guess;
+	HAND comp_hand;
+	HAND guess;
 	
-	std::cout << user.get_name () << ", it's time to play Rock Paper Scissors!" << std::endl;
+	std::cout << std::endl << user.get_name () << ", it's time to play Rock Paper Scissors!" << std::endl << std::endl;
 	
 	char play_again;
 	do
 	{
 		
-		get_rand_hand (comp_hand);
+		comp_hand = get_rand_hand ();
 		display_guess (user, comp_hand, guess);
-		get_user_hand (user.hand);
+		user.set_hand (ask_user_hand ());
 		
 		countdown ();
-		std::cout << "Shoot!" << std::endl << std::endl;
 		
-		play_results (user.hand, comp_hand);
-		
+		play_results (user, comp_hand);
 		user.display_current_stats ();
-		std::cout << "Continue playing? (y/n)" << std::endl;
-		std::cin >> play_again;
-	} while (play_again != tolower ('n'));
+		
+	} while (replay (play_again));
 	
 	final_results (user);
 	
