@@ -1,0 +1,7 @@
+/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Fair_Dice/build/CMakeFiles/install/local.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Fair_Dice/build/CMakeFiles/install/strip.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Fair_Dice/build/CMakeFiles/install.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Fair_Dice/build/CMakeFiles/list_install_components.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Fair_Dice/build/CMakeFiles/rebuild_cache.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Fair_Dice/build/CMakeFiles/edit_cache.dir
+/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Fair_Dice/build/CMakeFiles/Fair_Dice.dir

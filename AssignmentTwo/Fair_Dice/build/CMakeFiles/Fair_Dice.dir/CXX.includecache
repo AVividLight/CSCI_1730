@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Fair_Dice/src/main.cc
+iostream
+-
+cstdlib
+-
+

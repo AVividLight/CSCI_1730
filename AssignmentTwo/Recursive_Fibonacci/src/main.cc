@@ -33,7 +33,7 @@ void get_input (unsigned int &input_number)
 int main (int argc, char const *argv[])
 {
 	
-	std::cout << std::endl << "Project 2 from Assignment 1" << std::endl << "Fibonacci Sequence" << std::endl << std::endl << "This program will prompt for input and will return the next integer from the Fibonacci Sequence." << std::endl << std::endl;
+	std::cout << std::endl << "Project 3 from Assignment 1" << std::endl << "Recursive Fibonacci Sequence" << std::endl << std::endl << "This program will prompt for input and will return the next integer from the Fibonacci Sequence." << std::endl << std::endl;
 	
 	unsigned int input_number = 0;
 	unsigned int index;
