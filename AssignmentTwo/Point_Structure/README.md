@@ -25,11 +25,11 @@ Notes and suggestions:
 
 Algebra Topics Review:
 
-- Slope of the line between (a, b) and (c, d),   provided  ; slope undefined for vertical lines.
-- Distance between (a, b) and (c, d):  
-- Midpoint between (a, b) and (c, d):  
-- The equation of a non-vertical line passing through and  is given by   where m is the slope of the line.
-- The equation of a vertical line passing through  and  is given by   where the slope of the line is undefined.
+- Slope of the line between `(a, b)` and `(c, d)`, `m = (d-b)/(c-a)` provided `a != c`; slope undefined for vertical lines.
+- Distance between `(a, b)` and `(c, d)`: `D = sqrt ((c-a)^2) + (d-b)^2)`
+- Midpoint between `(a, b)` and `(c, d)`: `M = [((a+c)/2), ((b+d)/2)]`
+- The equation of a non-vertical line passing through `(a, b)` and `(c, d)` is given by `y = mx+(b-ma)` where `m` is the slope of the line.
+- The equation of a vertical line passing through `(a, b)` and `(c, d)` is given by `x = a` where the slope of the line is undefined.
 
 Here is output from a sample run of the program (user input in bold):
 
