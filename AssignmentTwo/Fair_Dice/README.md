@@ -1,4 +1,4 @@
-Incomplete as of 2/11/2019
+Complete as of 2/20/2019
 ===
 
 When tossing one die, results of 1 through 6 are possible results. So, when tossing a pair of dice, sums of 2 through 12 are possible results. If the dice are fair, it can be shown that the probability of tossing each of these sums is:
