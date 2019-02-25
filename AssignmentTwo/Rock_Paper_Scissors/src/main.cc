@@ -6,7 +6,7 @@
 
 #ifdef _WIN32
 	#include <windows.h>
-	void sleep_seconds (const unsigned int sleepMSs) { Sleep (sleepMSs); }
+	void sleep_seconds (const unsigned int sleepMSs) { Sleep (sleepMSs * 1000); }
 #elif defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
 	#include <unistd.h>
 	void sleep_seconds (const unsigned int sleepMSs) { usleep (sleepMSs * 1000000); }
@@ -111,6 +111,7 @@ player::player (void)
 	consecutive_wins = 0;
 	losses = 0;
 	consecutive_losses = 0;
+	ties = 0;
 	
 	experience = 0.0;
 	level = 1;
