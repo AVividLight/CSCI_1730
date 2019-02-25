@@ -6,5 +6,5 @@ CXX_FLAGS =  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacO
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Point_Structure/include/Point_Structure 
+CXX_INCLUDES = -I/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Point_Structure/include/Point_Structure 
 

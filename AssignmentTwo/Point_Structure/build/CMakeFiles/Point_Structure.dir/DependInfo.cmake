@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Point_Structure/src/main.cc" "/usr/local/acct/development/projects/CSCI_1730/AssignmentTwo/Point_Structure/build/CMakeFiles/Point_Structure.dir/src/main.cc.o"
+  "/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Point_Structure/src/main.cc" "/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Point_Structure/build/CMakeFiles/Point_Structure.dir/src/main.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
