@@ -11,7 +11,6 @@ struct Point
 	float distance (const Point other_point) const;
 	float slope (const Point other_point) const;
 	Point midpoint (const Point other_point) const;
-	char *equation () const;
 	
 	Point ();
 	Point (float assign_x, float assign_y);
@@ -71,13 +70,6 @@ Point Point::midpoint (const Point other_point) const
 }
 
 
-char *Point::equation () const
-{
-	
-	
-}
-
-
 void get_input (unsigned short int &input)
 {
 	
@@ -116,7 +108,7 @@ void menu_distance (Point &p_1, Point &p_2)
 	get_input (p_1);
 	std::cout << "Point Two" << std::endl;
 	get_input (p_2);
-	std::cout << std::endl << "Distance between " << p_1 << " & " << p_2 << ": " << p_1.distance (p_2) << std::endl << std::endl;
+	std::cout << std::endl << "Distance between " << p_1 << " & " << p_2 << ": " << p_1.distance (p_2);
 }
 
 
@@ -132,9 +124,9 @@ void menu_slope (Point &p_1, Point &p_2)
 	std::cout << std::endl << "Slope between " << p_1 << " & " << p_2 << ": ";
 	
 	if (p_1.x != p_2.x)
-		std::cout << p_1.slope (p_2) << std::endl << std::endl;
+		std::cout << p_1.slope (p_2);
 	else
-		std::cout << "Undefined" << std::endl << std::endl;
+		std::cout << "Undefined";
 }
 
 
@@ -145,14 +137,23 @@ void menu_midpoint (Point &p_1, Point &p_2)
 	get_input (p_1);
 	std::cout << "Point Two" << std::endl;
 	get_input (p_2);
-	std::cout << std::endl << "Midpoint between " << p_1 << " & " << p_2 << ": " << p_1.midpoint (p_2) << std::endl << std::endl;
+	std::cout << std::endl << "Midpoint between " << p_1 << " & " << p_2 << ": " << p_1.midpoint (p_2);
 }
 
 
 void menu_equation (Point &p_1, Point &p_2)
 {
 	
+	std::cout << std::endl << "4. Equation of Line Between Two Points" << std::endl << "Point One" << std::endl;
+	get_input (p_1);
+	std::cout << "Point Two" << std::endl;
+	get_input (p_2);
 	
+	std::cout << "Equation of line between " << p_1 << " & " << p_2 << ": ";
+	if (p_1.x == p_2.x)
+		std::cout << "x = " << p_1.x;
+	else
+		std::cout << "y = " << p_1.slope (p_2) << "x + " << (p_1.y - p_1.slope (p_2) * p_1.x);
 }
 
 
@@ -222,6 +223,8 @@ int main (int argc, char const *argv[])
 			loop = false;
 			break;
 		}
+		
+		std::cout << std::endl << std::endl;
 	}
 	
 	return 0;
