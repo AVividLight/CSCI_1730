@@ -23,6 +23,7 @@ public:
 	void set_name (int i) {name += i;}
 	
 	int get_level () const {return level;}
+	void set_level (int i) {level = i;}
 
 private:
 	char name;
@@ -104,6 +105,8 @@ void display_elevator_status (Building &building)
 		
 		std::cout << "Elevator " << elevator->get_name () << " is on level " << elevator->get_level () << std::endl;
 	}
+	
+	std::cout << std::endl;
 }
 
 
@@ -116,22 +119,44 @@ int main (int argc, char const *argv[])
 	
 	char input;
 	int elevator_choice;
+	int level;
 	bool loop = true;
 	while (loop == true)
 	{
 		
 		display_elevator_status (building);
-		std::cout << "Which elevator do you want to use?";
+		std::cout << "Which elevator do you want to use? (enter 0 to quit)" << std::endl << "Elevator: ";
 		std::cin >> input;
+		std::cout << std::endl;
 		
-		if (isalpha (input) && input < building.elevators_in_building ())
+		if (isalpha (input))
 		{
 			
-			//std::cout << // convert char to int
+			elevator_choice = (int) toupper (input) - 'A';
+			
+			if (elevator_choice < ('A' + building.elevators_in_building ()))
+			{
+			
+				std::cout << "Which floor are you going to?" << std::endl << "Floor: ";
+				std::cin >> level;
+				
+				if (!std::cin.fail ())
+				{
+					
+					building.get_elevator (elevator_choice)->set_level (level);
+				} else {
+					
+					std::cout << "Unknown value for building level." << std::endl;
+				}
+			}
+		} else if (input == '0') {
+			loop = false;
 		} else {
 			
 			std::cout << input << " is not a known elevator." << std::endl;
 		}
+		
+		std::cout << std::endl;
 	}
 	
 	return 0;
