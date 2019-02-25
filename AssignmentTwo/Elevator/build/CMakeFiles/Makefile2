@@ -59,10 +59,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Elevator
+CMAKE_SOURCE_DIR = /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentTwo/Elevator
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Elevator/build
+CMAKE_BINARY_DIR = /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentTwo/Elevator/build
 
 #=============================================================================
 # Target rules for target CMakeFiles/Elevator.dir
@@ -71,7 +71,7 @@ CMAKE_BINARY_DIR = /usr/local/acct/development/projects/CSCI_1730/Michaels-Proje
 CMakeFiles/Elevator.dir/all:
 	$(MAKE) -f CMakeFiles/Elevator.dir/build.make CMakeFiles/Elevator.dir/depend
 	$(MAKE) -f CMakeFiles/Elevator.dir/build.make CMakeFiles/Elevator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Elevator/build/CMakeFiles --progress-num=1,2 "Built target Elevator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentTwo/Elevator/build/CMakeFiles --progress-num=1,2 "Built target Elevator"
 .PHONY : CMakeFiles/Elevator.dir/all
 
 # Include target in all.
@@ -81,9 +81,9 @@ all: CMakeFiles/Elevator.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Elevator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Elevator/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentTwo/Elevator/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Elevator.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Elevator/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentTwo/Elevator/build/CMakeFiles 0
 .PHONY : CMakeFiles/Elevator.dir/rule
 
 # Convenience name for target.

@@ -6,5 +6,5 @@ CXX_FLAGS =  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacO
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentTwo/Elevator/include/Elevator 
+CXX_INCLUDES = -I/usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentTwo/Elevator/include/Elevator 
 
