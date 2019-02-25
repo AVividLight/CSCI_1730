@@ -1,4 +1,13 @@
 #include <iostream>
+#include <cctype>
+
+#ifdef _WIN32
+	#include <windows.h>
+	void sleep_seconds (const unsigned int sleepMSs) { Sleep (sleepMSs * 1000); }
+#elif defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+	#include <unistd.h>
+	void sleep_seconds (const unsigned int sleepMSs) { usleep (sleepMSs * 1000000); }
+#endif
 
 
 int ask_for_elevators ();
@@ -12,9 +21,12 @@ public:
 	
 	char get_name () const {return name;}
 	void set_name (int i) {name += i;}
+	
+	int get_level () const {return level;}
 
 private:
 	char name;
+	int level;
 };
 
 
@@ -22,6 +34,7 @@ Elevator::Elevator ()
 {
 	
 	name = 'A';
+	level = 0;
 }
 
 
@@ -89,7 +102,7 @@ void display_elevator_status (Building &building)
 		
 		Elevator *elevator = building.get_elevator (i);
 		
-		std::cout << "Elevator " << elevator->get_name () << std::endl;
+		std::cout << "Elevator " << elevator->get_name () << " is on level " << elevator->get_level () << std::endl;
 	}
 }
 
@@ -101,7 +114,25 @@ int main (int argc, char const *argv[])
 	
 	Building building;
 	
-	display_elevator_status (building);
+	char input;
+	int elevator_choice;
+	bool loop = true;
+	while (loop == true)
+	{
+		
+		display_elevator_status (building);
+		std::cout << "Which elevator do you want to use?";
+		std::cin >> input;
+		
+		if (isalpha (input) && input < building.elevators_in_building ())
+		{
+			
+			//std::cout << // convert char to int
+		} else {
+			
+			std::cout << input << " is not a known elevator." << std::endl;
+		}
+	}
 	
 	return 0;
 }
