@@ -1,4 +1,4 @@
-Incomplete as of 2/25/2019
+Complete as of 2/25/2019
 ===
 
 Create a class `Elevator` that will simulate the operation of an elevator. Here are the details:

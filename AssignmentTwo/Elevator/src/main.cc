@@ -17,13 +17,14 @@ class Elevator
 {
 public:
 	Elevator ();
-	virtual ~Elevator ();
 	
 	char get_name () const {return name;}
 	void set_name (int i) {name += i;}
 	
 	int get_level () const {return level;}
 	void set_level (int i) {level = i;}
+	
+	void travel (int new_floor);
 
 private:
 	char name;
@@ -39,14 +40,35 @@ Elevator::Elevator ()
 }
 
 
-Elevator::~Elevator () {}
+void Elevator::travel (int new_floor)
+{
+	
+	while (level != new_floor)
+	{
+		
+		if (new_floor > level)
+		{
+			
+			sleep_seconds (1);
+			level += 1;
+			std::cout << "Going up - now on floor " << level << std::endl;
+		} else
+		{
+		
+			sleep_seconds (1);
+			level -= 1;
+			std::cout << "Going down - now on floor " << level << std::endl;
+		}
+	}
+	
+	std::cout << "You have arrived!" << std::endl;
+}
 
 
 class Building
 {
 public:
 	Building ();
-	virtual ~Building ();
 	
 	int elevators_in_building () const {return elevators_quantity;}
 	Elevator *get_elevator (int index) {return &elevators[index];}
@@ -68,9 +90,6 @@ Building::Building ()
 }
 
 
-Building::~Building () {}
-
-
 void Building::name_elevators ()
 {
 	
@@ -85,10 +104,22 @@ void Building::name_elevators ()
 int ask_for_elevators ()
 {
 	
-	std::cout << "How many elevators should be simulated? ";
-	
 	unsigned short int input;
-	std::cin >> input;
+	while (true)
+	{
+		
+		std::cout << "How many elevators should be simulated? ";
+		std::cin >> input;
+		
+		if (std::cin.fail ())
+		{
+			
+			std::cout << "Please enter a positive integer number of elevators." << std::endl << std::endl;
+			std::cin.clear ();
+			std::cin.ignore (1000, '\n');
+		} else break;
+	}
+	
 	return input;
 }
 
@@ -132,9 +163,9 @@ int main (int argc, char const *argv[])
 		if (isalpha (input))
 		{
 			
-			elevator_choice = (int) toupper (input) - 'A';
+			elevator_choice = (int) toupper (input) - (int) 'A';
 			
-			if (elevator_choice < ('A' + building.elevators_in_building ()))
+			if (elevator_choice < building.elevators_in_building ())
 			{
 			
 				std::cout << "Which floor are you going to?" << std::endl << "Floor: ";
@@ -143,17 +174,23 @@ int main (int argc, char const *argv[])
 				if (!std::cin.fail ())
 				{
 					
-					building.get_elevator (elevator_choice)->set_level (level);
+					building.get_elevator (elevator_choice)->travel (level);
 				} else {
 					
 					std::cout << "Unknown value for building level." << std::endl;
+					std::cin.clear ();
+					std::cin.ignore (1000, '\n');
 				}
+			} else {
+				std::cout << "That elevator does not exist!" << std::endl;
 			}
 		} else if (input == '0') {
 			loop = false;
 		} else {
 			
 			std::cout << input << " is not a known elevator." << std::endl;
+			std::cin.clear ();
+			std::cin.ignore (1000, '\n');
 		}
 		
 		std::cout << std::endl;
