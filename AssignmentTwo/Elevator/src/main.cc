@@ -24,7 +24,7 @@ public:
 	int get_level () const {return level;}
 	void set_level (int i) {level = i;}
 	
-	void travel (int new_floor);
+	void travel (short int new_floor);
 
 private:
 	char name;
@@ -40,7 +40,7 @@ Elevator::Elevator ()
 }
 
 
-void Elevator::travel (int new_floor)
+void Elevator::travel (short int new_floor)
 {
 	
 	while (level != new_floor)
@@ -149,8 +149,8 @@ int main (int argc, char const *argv[])
 	Building building;
 	
 	char input;
-	int elevator_choice;
-	int level;
+	unsigned short int elevator_choice;
+	short int level;
 	bool loop = true;
 	while (loop == true)
 	{
