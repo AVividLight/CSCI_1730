@@ -72,7 +72,7 @@ public:
 	int get_wins () const {return wins;};
 	int get_losses () const {return losses;};
 	int get_ties () const {return ties;};
-	int games_played () const {return (wins + ties + losses + 1);};
+	int games_played () const {return (wins + ties + losses);};
 	void display_current_stats () const;
 
 private:
