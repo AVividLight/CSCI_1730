@@ -8,11 +8,16 @@ class Complex_Number
 {
 public:
 	Complex_Number ();
+	Complex_Number (float real, float imaginary);
 	//virtual ~Complex_Number ();
 	
 	const float get_real () const {return real_part;};
 	const float get_imaginary () const {return imaginary_part;};
 	
+	friend Complex_Number operator+ (const Complex_Number &number_one, const Complex_Number &number_two);
+	friend Complex_Number operator- (const Complex_Number &number_one, const Complex_Number &number_two);
+	friend Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two);
+	friend Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two);
 	friend std::ostream &operator<< (std::ostream &os, const Complex_Number number);
 
 private:
@@ -21,7 +26,6 @@ private:
 };
 
 
-//		-23.5+-8i
 float divide_input (const char *input, unsigned int &start_index)
 {
 	
@@ -96,16 +100,59 @@ Complex_Number::Complex_Number ()
 	unsigned int index = 0;
 	real_part = divide_input (input, index);
 	imaginary_part = divide_input (input, index);
+}
+
+
+Complex_Number::Complex_Number (float real, float imaginary)
+{
 	
-	std::cout << "real part: " << real_part << std::endl;
-	std::cout << "imaginary part: " << imaginary_part << std::endl;
+	real_part = real;
+	imaginary_part = imaginary;
+}
+
+
+Complex_Number operator+ (const Complex_Number &number_one, const Complex_Number &number_two)
+{
+	
+	Complex_Number value ((number_one.get_real () + number_two.get_real ()), (number_one.get_imaginary () + number_two.get_imaginary ()));
+	return value;
+}
+
+
+Complex_Number operator- (const Complex_Number &number_one, const Complex_Number &number_two)
+{
+	
+	Complex_Number value ((number_one.get_real () - number_two.get_real ()), (number_one.get_imaginary () - number_two.get_imaginary ()));
+	return value;
+}
+
+
+Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two)
+{
+	
+	Complex_Number value (((number_one.get_real () * number_two.get_real ()) - (number_one.get_imaginary () * number_two.get_imaginary ())), (number_one.get_imaginary () * number_two.get_real ()) + (number_two.get_imaginary () * number_one.get_real ()));
+	return value;
+}
+
+
+Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two)
+{
+	
+	float denominator = ((number_two.get_real () * number_two.get_real ()) + (number_two.get_imaginary () * number_two.get_imaginary ()));
+	
+	Complex_Number value (((number_one.get_real () * number_two.get_real ()) + (number_one.get_imaginary () * number_two.get_imaginary ()))/denominator, ((number_one.get_imaginary () * number_two.get_real ()) - (number_one.get_real () * number_two.get_imaginary ()))/denominator);
+	return value;
 }
 
 
 std::ostream &operator<< (std::ostream &os, const Complex_Number number)
 {
 	
-	os << number.real_part << '+' << number.imaginary_part << 'i';
+	os << number.get_real ();
+	if (!(number.get_imaginary () < 0))
+		os << '+';
+	
+	os << number.get_imaginary () << 'i';
 	return os;
 }
 
@@ -125,11 +172,23 @@ void arithmetic ()
 	{
 		
 		case '+':
-		std::cout << number_one << " + " << number_two << " = " << (number_one.get_real () + number_two.get_real ()) << '+' << (number_one.get_imaginary () + number_two.get_imaginary ()) << 'i' << std::endl;
+		std::cout << number_one << " + " << number_two << " = " << number_one + number_two << std::endl;
+		break;
+		
+		case '-':
+		std::cout << number_one << " - " << number_two << " = " << number_one - number_two << std::endl;
+		break;
+		
+		case '*':
+		case 'x':
+		case 'X':
+		std::cout << number_one << " * " << number_two << " = " << number_one * number_two << std::endl;
+		break;
+		
+		case '/':
+		std::cout << number_one << " * " << number_two << " = " << number_one / number_two << std::endl;
 		break;
 	}
-	
-	
 }
 
 
