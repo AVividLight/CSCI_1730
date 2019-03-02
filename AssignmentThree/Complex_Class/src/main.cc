@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 
 const static unsigned int MAXIMUM_INPUT = 256;
@@ -23,6 +24,13 @@ public:
 private:
 	float real_part;
 	float imaginary_part;
+};
+
+
+struct Solution_Set {
+	Complex_Number additive_result;
+	Complex_Number subtractive_result;
+	bool single_result;
 };
 
 
@@ -189,6 +197,80 @@ void arithmetic ()
 		std::cout << number_one << " * " << number_two << " = " << number_one / number_two << std::endl;
 		break;
 	}
+	
+	std::cout << std::endl;
+}
+
+
+Complex_Number calculate_equation (const float a, const float b, const float c, bool add)
+{
+
+	const float radicand = ((b*b) - 4*a*c);
+	
+	if (radicand == 0) //Case: (b^2 - 4ac = 0) : REPEATED
+	{
+		
+		return (*new Complex_Number ((((-1)*b + sqrt(radicand))/(a*2)), 0));
+	} else if (radicand > 0) { //Case: (b^2 - 4ac > 0) : TWO REAL
+		
+		if (add)
+			return (*new Complex_Number ((((-1)*b + sqrt(radicand))/(a*2)), 0));
+		else
+			return (*new Complex_Number ((((-1)*b - sqrt(radicand))/(a*2)), 0));
+		
+	} else { //Case: (b^2 - 4ac < 0) : IMAGINARY (*(-1) + 'i')
+		
+		if (add)
+			return (*new Complex_Number ((((-1)*b)/2*a), sqrt((-1)*radicand)/(2*a)));
+		else
+			return (*new Complex_Number ((((-1)*b)/2*a), (-1)*sqrt((-1)*radicand)/(2*a)));
+	}
+}
+
+
+float get_equation_input (const char coefficient, const bool &nonzero = false)
+{
+	
+	float value;
+	
+	while (true)
+	{
+		
+		std::cout << "Enter a value for " << coefficient << ": ";
+		std::cin >> value;
+		
+		if (value != 0)
+			break;
+		else if (nonzero == true)
+		{
+			
+			std::cout << coefficient << " may not be 0." << std::endl;
+		} else
+			break;
+	}
+	
+	return value;
+}
+
+
+void equation ()
+{
+	
+	std::cout << "Quadratic Cofficients:" << std::endl;
+	const float a = get_equation_input ('a', true);
+	const float b = get_equation_input ('b');
+	const float c = get_equation_input ('c');
+	
+	std::cout << std::endl << "Complex Solution:" << std::endl;
+	Complex_Number user_number;
+	
+	bool is_addition_solution = ((user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
+	bool is_subtraction_solution = ((user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
+	
+	if (is_addition_solution == true || is_subtraction_solution == true)
+		std::cout << user_number << " is a solution to the quadratic equation." << std::endl;
+	else
+		std::cout << user_number << " is not a solution to the quadratic equation." << std::endl;
 }
 
 
@@ -230,6 +312,7 @@ int main (int argc, char const *argv[])
 			break;
 			
 			case 2:
+			equation ();
 			break;
 			
 			case 3:

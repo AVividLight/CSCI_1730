@@ -1,4 +1,4 @@
-Incomplete as of 2/27/2019
+Complete as of 3/2/2019
 ===
 Create a class, called Complex, for modeling complex numbers, a + bi, and some complex number arithmetic/comparison operations. 
 
@@ -93,4 +93,4 @@ The complex number: 2+3i is not a solution of the quadratic equation
 Select an option - (1) perform complex number arithmetic
                    (2) check for quadratic equation solution
                    (3) exit
-3</pre
+3</pre>
