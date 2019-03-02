@@ -47,6 +47,9 @@ float divide_input (const char *input, unsigned int &start_index)
 			if (number_found == false)
 				number_found = true;
 			
+			if (i > 0 && input[i-1] == '-')
+				number_negative = true;
+			
 			target_array[target_index] = input[i];
 			target_index += 1;
 		} else {
@@ -67,10 +70,6 @@ float divide_input (const char *input, unsigned int &start_index)
 					start_index = i + 1;
 					break;
 				}
-			} else {
-				
-				if (input[i] == '-')
-					number_negative = true;
 			}
 		}
 	}
