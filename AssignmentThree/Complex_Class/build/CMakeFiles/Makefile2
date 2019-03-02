@@ -59,10 +59,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class
+CMAKE_SOURCE_DIR = /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class/build
+CMAKE_BINARY_DIR = /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class/build
 
 #=============================================================================
 # Target rules for target CMakeFiles/Complex_Class.dir
@@ -71,7 +71,7 @@ CMAKE_BINARY_DIR = /usr/local/acct/development/projects/CSCO_1730/Michaels-Proje
 CMakeFiles/Complex_Class.dir/all:
 	$(MAKE) -f CMakeFiles/Complex_Class.dir/build.make CMakeFiles/Complex_Class.dir/depend
 	$(MAKE) -f CMakeFiles/Complex_Class.dir/build.make CMakeFiles/Complex_Class.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles --progress-num=1,2 "Built target Complex_Class"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles --progress-num=1,2 "Built target Complex_Class"
 .PHONY : CMakeFiles/Complex_Class.dir/all
 
 # Include target in all.
@@ -81,9 +81,9 @@ all: CMakeFiles/Complex_Class.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Complex_Class.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Complex_Class.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles 0
 .PHONY : CMakeFiles/Complex_Class.dir/rule
 
 # Convenience name for target.

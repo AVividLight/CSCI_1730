@@ -1,11 +1,17 @@
 #include <iostream>
 
 
+const static unsigned int MAXIMUM_INPUT = 256;
+
+
 class Complex_Number
 {
 public:
 	Complex_Number ();
 	//virtual ~Complex_Number ();
+	
+	const float get_real () const {return real_part;};
+	const float get_imaginary () const {return imaginary_part;};
 	
 	friend std::ostream &operator<< (std::ostream &os, const Complex_Number number);
 
@@ -15,15 +21,85 @@ private:
 };
 
 
+//		-23.5+-8i
+float divide_input (const char *input, unsigned int &start_index)
+{
+	
+	char *target_array = new char [MAXIMUM_INPUT];
+	unsigned int target_index = 0;
+	
+	bool number_found = false;
+	bool number_negative = false;
+	
+	for (int i = start_index; i < MAXIMUM_INPUT; i += 1)
+	{
+		
+		if (input[i] == '\0')
+		{
+			
+			start_index = i;
+			break;
+		}
+		
+		if (std::isdigit (input[i]) == true)
+		{
+			
+			if (number_found == false)
+				number_found = true;
+			
+			target_array[target_index] = input[i];
+			target_index += 1;
+		} else {
+			
+			if (number_found == true)
+			{
+				
+				if (input[i] == '.')
+				{
+				
+					target_array[target_index] = input[i];
+					target_index += 1;
+				}
+				
+				if (input[i] == '+' || input[i] == '-')
+				{
+					
+					start_index = i + 1;
+					break;
+				}
+			} else {
+				
+				if (input[i] == '-')
+					number_negative = true;
+			}
+		}
+	}
+	
+	float target = std::atof (target_array);
+	delete[] target_array;
+	
+	if (number_negative == true)
+		target *= -1;
+		
+	return target;
+}
+
+
 Complex_Number::Complex_Number ()
 {
 	
 	std::cout << "Enter a complex number: ";
-	char *input = new char [256];
-	std::cin >> input;
+	std::cin.ignore ();
 	
-	real_part = std::atof (std::strtok (input, "+"));
-	imaginary_part = std::atof (std::strtok (NULL, "+"));
+	char *input = new char [MAXIMUM_INPUT];
+	std::cin.getline (input, MAXIMUM_INPUT);
+
+	unsigned int index = 0;
+	real_part = divide_input (input, index);
+	imaginary_part = divide_input (input, index);
+	
+	std::cout << "real part: " << real_part << std::endl;
+	std::cout << "imaginary part: " << imaginary_part << std::endl;
 }
 
 
@@ -45,6 +121,16 @@ void arithmetic ()
 	std::cin >> op;
 	
 	Complex_Number number_two;
+	
+	switch (op)
+	{
+		
+		case '+':
+		std::cout << number_one << " + " << number_two << " = " << (number_one.get_real () + number_two.get_real ()) << '+' << (number_one.get_imaginary () + number_two.get_imaginary ()) << 'i' << std::endl;
+		break;
+	}
+	
+	
 }
 
 

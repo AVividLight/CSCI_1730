@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class/src/main.cc" "/usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles/Complex_Class.dir/src/main.cc.o"
+  "/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class/src/main.cc" "/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles/Complex_Class.dir/src/main.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 

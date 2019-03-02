@@ -48,10 +48,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class
+CMAKE_SOURCE_DIR = /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class/build
+CMAKE_BINARY_DIR = /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,9 +126,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCO_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Complex_Class/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
