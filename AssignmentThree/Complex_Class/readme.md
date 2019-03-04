@@ -1,5 +1,12 @@
 Complete as of 3/2/2019
 ===
+Part Two
+---
+Modify the Complex class from problem #1 and replace all arithmetic and relational operator member functions with appropriate overloaded operators (+, -, *, /, ==). In addition, add friend functions to overload the insertion and extraction operators (<< and >>) for use with the Complex class. Then modify the main function and any other stand-alone functions that make use of Complex objects to make use of the new overloaded operators.
+
+
+Part One
+---
 Create a class, called Complex, for modeling complex numbers, a + bi, and some complex number arithmetic/comparison operations. 
 
 Here is what should be included within this class:
