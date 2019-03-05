@@ -20,6 +20,7 @@ public:
 	friend Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two);
 	friend Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two);
 	friend std::ostream &operator<< (std::ostream &os, const Complex_Number number);
+	//friend std::istream &operator>> (std::istream &is, const Complex_Number number);
 
 private:
 	float real_part;
@@ -176,29 +177,35 @@ void arithmetic ()
 	
 	Complex_Number number_two;
 	
+	std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = ";
+	
 	switch (op)
 	{
 		
 		case '+':
-		std::cout << number_one << " + " << number_two << " = " << number_one + number_two << std::endl;
+		std::cout << number_one + number_two;
 		break;
 		
 		case '-':
-		std::cout << number_one << " - " << number_two << " = " << number_one - number_two << std::endl;
+		std::cout << number_one - number_two;
 		break;
 		
 		case '*':
 		case 'x':
 		case 'X':
-		std::cout << number_one << " * " << number_two << " = " << number_one * number_two << std::endl;
+		std::cout << number_one * number_two;
 		break;
 		
 		case '/':
-		std::cout << number_one << " * " << number_two << " = " << number_one / number_two << std::endl;
+		std::cout << number_one / number_two;
+		break;
+		
+		default:
+		std::cout << "unknown operation";
 		break;
 	}
 	
-	std::cout << std::endl;
+	std::cout << std::endl << std::endl;
 }
 
 
@@ -313,9 +320,6 @@ int main (int argc, char const *argv[])
 			
 			case 2:
 			equation ();
-			break;
-			
-			case 3:
 			break;
 			
 			default:
