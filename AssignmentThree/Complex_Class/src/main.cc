@@ -20,7 +20,7 @@ public:
 	friend Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two);
 	friend Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two);
 	friend std::ostream &operator<< (std::ostream &os, const Complex_Number number);
-	//friend std::istream &operator>> (std::istream &is, const Complex_Number number);
+	friend std::istream &operator>> (std::istream &is, Complex_Number &number);
 
 private:
 	float real_part;
@@ -163,6 +163,20 @@ std::ostream &operator<< (std::ostream &os, const Complex_Number number)
 	
 	os << number.get_imaginary () << 'i';
 	return os;
+}
+
+
+std::istream &operator>> (std::istream &is, Complex_Number &number)
+{
+	
+	char *input = new char [MAXIMUM_INPUT];
+	is.getline (input, MAXIMUM_INPUT);
+
+	unsigned int index = 0;
+	number.real_part = divide_input (input, index);
+	number.imaginary_part = divide_input (input, index);
+	
+	return is;
 }
 
 
