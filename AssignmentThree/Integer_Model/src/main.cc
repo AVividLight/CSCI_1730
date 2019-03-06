@@ -4,19 +4,13 @@
 const unsigned short int SET_SIZE = 100;
 
 
-struct Sets_Quantity
-{
-	
-	unsigned short int quantity;
-	friend std::ostream &operator<< (std::ostream &os, const Sets_Quantity sets);
-};
-
-
 class IntSet
 {
 public:
 	IntSet ();
 	//virtual ~IntSet ();
+	
+	//const char get_name () const {return }
 
 private:
 	bool integers[SET_SIZE];
@@ -31,22 +25,6 @@ IntSet::IntSet ()
 		
 		integers[i] = false;
 	}
-}
-
-
-std::ostream print_sets (std::ostream &os, const Sets_Quantity sets)
-{
-	
-	for (char i = 'A'; i <= ('A' + ); i += 1)
-	{
-		
-		os << i;
-		
-		if (i < 'Z')
-			os << ", ";
-	}
-	
-	return os;
 }
 
 
@@ -74,6 +52,19 @@ unsigned short int get_input (unsigned short int min = 1, unsigned short int max
 }
 
 
+void list_set_names (unsigned short int sets_quantity)
+{
+	
+	for (char i = 'A'; i < ('A' + sets_quantity); i += 1)
+	{
+		
+		std::cout << i;
+		if (i < ('A' + sets_quantity - 1))
+			std::cout << ", ";
+	}
+}
+
+
 int main (int argc, char const *argv[])
 {
 	
@@ -96,8 +87,11 @@ int main (int argc, char const *argv[])
 		{
 			
 			case 1:
-			std::cout << std::endl << "Add numbers to a set" << std::endl << "Which set do you want to modify (" << print_sets (sets_quantity) << "): ";
+			std::cout << std::endl << "Add numbers to a set" << std::endl << "Which set do you want to modify (";
+			list_set_names (sets_quantity);
+			std::cout << "): ";
 			
+			std::cout << std::endl;
 			break;
 			
 			case 2:
