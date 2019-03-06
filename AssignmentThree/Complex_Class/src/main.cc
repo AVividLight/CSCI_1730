@@ -298,7 +298,7 @@ void equation ()
 int main (int argc, char const *argv[])
 {
 	
-	std::cout << std::endl << "Project 1 from Assignment 3" << std::endl << "Modeling Complex Numbers" << std::endl << std::endl << "This program will allow simple calculations with complex numbers." << std::endl << std::endl;
+	std::cout << std::endl << "Project 2 from Assignment 3" << std::endl << "Modeling Complex Numbers" << std::endl << std::endl << "This program will allow simple calculations with complex numbers." << std::endl << std::endl;
 	
 	
 	unsigned short int menu_choice;
