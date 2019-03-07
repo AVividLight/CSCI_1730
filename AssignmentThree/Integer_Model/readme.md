@@ -1,30 +1,29 @@
 Incomplete as of 3/06/2019
 ===
 
-Write a class `IntSet` for modeling sets of integers in the range 0 through 99. A set should be represented internally as an array of type `bool`: The ith  array element will be `true` whenever integer `i` is in the set and will be `false` whenever integer `i` is not in the set. Include a no-argument constructor that initializes a set to the so-called “empty set,” i.e., a set whose array representation contains all false values. The class should include the following overloaded operators:
+Write a class `IntSet` for modeling sets of integers in the range 0 through 99. A set should be represented internally as an array of type `bool`: The ith array element will be `true` whenever integer `i` is in the set and will be `false` whenever integer `i` is not in the set. Include a no-argument constructor that initializes a set to the so-called “empty set,” i.e., a set whose array representation contains all false values. The class should include the following overloaded operators:
 
-\+  	to perform the union of two set (the union of sets A and B is the set that contains all
-	elements of set A or set B, or both).
+- `+` to perform the union of two set (the union of sets A and B is the set that contains all elements of set A or set B, or both).
 	
-\*  	to perform the intersection of two sets (the intersection of sets A and B is the set that
-	contains all elements in both set A and set B.)
+- `*` to perform the intersection of two sets (the intersection of sets A and B is the set that contains all elements in both set A and set B.)
 	
-\-	to form the difference of two sets (the difference of sets A and B is the set containing those elements that are in A but not in B)
+- `-` to form the difference of two sets (the difference of sets A and B is the set containing those elements that are in A but not in B)
 
-\+=  	to add an integer into a set.
+- `+=` to add an integer into a set.
 
-\-=  	to delete an integer from a set.
+- `-=` to delete an integer from a set.
 
-\==  	to determine if two sets are equal. 
+- `==` to determine if two sets are equal. 
 
-\!	to form the complement of a set (the complement of set A, denoted A-bar, is the set containing all the elements in the universal set that are not in A - the universal set for this problem is the set containing all integers between 0 and 99)
+- `!` to form the complement of a set (the complement of set A, denoted A-bar, is the set containing all the elements in the universal set that are not in A - the universal set for this problem is the set containing all integers between 0 and 99)
 
-\<=  	to determine if one set is a subset of another set (set A is a subset of set B means that for any element x in A, x is also an element of set B).
-<< 	to display a set in roster notation (for example, {2, 3, 5, 9})
+- `<=` to determine if one set is a subset of another set (set A is a subset of set B means that for any element x in A, x is also an element of set B).
 
-Requirement: The overloaded += and -= operators should check for valid integer input (in the range 0-99), or if an add-item is already in the set, or if a delete-item is not in the set. An error message for invalid input should be generated.
+- `<<` to display a set in roster notation (for example, {2, 3, 5, 9})
 
-Then, write a C++  program that uses the new `IntSet` class. The program should allow the user to repeatedly select from these options:
+Requirement: The overloaded `+=` and `-=` operators should check for valid integer input (in the range 0-99), or if an add-item is already in the set, or if a delete-item is not in the set. An error message for invalid input should be generated.
+
+Then, write a C++ program that uses the new `IntSet` class. The program should allow the user to repeatedly select from these options:
 
 •	add numbers to a set
 
