@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
 
 
 const static unsigned int MAXIMUM_INPUT = 256;
