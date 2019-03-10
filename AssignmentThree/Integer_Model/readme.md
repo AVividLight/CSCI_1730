@@ -1,9 +1,9 @@
-Incomplete as of 3/06/2019
+Complete as of 3/10/2019
 ===
 
 Write a class `IntSet` for modeling sets of integers in the range 0 through 99. A set should be represented internally as an array of type `bool`: The ith array element will be `true` whenever integer `i` is in the set and will be `false` whenever integer `i` is not in the set. Include a no-argument constructor that initializes a set to the so-called “empty set,” i.e., a set whose array representation contains all false values. The class should include the following overloaded operators:
 
-- `+` to perform the union of two set (the union of sets A and B is the set that contains all elements of set A or set B, or both).
+- `+` to perform the union of two sets (the union of sets A and B is the set that contains all elements of set A or set B, or both).
 	
 - `*` to perform the intersection of two sets (the intersection of sets A and B is the set that contains all elements in both set A and set B.)
 	
