@@ -42,20 +42,20 @@ bool check_for_white_space (const std::string::const_iterator &i)
 }
 
 
-bool check_at_sign (const std::string::const_iterator &i, const std::string &input, bool &at_found)
+bool check_at_sign (const std::string::const_iterator &i, const std::string &input, int &at_index)
 {
 	
 	if (*i == '@')
 	{
 		
-		if (at_found)
+		if (at_index != -1)
 		{
 			
 			invalid_reason = "contains multiple @ symbols";
 			return false;
 		} else {
 			
-			at_found = true;
+			at_index = i - input.begin();
 			
 			if (i == input.begin ())
 			{
@@ -117,23 +117,37 @@ const bool validate_address (std::string &input)
 	invalid_reason = "";
 	bool valid = true;
 	
-	bool at_found = false;
+	int at_index = -1;
 	bool period_found = false;
 	
 	for (std::string::const_iterator i = input.begin (); i < input.end (); i += 1)
 	{
 	
 		if (!check_for_white_space (i)) break;
-		if (!check_at_sign (i, input, at_found)) break;
+		if (!check_at_sign (i, input, at_index)) break;
 		if (!check_periods (i, input, period_found)) break;
-		//Make sure that there isn't a period on either side of the at symbol
 	}
 	
-	if (at_found == false)
+	if (at_index == -1)
 	{
 		
 		valid = false;
 		invalid_reason = "is missing local mailbox identifier";
+	} else {
+		
+		std::cout << at_index << std::endl;
+		
+		if (input [at_index - 1] == '.')
+		{
+			
+			valid = false;
+			invalid_reason = "local mailbox identifier cannot end with a period";
+		} else if (input[at_index + 1] == '.')
+		{
+			
+			valid = false;
+			invalid_reason = "domain cannot start with a period";
+		}
 	}
 	
 	return valid;
