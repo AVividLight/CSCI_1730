@@ -1,0 +1,7 @@
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Email_Validation/build/CMakeFiles/install/local.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Email_Validation/build/CMakeFiles/install/strip.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Email_Validation/build/CMakeFiles/install.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Email_Validation/build/CMakeFiles/list_install_components.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Email_Validation/build/CMakeFiles/rebuild_cache.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Email_Validation/build/CMakeFiles/edit_cache.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/Email_Validation/build/CMakeFiles/Email_Validation.dir
