@@ -23,11 +23,8 @@ const bool prompt_continue ()
 		std::cout << "Invalid input." << std::endl;
 		return prompt_continue ();	
 	}
-		
-	if (input == 'y')
-		return true;
-	else
-		return false;
+	
+	return (input == 'y' ? true : false);
 }
 
 
@@ -77,8 +74,6 @@ bool check_at_sign (const std::string::const_iterator &i, const std::string &inp
 	return true;
 }
 
-
-//Every occurrence of the dot character (.)must have a non-@, non-dot character on both sides. For example, bar@cs. , .ed@comcast.net, and bar@.depaul, joe..smith@bob.com are not valid e-mail addresses.
 
 bool check_periods (const std::string::const_iterator &i, const std::string &input, bool &period_found)
 {
@@ -131,6 +126,7 @@ const bool validate_address (std::string &input)
 		if (!check_for_white_space (i)) break;
 		if (!check_at_sign (i, input, at_found)) break;
 		if (!check_periods (i, input, period_found)) break;
+		//Make sure that there isn't a period on either side of the at symbol
 	}
 	
 	if (at_found == false)
