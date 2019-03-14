@@ -163,10 +163,7 @@ int get_address (std::string &input)
 	{
 		
 		if (input.empty ())
-		{
-			
 			get_address (input);
-		}
 	} else {
 		
 		std::cout << "ERROR: Failed to open stream!" << std::endl;
@@ -188,16 +185,13 @@ int main (int argc, char const *argv[])
 	{
 		
 		if (get_address (address)) return 1;
+		
 		std::cout << "You entered: '" << address << "'." << std::endl;
 		
 		if (validate_address (address) == true)
-		{
-			
 			std::cout << "Valid - " << address << " is a valid email address." << std::endl;
-		} else {
-			
+		else
 			std::cout << "Invalid - " << address << " is invalid because:" << invalid_reason << '.' << std::endl;
-		}
 		
 	} while (prompt_continue ());
 	
