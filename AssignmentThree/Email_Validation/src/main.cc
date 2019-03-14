@@ -34,7 +34,7 @@ bool check_for_white_space (const std::string::const_iterator &i)
 	if (isspace (*i))
 	{
 		
-		invalid_reason = "contains white space";
+		invalid_reason.append (" - contains white space");
 		return false;
 	}
 	
@@ -50,22 +50,22 @@ bool check_at_sign (const std::string::const_iterator &i, const std::string &inp
 		
 		if (at_index != -1)
 		{
-			
-			invalid_reason = "contains multiple @ symbols";
+
+			invalid_reason.append (" - contains multiple @ symbols");
 			return false;
 		} else {
 			
-			at_index = i - input.begin();
+			at_index = std::distance (input.begin (), i);
 			
 			if (i == input.begin ())
 			{
 				
-				invalid_reason = "is missing local mailbox identifier";
+				invalid_reason.append (" - is missing local mailbox identifier");
 				return false;
 			} else if (i == input.end () - 1)
 			{
 				
-				invalid_reason = "is missing domain";
+				invalid_reason.append (" - is missing domain");
 				return false;
 			}
 		}
@@ -84,26 +84,27 @@ bool check_periods (const std::string::const_iterator &i, const std::string &inp
 		if (i == input.begin ())
 		{
 			
-			invalid_reason = "cannot begin with a period";
+			invalid_reason.append (" - cannot begin with a period");
 			return false;
 		}
 		
 		if (i == input.end () - 1)
 		{
 			
-			invalid_reason = "cannot end with a period";
+			invalid_reason.append (" - cannot end with a period");
 			return false;
 		}
 		
 		if (period_found == true)
 		{
 			
-			invalid_reason = "cannot contain two periods next to eachother";
+			invalid_reason.append (" - cannot contain two periods next to eachother");
 			return false;
 		}
 		
 		period_found = true;
 	} else {
+		
 		period_found = false;
 	}
 	
@@ -119,34 +120,32 @@ const bool validate_address (std::string &input)
 	
 	int at_index = -1;
 	bool period_found = false;
-	
+
 	for (std::string::const_iterator i = input.begin (); i < input.end (); i += 1)
 	{
 	
-		if (!check_for_white_space (i)) break;
-		if (!check_at_sign (i, input, at_index)) break;
-		if (!check_periods (i, input, period_found)) break;
+		if (!check_for_white_space (i)) valid = false;
+		if (!check_at_sign (i, input, at_index)) valid = false;
+		if (!check_periods (i, input, period_found)) valid = false;
 	}
-	
+		
 	if (at_index == -1)
 	{
 		
 		valid = false;
-		invalid_reason = "is missing local mailbox identifier";
+		invalid_reason.append (" - is missing complete local mailbox identifier");
 	} else {
-		
-		std::cout << at_index << std::endl;
 		
 		if (input [at_index - 1] == '.')
 		{
 			
 			valid = false;
-			invalid_reason = "local mailbox identifier cannot end with a period";
+			invalid_reason.append (" - local mailbox identifier cannot end with a period");
 		} else if (input[at_index + 1] == '.')
 		{
 			
 			valid = false;
-			invalid_reason = "domain cannot start with a period";
+			invalid_reason.append (" - domain cannot start with a period");
 		}
 	}
 	
@@ -154,7 +153,7 @@ const bool validate_address (std::string &input)
 }
 
 
-void get_address (std::string &input)
+int get_address (std::string &input)
 {
 	
 	input.clear ();
@@ -171,7 +170,10 @@ void get_address (std::string &input)
 	} else {
 		
 		std::cout << "ERROR: Failed to open stream!" << std::endl;
+		return 1;
 	}
+	
+	return 0;
 }
 
 
@@ -185,7 +187,7 @@ int main (int argc, char const *argv[])
 	do
 	{
 		
-		get_address (address);
+		if (get_address (address)) return 1;
 		std::cout << "You entered: '" << address << "'." << std::endl;
 		
 		if (validate_address (address) == true)
@@ -194,7 +196,7 @@ int main (int argc, char const *argv[])
 			std::cout << "Valid - " << address << " is a valid email address." << std::endl;
 		} else {
 			
-			std::cout << "Invalid - " << address << " is invalid because it " << invalid_reason << '.' << std::endl;
+			std::cout << "Invalid - " << address << " is invalid because:" << invalid_reason << '.' << std::endl;
 		}
 		
 	} while (prompt_continue ());

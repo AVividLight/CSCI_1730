@@ -1,4 +1,4 @@
-Incomplete as of 3/13/2019
+Complete as of 3/13/2019
 ===
 
 Write a C++ program that repeatedly prompts for and reads an e-mail address and then determines and displays whether the address is valid or invalid. For purposes of this program, an e-mail address is valid if it satisfies these conditions:
