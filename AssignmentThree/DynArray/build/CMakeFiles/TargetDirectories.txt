@@ -1,0 +1,7 @@
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/DynArray/build/CMakeFiles/install/local.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/DynArray/build/CMakeFiles/install/strip.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/DynArray/build/CMakeFiles/install.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/DynArray/build/CMakeFiles/DynArray.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/DynArray/build/CMakeFiles/list_install_components.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/DynArray/build/CMakeFiles/rebuild_cache.dir
+/usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentThree/DynArray/build/CMakeFiles/edit_cache.dir
