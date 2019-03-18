@@ -1,3 +1,12 @@
+/*
+Bryant Yaurincela
+Logan Kreun
+Michael Bethke
+CSCI 1730-01
+Group 7
+*/
+
+
 #include <iostream>
 #include <string>
 
