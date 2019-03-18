@@ -1,4 +1,4 @@
-Incomplete as of 3/13/2019
+Complete as of 3/18/2019
 ===
 
 The following C++ `main` driver, along with function `myFunc`, uses a C++ class `DynArray` that models a dynamic integer array – that is, the class uses dynamic memory allocation to create a contiguous block of memory for storing a specified number of integers. The indexing for a `DynArray` object is the same as for a regular array. But, a `DynArray` can be initialized to size zero. 
