@@ -32,7 +32,7 @@ public:
 	void push_back (const std::string value);
 	void pop_back ();
 	
-	std::string &operator[](const std::size_t index) { return data[index]; }
+	std::string &operator[](const std::size_t index);
 	
 private:
 	std::string *data;
@@ -47,7 +47,7 @@ private:
 DynamicArray::DynamicArray ()
 {
 	
-	data = new std::string [1];
+	data = new std::string [0];
 	size = 0;
 }
 
@@ -56,6 +56,16 @@ DynamicArray::~DynamicArray ()
 {
 
 	delete data;
+}
+
+
+std::string &DynamicArray::operator[](const std::size_t index)
+{
+	
+	if (index < size)
+		return data[index];
+	else
+		throw;
 }
 
 
@@ -83,7 +93,7 @@ void DynamicArray::expand ()
 	std::string *new_data;
 	new_data = new std::string [size + DYNAMIC_ARRAY_BLOCK_SIZE];
 	
-	for (int i = 1; i < size; i += 1)
+	for (int i = 0; i < size; i += 1)
 	{
 		
 		new_data[i] = data[i];
@@ -143,7 +153,7 @@ int main (int argc, char const *argv[])
 	std::cout << "Enter a filename or absolute path: ";
 	std::getline (std::cin, file_path);
 	
-	std::ifstream file (file_path);
+	std::ifstream file (file_path.c_str());
 	
 	if (!file.good ())
 	{
