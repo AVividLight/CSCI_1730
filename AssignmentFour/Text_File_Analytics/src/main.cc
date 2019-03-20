@@ -136,6 +136,8 @@ const bool repeat ()
 int main (int argc, char const *argv[])
 {
 	
+	std::cout << std::endl << "Project 1 from Assignment 4" << std::endl << "Text File Statistics" << std::endl << std::endl << "This program will receive a path to a text file and provide statistics about the words." << std::endl;
+	
 	std::string file_path;
 	
 	std::cout << "Enter a filename or absolute path: ";
