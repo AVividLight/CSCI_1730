@@ -12,14 +12,14 @@ Group 7
 #include <fstream>
 
 
-#ifdef _WIN32
+/*#ifdef _WIN32
 const static char PATH_SEPERATOR = '\\';
 #elif defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
 const static char PATH_SEPERATOR = '/';
-#endif
+#endif*/
 
 
-const unsigned short int DYNAMIC_ARRAY_BLOCK_SIZE = 32;
+const static unsigned short int DYNAMIC_ARRAY_BLOCK_SIZE = 32;
 
 
 class DynamicArray
@@ -30,14 +30,14 @@ public:
 	~DynamicArray ();
 	
 	void push_back (const std::string value);
-	void pop_back ();
+	const std::size_t data_size () const {return size;};
 	
 	std::string &operator[](const std::size_t index);
 	
 private:
 	std::string *data;
 	std::size_t size;
-	unsigned short int pos;
+	unsigned short int next_open_position;
 	
 	void expand ();
 
@@ -47,15 +47,16 @@ private:
 DynamicArray::DynamicArray ()
 {
 	
-	data = new std::string [0];
-	size = 0;
+	size = DYNAMIC_ARRAY_BLOCK_SIZE;
+	data = new std::string [size];
+	next_open_position = 0;
 }
 
 
 DynamicArray::~DynamicArray ()
 {
 
-	delete data;
+	delete [] data;
 }
 
 
@@ -72,18 +73,14 @@ std::string &DynamicArray::operator[](const std::size_t index)
 void DynamicArray::push_back (const std::string value)
 {
 	
-	if (pos == size - 1)
+	if (next_open_position >= (size - 1))
 	{
 		
 		expand ();
 	}
-}
-
-
-void DynamicArray::pop_back ()
-{
 	
-	
+	data[next_open_position] = value;
+	next_open_position += 1;
 }
 
 
@@ -100,7 +97,7 @@ void DynamicArray::expand ()
 	}
 	
 	size += DYNAMIC_ARRAY_BLOCK_SIZE;
-	delete data;
+	delete [] data;
 	
 	data = new_data;
 }
@@ -169,6 +166,7 @@ int main (int argc, char const *argv[])
 	
 	do
 	{
+		
 		
 		
 	} while (repeat ());
