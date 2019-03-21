@@ -10,13 +10,21 @@ Group 7
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <cctype>
 
 
-/*#ifdef _WIN32
-const static char PATH_SEPERATOR = '\\';
+#ifdef _WIN32
+
+#include <direct.h>
+#define getcws _getcwd
+#define PATH_SEPERATOR '\\'
+
 #elif defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
-const static char PATH_SEPERATOR = '/';
-#endif*/
+
+#include <unistd.h>
+#define PATH_SEPERATOR '/'
+
+#endif
 
 
 const static unsigned short int DYNAMIC_ARRAY_BLOCK_SIZE = 32;
@@ -140,6 +148,46 @@ const bool repeat ()
 }
 
 
+int populate_array (std::ifstream &file, DynamicArray &array)
+{
+	
+	std::string temp_word;
+	
+	char c;
+	while (file.get (c))
+	{
+		
+		if (isspace (c))
+		{
+			
+			if (temp_word.length () > 0)
+			{
+			
+				std::cout << temp_word << std::endl;
+				array.push_back (temp_word);
+				temp_word.clear ();
+			}
+		} else {
+			
+			temp_word.push_back (c);
+		}
+	}
+	
+	if (temp_word.length () > 0)
+	{
+	
+		//std::cout << temp_word << std::endl;
+		array.push_back (temp_word);
+		//temp_word.clear ();
+	}
+	
+	if (!file.fail ())
+		return 0;
+	else
+		return 1;
+}
+
+
 int main (int argc, char const *argv[])
 {
 	
@@ -149,13 +197,26 @@ int main (int argc, char const *argv[])
 	
 	std::cout << "Enter a filename or absolute path: ";
 	std::getline (std::cin, file_path);
+	/*if (is_filename (file_path))
+	{
+		
+		std::string file_name = file_path;
+		
+		char buffer [1024];
+		char *loc = getcwd (buffer, sizeof (buffer));
+		file_path = loc;
+		file_path.push_back (PATH_SEPERATOR);
+		file_path.append (file_name);
+		
+		std::cout << "appended working dir to path, now: " << file_path << std::endl;
+	}*/
 	
 	std::ifstream file (file_path.c_str());
 	
 	if (!file.good ())
 	{
 		
-		std::cout << "Error opening file. Double check file path." << std::endl;
+		std::cout << "Error opening file at " << file_path <<". Double check file path." << std::endl;
 		return 1;
 	}
 	
@@ -164,9 +225,19 @@ int main (int argc, char const *argv[])
 	unsigned short int longest_word_length = 0;
 	float average_word_length = 0.0;
 	
+	if (!populate_array (file, words))
+	{
+		
+		std::cout << "Error reading file." << std::endl;
+		return 1;
+	}
+	
+	file.close ();
+	
 	do
 	{
 		
+		std::cout << "words size: " << words.data_size () << std::endl;
 		
 		
 	} while (repeat ());
