@@ -14,20 +14,16 @@ Group 7
 
 
 #ifdef _WIN32
-
 #include <direct.h>
 #define getcws _getcwd
 #define PATH_SEPERATOR '\\'
-
 #elif defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
-
 #include <unistd.h>
 #define PATH_SEPERATOR '/'
-
 #endif
 
 
-const static unsigned short int DYNAMIC_ARRAY_BLOCK_SIZE = 32;
+const static std::size_t DYNAMIC_ARRAY_BLOCK_SIZE = 32;
 
 
 class DynamicArray
@@ -38,7 +34,9 @@ public:
 	~DynamicArray ();
 	
 	void push_back (const std::string value);
-	const std::size_t data_size () const {return size;};
+	const std::size_t get_data_size () const {return size;};
+	
+	void sort ();
 	
 	std::string &operator[](const std::size_t index);
 	
@@ -111,6 +109,13 @@ void DynamicArray::expand ()
 }
 
 
+void DynamicArray::sort()
+{
+	
+	
+}
+
+
 bool is_filename (const std::string file_path)
 {
 	
@@ -122,6 +127,18 @@ bool is_filename (const std::string file_path)
 	}
 	
 	return true;
+}
+
+
+void clean_path (std::string &path)
+{
+	
+	if (path[0] == '\"')
+	{
+		
+		path.erase (0, 1);
+		path.erase (path.size () - 1 );
+	}
 }
 
 
@@ -163,7 +180,7 @@ int populate_array (std::ifstream &file, DynamicArray &array)
 			if (temp_word.length () > 0)
 			{
 			
-				std::cout << temp_word << std::endl;
+				//std::cout << temp_word << std::endl;
 				array.push_back (temp_word);
 				temp_word.clear ();
 			}
@@ -195,51 +212,55 @@ int main (int argc, char const *argv[])
 	
 	std::string file_path;
 	
-	std::cout << "Enter a filename or absolute path: ";
-	std::getline (std::cin, file_path);
-	/*if (is_filename (file_path))
-	{
-		
-		std::string file_name = file_path;
-		
-		char buffer [1024];
-		char *loc = getcwd (buffer, sizeof (buffer));
-		file_path = loc;
-		file_path.push_back (PATH_SEPERATOR);
-		file_path.append (file_name);
-		
-		std::cout << "appended working dir to path, now: " << file_path << std::endl;
-	}*/
-	
-	std::ifstream file (file_path.c_str());
-	
-	if (!file.good ())
-	{
-		
-		std::cout << "Error opening file at " << file_path <<". Double check file path." << std::endl;
-		return 1;
-	}
-	
-	DynamicArray words;
-	unsigned short int shortest_word_length = 0;
-	unsigned short int longest_word_length = 0;
-	float average_word_length = 0.0;
-	
-	if (!populate_array (file, words))
-	{
-		
-		std::cout << "Error reading file." << std::endl;
-		return 1;
-	}
-	
-	file.close ();
+	unsigned short int shortest_word_length;
+	unsigned short int longest_word_length;
+	float average_word_length;
 	
 	do
 	{
+	
+		std::cout << "Enter a filename or absolute path: ";
+		std::getline (std::cin, file_path);
+		clean_path (file_path);
+		/*if (is_filename (file_path))
+		{
+			
+			std::string file_name = file_path;
+			
+			char buffer [1024];
+			char *loc = getcwd (buffer, sizeof (buffer));
+			file_path = loc;
+			file_path.push_back (PATH_SEPERATOR);
+			file_path.append (file_name);
+			
+			std::cout << "appended working dir to path, now: " << file_path << std::endl;
+		}*/
 		
-		std::cout << "words size: " << words.data_size () << std::endl;
+		std::ifstream file (file_path.c_str());
 		
+		if (!file.good ())
+		{
+			
+			std::cout << "Error opening file at " << file_path <<". Double check file path." << std::endl;
+			return 1;
+		}
 		
+		DynamicArray words;
+		if (!populate_array (file, words))
+		{
+			
+			std::cout << "Error reading file." << std::endl;
+			return 1;
+		}
+		
+		file.close ();
+		
+		shortest_word_length = 0;
+		longest_word_length = 0;
+		average_word_length = 0.0;
+		
+		std::cout << "words array size: " << words.get_data_size () << std::endl;
+
 	} while (repeat ());
 	
 	return 0;
