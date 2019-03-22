@@ -46,6 +46,8 @@ private:
 	unsigned short int next_open_position;
 	
 	void expand ();
+	
+	void counting_sort ();
 
 };
 
@@ -112,7 +114,14 @@ void DynamicArray::expand ()
 void DynamicArray::sort()
 {
 	
+	shell_sort ();
+}
+
+
+void DynamicArray::counting_sort ()
+{
 	
+	//https://www.techiedelight.com/counting-sort-algorithm-implementation/
 }
 
 
