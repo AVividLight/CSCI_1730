@@ -23,9 +23,6 @@ Group 7
 #endif
 
 
-const static std::size_t DYNAMIC_ARRAY_BLOCK_SIZE = 32;
-
-
 class DynamicArray
 {
 
@@ -34,21 +31,26 @@ public:
 	~DynamicArray ();
 	
 	void push_back (const std::string value);
-	const std::size_t get_data_size () const {return size;};
+	const std::size_t get_data_size () const {return size;}
+	const std::size_t get_data_length () const {return next_open_position;}
 	
 	void sort ();
+	void swap (const unsigned int first_pos, const unsigned int second_pos);
+	void remove (const std::size_t index);
 	
-	std::string &operator[](const std::size_t index);
+	std::string &operator[] (const std::size_t index);
 	
 private:
+	const static std::size_t DYNAMIC_ARRAY_BLOCK_SIZE = 32;
+	
 	std::string *data;
 	std::size_t size;
-	unsigned short int next_open_position;
+	unsigned int next_open_position;
 	
 	void expand ();
 	
-	void counting_sort ();
-
+	void bucket_sort ();
+	void insertion_sort ();
 };
 
 
@@ -68,13 +70,14 @@ DynamicArray::~DynamicArray ()
 }
 
 
-std::string &DynamicArray::operator[](const std::size_t index)
+std::string &DynamicArray::operator[] (const std::size_t index)
 {
 	
 	if (index < size)
 		return data[index];
-	else
+	else {
 		throw;
+	}
 }
 
 
@@ -114,14 +117,80 @@ void DynamicArray::expand ()
 void DynamicArray::sort()
 {
 	
-	shell_sort ();
+	bucket_sort ();
 }
 
 
-void DynamicArray::counting_sort ()
+void DynamicArray::bucket_sort ()
 {
 	
-	//https://www.techiedelight.com/counting-sort-algorithm-implementation/
+	DynamicArray buckets[11];
+	
+	for (int i = 0; i < get_data_length (); i += 1)
+	{
+		
+		if (data[i].length () <= 10)
+			buckets[data[i].length () - 1].push_back (data[i]);
+		else
+			buckets[10].push_back (data[i]);
+		
+		remove (i);
+	}
+	
+	if (buckets[10].get_data_length () > 0)
+		buckets[10].insertion_sort ();
+	
+	
+	
+	for (int b = 0; b < 11; b += 1)
+	{
+		
+		for (int w = 0; w < buckets[b].get_data_length (); w += 1)
+		{
+			
+			std::cout << "bucket " << (b + 1) << " contains " << buckets[b].data[w] << std::endl;
+		}
+		
+		std::cout << std::endl;
+	}
+}
+
+
+void DynamicArray::insertion_sort ()
+{
+
+	for (int i = 1; i < get_data_length (); i += 1)
+	{
+		
+		for (int j = (i - 1); j >= 0; j -= 1)
+		{
+			
+			if (data[j].length () < data[j + 1].length ())
+				break;
+			
+			swap (j, j + 1);
+		}
+	}
+}
+
+
+void DynamicArray::swap (const unsigned int first_pos, const unsigned int second_pos)
+{
+	
+	std::string temp_container = data[first_pos];
+	data[first_pos] = data[second_pos];
+	data[second_pos] = temp_container;
+}
+
+
+void DynamicArray::remove (const std::size_t index)
+{
+	
+	if (index <= size)
+	{
+		
+		data[index].clear ();
+	}
 }
 
 
@@ -142,12 +211,9 @@ bool is_filename (const std::string file_path)
 void clean_path (std::string &path)
 {
 	
-	if (path[0] == '\"')
-	{
-		
-		path.erase (0, 1);
-		path.erase (path.size () - 1 );
-	}
+	std::size_t first_char = path.find_first_not_of(" \t\r\n\v\f\"\'");
+	std::size_t last_char = path.find_last_not_of(" \t\r\n\v\f\"\'");
+	path = path.substr (first_char, (last_char - first_char + 1));
 }
 
 
@@ -183,34 +249,52 @@ int populate_array (std::ifstream &file, DynamicArray &array)
 	while (file.get (c))
 	{
 		
-		if (isspace (c))
+		if (isgraph (c) && !ispunct (c))
 		{
+				
+			temp_word.push_back (c);
+		} else {
 			
 			if (temp_word.length () > 0)
 			{
 			
-				//std::cout << temp_word << std::endl;
+				//std::cout << "adding \'" << temp_word << '\'' << std::endl;
 				array.push_back (temp_word);
 				temp_word.clear ();
 			}
-		} else {
-			
-			temp_word.push_back (c);
 		}
-	}
-	
-	if (temp_word.length () > 0)
-	{
-	
-		//std::cout << temp_word << std::endl;
-		array.push_back (temp_word);
-		//temp_word.clear ();
 	}
 	
 	if (!file.fail ())
 		return 0;
 	else
 		return 1;
+}
+
+
+std::string get_file_path (const char *program_name)
+{
+	
+	std::string file_path;
+	
+	std::cout << "Enter a filename or absolute path: ";
+	std::getline (std::cin, file_path);
+	clean_path (file_path);
+	if (is_filename (file_path))
+	{
+		
+		/*WRAP IN TRY CATCH*/
+		std::string file_name = file_path;
+		
+		file_path = program_name;
+		std::size_t last_char = file_path.find_last_of (PATH_SEPERATOR);
+		file_path = file_path.substr (0, (last_char));
+		file_path.push_back (PATH_SEPERATOR);
+		file_path.append (file_name);
+		/*WRAP IN TRY CATCH*/
+	}
+	
+	return file_path;
 }
 
 
@@ -227,31 +311,16 @@ int main (int argc, char const *argv[])
 	
 	do
 	{
-	
-		std::cout << "Enter a filename or absolute path: ";
-		std::getline (std::cin, file_path);
-		clean_path (file_path);
-		/*if (is_filename (file_path))
-		{
-			
-			std::string file_name = file_path;
-			
-			char buffer [1024];
-			char *loc = getcwd (buffer, sizeof (buffer));
-			file_path = loc;
-			file_path.push_back (PATH_SEPERATOR);
-			file_path.append (file_name);
-			
-			std::cout << "appended working dir to path, now: " << file_path << std::endl;
-		}*/
 		
+		file_path = get_file_path (argv[0]);
 		std::ifstream file (file_path.c_str());
 		
 		if (!file.good ())
 		{
 			
 			std::cout << "Error opening file at " << file_path <<". Double check file path." << std::endl;
-			return 1;
+			file.close ();
+			continue;
 		}
 		
 		DynamicArray words;
@@ -259,16 +328,16 @@ int main (int argc, char const *argv[])
 		{
 			
 			std::cout << "Error reading file." << std::endl;
-			return 1;
+			file.close ();
+			continue;
 		}
 		
 		file.close ();
 		
-		shortest_word_length = 0;
+		words.sort ();
+		shortest_word_length = words[0].length ();
 		longest_word_length = 0;
 		average_word_length = 0.0;
-		
-		std::cout << "words array size: " << words.get_data_size () << std::endl;
 
 	} while (repeat ());
 	
