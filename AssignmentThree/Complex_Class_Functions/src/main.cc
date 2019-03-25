@@ -31,13 +31,6 @@ public:
 	Complex_Number divide (const Complex_Number &number_two);
 	void output ();
 	void input ();
-	
-	/*friend Complex_Number operator+ (const Complex_Number &number_one, const Complex_Number &number_two);
-	friend Complex_Number operator- (const Complex_Number &number_one, const Complex_Number &number_two);
-	friend Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two);
-	friend Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two);
-	friend std::ostream &operator<< (std::ostream &os, const Complex_Number number);
-	friend std::istream &operator>> (std::istream &is, Complex_Number &number);*/
 
 private:
 	float real_part;
@@ -182,66 +175,6 @@ void Complex_Number::output ()
 }
 
 
-/*Complex_Number operator+ (const Complex_Number &number_one, const Complex_Number &number_two)
-{
-	
-	Complex_Number value ((number_one.get_real () + number_two.get_real ()), (number_one.get_imaginary () + number_two.get_imaginary ()));
-	return value;
-}
-
-
-Complex_Number operator- (const Complex_Number &number_one, const Complex_Number &number_two)
-{
-	
-	Complex_Number value ((number_one.get_real () - number_two.get_real ()), (number_one.get_imaginary () - number_two.get_imaginary ()));
-	return value;
-}
-
-
-Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two)
-{
-	
-	Complex_Number value (((number_one.get_real () * number_two.get_real ()) - (number_one.get_imaginary () * number_two.get_imaginary ())), (number_one.get_imaginary () * number_two.get_real ()) + (number_two.get_imaginary () * number_one.get_real ()));
-	return value;
-}
-
-
-Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two)
-{
-	
-	float denominator = ((number_two.get_real () * number_two.get_real ()) + (number_two.get_imaginary () * number_two.get_imaginary ()));
-	
-	Complex_Number value (((number_one.get_real () * number_two.get_real ()) + (number_one.get_imaginary () * number_two.get_imaginary ()))/denominator, ((number_one.get_imaginary () * number_two.get_real ()) - (number_one.get_real () * number_two.get_imaginary ()))/denominator);
-	return value;
-}
-
-
-std::ostream &operator<< (std::ostream &os, const Complex_Number number)
-{
-	
-	os << number.get_real ();
-	if (!(number.get_imaginary () < 0))
-		os << '+';
-	
-	os << number.get_imaginary () << 'i';
-	return os;
-}
-
-
-std::istream &operator>> (std::istream &is, Complex_Number &number)
-{
-	
-	char *input = new char [MAXIMUM_INPUT];
-	is.getline (input, MAXIMUM_INPUT);
-
-	unsigned int index = 0;
-	number.real_part = divide_input (input, index);
-	number.imaginary_part = divide_input (input, index);
-	
-	return is;
-}*/
-
-
 void arithmetic ()
 {
 	
@@ -355,8 +288,9 @@ void equation ()
 	std::cout << std::endl << "Complex Solution:" << std::endl;
 	Complex_Number user_number;
 	
-	bool is_addition_solution = ((user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
-	bool is_subtraction_solution = ((user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
+	bool is_addition_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
+	
+	bool is_subtraction_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs(user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
 	
 	user_number.output ();
 	std::cout << " is";

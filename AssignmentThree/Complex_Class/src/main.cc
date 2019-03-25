@@ -295,8 +295,8 @@ void equation ()
 	std::cout << std::endl << "Complex Solution:" << std::endl;
 	Complex_Number user_number;
 	
-	bool is_addition_solution = ((user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
-	bool is_subtraction_solution = ((user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
+	bool is_addition_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
+	bool is_subtraction_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
 	
 	if (is_addition_solution == true || is_subtraction_solution == true)
 		std::cout << user_number << " is a solution to the quadratic equation." << std::endl;
