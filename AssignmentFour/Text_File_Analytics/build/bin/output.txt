@@ -1,0 +1,6 @@
+Input file path: /usr/local/acct/development/projects/CSCI_1730/Michaels-Projects/AssignmentFour/Text_File_Analytics/build/bin/story.txt
+Total number of words: 4327
+Average word length: 
+Shortest word length: 1
+Longest word length: 16
+

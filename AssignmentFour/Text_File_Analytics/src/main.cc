@@ -10,6 +10,7 @@ Group 7
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <cctype>
 
 
@@ -140,8 +141,21 @@ void DynamicArray::bucket_sort ()
 	if (buckets[10].get_data_length () > 0)
 		buckets[10].insertion_sort ();
 	
+	unsigned int insertion_offset = 0;
+	for (int b = 0; b < 11; b += 1)
+	{
+		
+		for (int e = 0; e < buckets[b].get_data_length (); e += 1)
+		{
+			
+			data[insertion_offset + e] = buckets[b][e];
+			//push_back (buckets[b][e]);	//USE IF ARRAY HAS BEEN SHRUNK
+		}
+		
+		insertion_offset += buckets[b].get_data_length ();
+	}
 	
-	
+	/* DEBUG BUCKETS
 	for (int b = 0; b < 11; b += 1)
 	{
 		
@@ -152,7 +166,7 @@ void DynamicArray::bucket_sort ()
 		}
 		
 		std::cout << std::endl;
-	}
+	}*/
 }
 
 
@@ -187,10 +201,46 @@ void DynamicArray::remove (const std::size_t index)
 {
 	
 	if (index <= size)
+		data[index].clear ();
+}
+
+
+int populate_array (std::ifstream &file, DynamicArray &array)
+{
+	
+	std::string temp_word;
+	
+	char c;
+	while (file.get (c))
 	{
 		
-		data[index].clear ();
+		if (isgraph (c)/* && !ispunct (c)*/)
+		{
+				
+			temp_word.push_back (c);
+		} else {
+			
+			if (temp_word.length () > 0)
+			{
+			
+				//std::cout << "adding \'" << temp_word << '\'' << std::endl;
+				array.push_back (temp_word);
+				temp_word.clear ();
+			}
+		}
 	}
+	
+	if (temp_word.length () > 0)
+	{
+	
+		//std::cout << "adding \'" << temp_word << '\'' << std::endl;
+		array.push_back (temp_word);
+	}
+	
+	if (!file.fail ())
+		return 0;
+	else
+		return 1;
 }
 
 
@@ -233,42 +283,28 @@ const char get_input ()
 }
 
 
+const int get_menu_input ()
+{
+	
+	std::string input;
+	
+	do
+	{
+		
+		std::cout << "Select an operation: " << std::endl << "\t1 - Display file statistics" << std::endl << "\t2 - List shortest words" << std::endl << "\t3 - List longest words" << std::endl << "\t4 - Search for a word" << std::endl << "\t5 - Exit" << std::endl;
+		std::getline (std::cin, input);
+	} while (isdigit (input[0]) && (int) input[0] > 0 && (int) input[0] < 6);
+	
+	std::cout << std::endl;
+	
+	return input[0] - '0';
+}
+
+
 const bool repeat ()
 {
 	
 	return (get_input () == 'y' ? true : false);
-}
-
-
-int populate_array (std::ifstream &file, DynamicArray &array)
-{
-	
-	std::string temp_word;
-	
-	char c;
-	while (file.get (c))
-	{
-		
-		if (isgraph (c) && !ispunct (c))
-		{
-				
-			temp_word.push_back (c);
-		} else {
-			
-			if (temp_word.length () > 0)
-			{
-			
-				//std::cout << "adding \'" << temp_word << '\'' << std::endl;
-				array.push_back (temp_word);
-				temp_word.clear ();
-			}
-		}
-	}
-	
-	if (!file.fail ())
-		return 0;
-	else
-		return 1;
 }
 
 
@@ -298,48 +334,102 @@ std::string get_file_path (const char *program_name)
 }
 
 
+std::string file_statistics (DynamicArray &words)
+{
+	
+	std::stringstream output;
+	output << "Total number of words: " << words.get_data_length () - 1 << std::endl;
+	output << "Average word length: " << /* FINISH ME! << */ std::endl;										/* SUM ALL CHARS, DIVIDE BY NUMBER OF WORDS (words.get_data_length () - 1) */
+	output << "Shortest word length: " << words[0].length () << std::endl;
+	output << "Longest word length: " << words[words.get_data_length () - 1].length () << std::endl;
+	
+	return output.str ();
+}
+
+
 int main (int argc, char const *argv[])
 {
 	
-	std::cout << std::endl << "Project 1 from Assignment 4" << std::endl << "Text File Statistics" << std::endl << std::endl << "This program will receive a path to a text file and provide statistics about the words." << std::endl;
+	std::cout << std::endl << "Project 1 from Assignment 4" << std::endl << "Text File Statistics" << std::endl << std::endl << "This program will receive a path to a text file and provide statistics about the words." << std::endl << std::endl;
 	
-	std::string file_path;
+	std::cout << "Please provide output file (will overwrite):" << std::endl;
+	std::string output_file_path = get_file_path (argv[0]);
+	std::ofstream output_file (output_file_path.c_str (), std::ofstream::trunc);
 	
-	unsigned short int shortest_word_length;
-	unsigned short int longest_word_length;
-	float average_word_length;
+	std::cout << std::endl;
 	
+	std::string input_file_path;
 	do
 	{
 		
-		file_path = get_file_path (argv[0]);
-		std::ifstream file (file_path.c_str());
+		std::cout << "Please provide input file: " << std::endl;
+		input_file_path = get_file_path (argv[0]);
+		std::ifstream input_file (input_file_path.c_str());
+		output_file << "Input file path: " << input_file_path << std::endl;
 		
-		if (!file.good ())
+		if (!input_file.good ())
 		{
 			
-			std::cout << "Error opening file at " << file_path <<". Double check file path." << std::endl;
-			file.close ();
+			std::cout << "Error opening file at " << input_file_path <<". Double check file path." << std::endl;
 			continue;
 		}
 		
 		DynamicArray words;
-		if (!populate_array (file, words))
+		if (!populate_array (input_file, words))
 		{
 			
 			std::cout << "Error reading file." << std::endl;
-			file.close ();
 			continue;
 		}
 		
-		file.close ();
+		input_file.close ();
 		
 		words.sort ();
-		shortest_word_length = words[0].length ();
-		longest_word_length = 0;
-		average_word_length = 0.0;
-
+		
+		unsigned short int menu;
+		do
+		{
+			
+			menu = get_menu_input ();
+			switch (menu)
+			{
+				
+				case 1:
+				{
+					std::string stats = file_statistics (words);
+					std::cout << stats << std::endl;
+					output_file << stats << std::endl;
+					break;
+				}
+				
+				case 2:
+				{
+					
+				}
+				break;
+				
+				case 3:
+				{
+					
+				}
+				break;
+				
+				case 4:
+				{
+					
+				}
+				break;
+				
+				default:
+				{
+					
+					
+				}
+			}
+		} while (menu != 5);
 	} while (repeat ());
+	
+	output_file.close ();
 	
 	return 0;
 }
