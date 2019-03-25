@@ -1,4 +1,12 @@
 /*
+TODO:
+	Search word needs to return how many times word appears in text
+	Count punctuation
+	Remove punctuation from words in array
+*/
+
+
+/*
 Bryant Yaurincela
 Logan Kreun
 Michael Bethke
@@ -38,6 +46,10 @@ public:
 	void sort ();
 	void swap (const unsigned int first_pos, const unsigned int second_pos);
 	void remove (const std::size_t index);
+	
+	const unsigned int chars_count ();
+	std::string words_of_length (const std::size_t target, const char delimiter);
+	const unsigned int find_word (const std::string target);
 	
 	std::string &operator[] (const std::size_t index);
 	
@@ -205,6 +217,77 @@ void DynamicArray::remove (const std::size_t index)
 }
 
 
+const unsigned int DynamicArray::chars_count ()
+{
+	
+	unsigned int chars = 0;
+	
+	for (int w = 0; w < get_data_length (); w += 1)
+	{
+		
+		for (int c = 0; c < data[w].length (); c += 1)
+		{
+			
+			chars += 1;
+		}
+	}
+	
+	return chars;
+}
+
+
+std::string DynamicArray::words_of_length (const std::size_t target, const char delimiter)
+{
+	
+	std::string target_words;
+
+	int index = 0;
+	short int step = 1;
+	
+	if (target != 1)
+	{
+		
+		index = get_data_length () - 1;
+		step = -1;
+	}
+	
+	do
+	{
+		
+		if (data[index].length () == target)
+		{
+
+			target_words.append (data[index]);
+			target_words += delimiter;
+		}
+		
+		index += step;
+	} while (data[index].length () == target);
+	
+	return target_words;
+}
+
+
+const unsigned int DynamicArray::find_word (const std::string target)
+{
+	
+	unsigned int count = 0;
+	
+	for (int f = 0; f < get_data_length (); f += 1)
+	{
+		
+		if (data[f].length () == target.length ())
+		{
+			
+			if (data[f] == target)
+				count += 1;
+		}
+	}
+	
+	return count;
+}
+
+
 int populate_array (std::ifstream &file, DynamicArray &array)
 {
 	
@@ -264,6 +347,19 @@ void clean_path (std::string &path)
 	std::size_t first_char = path.find_first_not_of(" \t\r\n\v\f\"\'");
 	std::size_t last_char = path.find_last_not_of(" \t\r\n\v\f\"\'");
 	path = path.substr (first_char, (last_char - first_char + 1));
+}
+
+
+const std::string get_word ()
+{
+	
+	std::cout << "Find: ";
+	std::string input;
+	std::getline (std::cin, input);
+	
+	input = input.substr (0, input.find (' '));
+	
+	return input;
 }
 
 
@@ -339,7 +435,9 @@ std::string file_statistics (DynamicArray &words)
 	
 	std::stringstream output;
 	output << "Total number of words: " << words.get_data_length () - 1 << std::endl;
-	output << "Average word length: " << /* FINISH ME! << */ std::endl;										/* SUM ALL CHARS, DIVIDE BY NUMBER OF WORDS (words.get_data_length () - 1) */
+	//output << "Total characters: " << words.chars_count () << std::endl;
+	output << "Average word length: " << ((float) words.chars_count ()/(words.get_data_length () - 1)) << std::endl; //					FINISH ME!
+	output << "Total number of punctuation characters: " << /*FINISH ME <<*/ std::endl;
 	output << "Shortest word length: " << words[0].length () << std::endl;
 	output << "Longest word length: " << words[words.get_data_length () - 1].length () << std::endl;
 	
@@ -390,41 +488,58 @@ int main (int argc, char const *argv[])
 		do
 		{
 			
+			output_file << std::endl << std::endl;
+			
 			menu = get_menu_input ();
 			switch (menu)
 			{
 				
-				case 1:
+				case 1: //Statistics
 				{
 					std::string stats = file_statistics (words);
 					std::cout << stats << std::endl;
 					output_file << stats << std::endl;
-					break;
-				}
-				
-				case 2:
-				{
-					
 				}
 				break;
 				
-				case 3:
+				case 2: //Shortest Words
 				{
 					
+					std::string short_words = words.words_of_length (words[0].length (),'\n');
+					std::cout << "Shortest words:" << std::endl << short_words << std::endl;
+					output_file << "Shortest words:" << std::endl << short_words << std::endl;
 				}
 				break;
 				
-				case 4:
+				case 3: //Longest Words
 				{
+					
+					std::string longest_words = words.words_of_length (words[words.get_data_length () - 1].length (), '\n');
+					std::cout << "Longest words:" << std::endl << longest_words << std::endl;
+					output_file << "Longest words:" << std::endl << longest_words << std::endl;
+				}
+				break;
+				
+				case 4: //Search
+				{
+					
+					std::string search_word = get_word ();
+					if (words.find_word (search_word))
+					{
+						
+						std::cout << search_word << " exists in file." << std::endl;
+						output_file << search_word << " exists in file." << std::endl;
+					} else {
+						
+						std::cout << search_word << " does not exist in file." << std::endl;
+						output_file << search_word << " does not exist in file." << std::endl;
+					}
 					
 				}
 				break;
 				
 				default:
-				{
-					
-					
-				}
+				break;
 			}
 		} while (menu != 5);
 	} while (repeat ());
