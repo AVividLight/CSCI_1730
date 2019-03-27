@@ -1,8 +1,6 @@
 /*
 TODO:
 	Search word needs to return how many times word appears in text
-	Count punctuation
-	Remove punctuation from words in array
 */
 
 
@@ -291,26 +289,29 @@ const unsigned int DynamicArray::find_word (const std::string target)
 void remove_punctuation (std::string &temp_word, unsigned int &punctuation_chars)
 {
 	
+	unsigned int left_pos;
+	unsigned int right_pos;
+	
 	for (int i = 0; i < temp_word.length (); i += 1)
 	{
 		
-		if (ispunct (temp_word[i]))
+		for (left_pos = 0; left_pos < temp_word.length (); left_pos += 1)
 		{
 			
-			if (i > 0 && i < temp_word.length ())
-			{
-				
-				if (isalpha (temp_word[i - 1]) && isalpha (temp_word[i + 1]))
-					continue;
-			}
-			
-			//std::cout << "erase \'" << temp_word[i] << '\'' << std::endl;
-			//std::cout << "next is \'" << temp_word[i + 1] << '\'' << std::endl;
-			
-			temp_word.erase (i, 1);
-			//temp_word[i] = '$';
-			punctuation_chars += 1;
+			if (isalpha (temp_word[left_pos]))
+				break;
 		}
+		
+		for (right_pos = temp_word.length () - 1; right_pos > 0; right_pos -= 1)
+		{
+			
+			if (isalpha (temp_word[right_pos]))
+				break;
+		}
+		
+		right_pos += 1;
+		punctuation_chars += (left_pos + (temp_word.length () - right_pos));
+		temp_word = temp_word.substr (left_pos, right_pos);
 	}
 }
 
@@ -341,6 +342,7 @@ int populate_array (std::ifstream &file, DynamicArray &array, unsigned int &punc
 				{
 					
 					remove_punctuation (temp_word, punctuation_chars);
+					review_for_punctuation = false;
 				}
 			
 				//std::cout << "adding \'" << temp_word << '\'' << std::endl;
@@ -354,12 +356,9 @@ int populate_array (std::ifstream &file, DynamicArray &array, unsigned int &punc
 	{
 		
 		if (review_for_punctuation)
-		{
-			
 			remove_punctuation (temp_word, punctuation_chars);
-		}
 	
-		//std::cout << "adding \'" << temp_word << '\'' << std::endl;
+		std::cout << "adding \'" << temp_word << '\'' << std::endl;
 		array.push_back (temp_word);
 	}
 	
