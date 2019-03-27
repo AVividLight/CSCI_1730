@@ -305,6 +305,8 @@ void remove_punctuation (std::string &temp_word, unsigned int &punctuation_chars
 		for (right_pos = temp_word.length () - 1; right_pos > 0; right_pos -= 1)
 		{
 			
+			//if (left_pos == right_pos) throw;
+			
 			if (isalpha (temp_word[right_pos]))
 				break;
 		}
