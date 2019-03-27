@@ -142,7 +142,7 @@ void DynamicArray::bucket_sort ()
 	for (int i = 0; i < get_data_length (); i += 1)
 	{
 		
-		if (data[i].length () <= 10)
+		if (data[i].length () - 1 <= 10)
 			buckets[data[i].length () - 1].push_back (data[i]);
 		else
 			buckets[10].push_back (data[i]);
@@ -167,7 +167,7 @@ void DynamicArray::bucket_sort ()
 		insertion_offset += buckets[b].get_data_length ();
 	}
 	
-	/* DEBUG BUCKETS
+	//DEBUG BUCKETS
 	for (int b = 0; b < 11; b += 1)
 	{
 		
@@ -178,7 +178,7 @@ void DynamicArray::bucket_sort ()
 		}
 		
 		std::cout << std::endl;
-	}*/
+	}
 }
 
 
@@ -288,23 +288,60 @@ const unsigned int DynamicArray::find_word (const std::string target)
 }
 
 
-int populate_array (std::ifstream &file, DynamicArray &array)
+void remove_punctuation (std::string &temp_word, unsigned int &punctuation_chars)
+{
+	
+	for (int i = 0; i < temp_word.length (); i += 1)
+	{
+		
+		if (ispunct (temp_word[i]))
+		{
+			
+			if (i > 0 && i < temp_word.length ())
+			{
+				
+				if (isalpha (temp_word[i - 1]) && isalpha (temp_word[i + 1]))
+					continue;
+			}
+			
+			//std::cout << "erase \'" << temp_word[i] << '\'' << std::endl;
+			//std::cout << "next is \'" << temp_word[i + 1] << '\'' << std::endl;
+			
+			temp_word.erase (i, 1);
+			//temp_word[i] = '$';
+			punctuation_chars += 1;
+		}
+	}
+}
+
+
+int populate_array (std::ifstream &file, DynamicArray &array, unsigned int &punctuation_chars)
 {
 	
 	std::string temp_word;
+	bool review_for_punctuation = false;
 	
 	char c;
 	while (file.get (c))
 	{
 		
-		if (isgraph (c)/* && !ispunct (c)*/)
+		if (isgraph (c))
 		{
-				
+			
+			if (ispunct (c))
+				review_for_punctuation = true;
+			
 			temp_word.push_back (c);
 		} else {
 			
 			if (temp_word.length () > 0)
 			{
+				
+				if (review_for_punctuation)
+				{
+					
+					remove_punctuation (temp_word, punctuation_chars);
+				}
 			
 				//std::cout << "adding \'" << temp_word << '\'' << std::endl;
 				array.push_back (temp_word);
@@ -315,6 +352,12 @@ int populate_array (std::ifstream &file, DynamicArray &array)
 	
 	if (temp_word.length () > 0)
 	{
+		
+		if (review_for_punctuation)
+		{
+			
+			remove_punctuation (temp_word, punctuation_chars);
+		}
 	
 		//std::cout << "adding \'" << temp_word << '\'' << std::endl;
 		array.push_back (temp_word);
@@ -430,14 +473,14 @@ std::string get_file_path (const char *program_name)
 }
 
 
-std::string file_statistics (DynamicArray &words)
+std::string file_statistics (DynamicArray &words, unsigned int &punctuation_chars)
 {
 	
 	std::stringstream output;
 	output << "Total number of words: " << words.get_data_length () - 1 << std::endl;
 	//output << "Total characters: " << words.chars_count () << std::endl;
-	output << "Average word length: " << ((float) words.chars_count ()/(words.get_data_length () - 1)) << std::endl; //					FINISH ME!
-	output << "Total number of punctuation characters: " << /*FINISH ME <<*/ std::endl;
+	output << "Average word length: " << ((float) words.chars_count ()/(words.get_data_length () - 1)) << std::endl;
+	output << "Total number of punctuation characters: " << punctuation_chars << std::endl;
 	output << "Shortest word length: " << words[0].length () << std::endl;
 	output << "Longest word length: " << words[words.get_data_length () - 1].length () << std::endl;
 	
@@ -473,7 +516,8 @@ int main (int argc, char const *argv[])
 		}
 		
 		DynamicArray words;
-		if (!populate_array (input_file, words))
+		unsigned int punctuation_chars = 0;
+		if (!populate_array (input_file, words, punctuation_chars))
 		{
 			
 			std::cout << "Error reading file." << std::endl;
@@ -496,7 +540,7 @@ int main (int argc, char const *argv[])
 				
 				case 1: //Statistics
 				{
-					std::string stats = file_statistics (words);
+					std::string stats = file_statistics (words, punctuation_chars);
 					std::cout << stats << std::endl;
 					output_file << stats << std::endl;
 				}
