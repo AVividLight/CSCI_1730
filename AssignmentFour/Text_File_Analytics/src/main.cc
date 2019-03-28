@@ -1,10 +1,4 @@
 /*
-TODO:
-	Search word needs to return how many times word appears in text
-*/
-
-
-/*
 Bryant Yaurincela
 Logan Kreun
 Michael Bethke
@@ -166,7 +160,7 @@ void DynamicArray::bucket_sort ()
 	}
 	
 	//DEBUG BUCKETS
-	for (int b = 0; b < 11; b += 1)
+	/*for (int b = 0; b < 11; b += 1)
 	{
 		
 		for (int w = 0; w < buckets[b].get_data_length (); w += 1)
@@ -176,7 +170,7 @@ void DynamicArray::bucket_sort ()
 		}
 		
 		std::cout << std::endl;
-	}
+	}*/
 }
 
 
@@ -360,7 +354,7 @@ int populate_array (std::ifstream &file, DynamicArray &array, unsigned int &punc
 		if (review_for_punctuation)
 			remove_punctuation (temp_word, punctuation_chars);
 	
-		std::cout << "adding \'" << temp_word << '\'' << std::endl;
+		//std::cout << "adding \'" << temp_word << '\'' << std::endl;
 		array.push_back (temp_word);
 	}
 	
@@ -569,11 +563,12 @@ int main (int argc, char const *argv[])
 				{
 					
 					std::string search_word = get_word ();
-					if (words.find_word (search_word))
+					unsigned int quantity_of_words = words.find_word (search_word);
+					if (quantity_of_words > 0)
 					{
 						
-						std::cout << search_word << " exists in file." << std::endl;
-						output_file << search_word << " exists in file." << std::endl;
+						std::cout << search_word << " is used " << quantity_of_words << " time(s) in the file." << std::endl;
+						output_file << search_word << " is used " << quantity_of_words << " time(s) in the file." << std::endl;
 					} else {
 						
 						std::cout << search_word << " does not exist in file." << std::endl;
