@@ -1,4 +1,4 @@
-Incomplete as of 3/28/2019
+Incomplete as of 4/01/2019
 ===
 
 Vectors are math quantities that have both magnitude and direction. This problem involves the use of two-dimensional vectors – here are the math details:
@@ -33,6 +33,7 @@ Note: The assignment operator of your base `Pairs` class will not be inherited i
 
 
 To exercise your new collection of classes, use this main program:
+
 <pre>int main()
 {
    int sel;
