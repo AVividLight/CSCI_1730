@@ -93,7 +93,6 @@ private:
 	
 	float divide_input (const char *input, unsigned int &start_index);
 	void operations ();
-	void equation ();
 };
 
 
@@ -220,50 +219,6 @@ std::istream &operator>> (std::istream &is, Complex_Number &number)
 }
 
 
-void complex ()
-{
-	
-	Complex_Number number_one;
-	Complex_Number number_two;
-	
-	std::cout << "Enter an operation (+, -, *, /, =): ";
-	char op;
-	std::cin >> op;
-	
-	switch (op)
-	{
-		
-		case '+':
-		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one + number_two;
-		break;
-		
-		case '-':
-		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one - number_two;
-		break;
-		
-		case '*':
-		case 'x':
-		case 'X':
-		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one * number_two;
-		break;
-		
-		case '/':
-		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one / number_two;
-		break;
-		
-		case '=':
-		number_one.equation ();
-		break;
-		
-		default:
-		std::cout << "unknown operation";
-		break;
-	}
-	
-	std::cout << std::endl << std::endl;
-}
-
-
 Complex_Number calculate_equation (const float a, const float b, const float c, bool add)
 {
 
@@ -315,7 +270,7 @@ float get_equation_input (const char coefficient, const bool &nonzero = false)
 }
 
 
-void Complex_Number::equation ()
+void complex_equation ()
 {
 	
 	std::cout << "Quadratic Cofficients:" << std::endl;
@@ -333,6 +288,50 @@ void Complex_Number::equation ()
 		std::cout << user_number << " is a solution to the quadratic equation." << std::endl;
 	else
 		std::cout << user_number << " is not a solution to the quadratic equation." << std::endl;
+}
+
+
+void complex ()
+{
+	
+	Complex_Number number_one;
+	Complex_Number number_two;
+	
+	std::cout << "Enter an operation (+, -, *, /, =): ";
+	char op;
+	std::cin >> op;
+	
+	switch (op)
+	{
+		
+		case '+':
+		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one + number_two;
+		break;
+		
+		case '-':
+		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one - number_two;
+		break;
+		
+		case '*':
+		case 'x':
+		case 'X':
+		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one * number_two;
+		break;
+		
+		case '/':
+		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one / number_two;
+		break;
+		
+		case '=':
+		complex_equation ();
+		break;
+		
+		default:
+		std::cout << "unknown operation";
+		break;
+	}
+	
+	std::cout << std::endl << std::endl;
 }
 
 
@@ -376,7 +375,8 @@ void cActions ()
 			break;
 			
 			case 3:
-			operations ();
+			complex ();
+			//operations ();
 			break;
 			
 			default:

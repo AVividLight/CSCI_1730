@@ -6,6 +6,8 @@ class Shape
 {
 
 public:
+	//Shape (std::size_t dim) {set_size (dim);}
+	Shape (std::size_t dim);
 	
 	virtual void display () = 0;
 	virtual void GetDimensions () = 0;
@@ -13,80 +15,130 @@ public:
 	virtual void Perimeter () = 0;
 	virtual void Volume () = 0;
 	
+	void set_size (int dim) {size = dim;}
+	const std::size_t get_size () const {return size;}
+	
 private:
-
+	float *dimension;
+	std::size_t size;
 };
+
+
+Shape::Shape (std::size_t dim)
+{
+	
+	dimension = new float[dim];
+	size = dim;
+}
+
 
 
 class Rectangle : public Shape
 {
 
-	void display ();
-    void GetDimensions ();
-    void Area ();
-    void Perimeter ();
-    void Volume ();
-};
-
-class Circle : public Shape
-{
-
-	void display ();
-    void GetDimensions ();
-    void Area ();
-    void Perimeter ();
-    void Volume ();
-};
-
-class Triangle : public Shape
-{
-
-	void display ();
-    void GetDimensions ();
-    void Area ();
-    void Perimeter ();
-    void Volume ();
-};
-
-class Box : public Shape
-{
-
-	void display ();
-    void GetDimensions ();
-    void Area ();
-    void Perimeter ();
-    void Volume ();
-};
-
-class Can : public Shape
-{
-
-	void display ();
-    void GetDimensions ();
-    void Area ();
-    void Perimeter ();
-    void Volume ();
-};
-
-class Cone : public Shape
-{
+public:
+	Rectangle ();
 	
 	void display ();
     void GetDimensions ();
     void Area ();
     void Perimeter ();
     void Volume ();
+	
+private:
 };
 
-class Ball : public Shape
+
+Rectangle::Rectangle () : Shape (2)
 {
+	
+	
+}
+
+/*class Circle : public Shape
+{
+
+public:
+	
+	void display ();
+    void GetDimensions ();
+    void Area ();
+    void Perimeter ();
+    void Volume ();
+	
+private:
+};
+
+class Triangle : public Shape
+{
+	
+public:
 
 	void display ();
     void GetDimensions ();
     void Area ();
     void Perimeter ();
     void Volume ();
+	
+private:
 };
+
+class Box : public Shape
+{
+	
+public:
+
+	void display ();
+    void GetDimensions ();
+    void Area ();
+    void Perimeter ();
+    void Volume ();
+	
+private:
+};
+
+class Can : public Shape
+{
+	
+public:
+
+	void display ();
+    void GetDimensions ();
+    void Area ();
+    void Perimeter ();
+    void Volume ();
+	
+private:
+};
+
+class Cone : public Shape
+{
+	
+public:
+	
+	void display ();
+    void GetDimensions ();
+    void Area ();
+    void Perimeter ();
+    void Volume ();
+	
+private:
+};
+
+class Ball : public Shape
+{
+	
+public:
+
+	void display ();
+    void GetDimensions ();
+    void Area ();
+    void Perimeter ();
+    void Volume ();
+	
+private:
+};
+*/
 
 
 const char get_input ()
@@ -118,7 +170,10 @@ int main (int argc, char const *argv[])
 	
 	std::cout << "Project 3 from Assignment 4" << std::endl << "Pure Virtual Shapes" << std::endl << "This program uses pure virtual functions to model primitive shapes." << std::endl << std::endl;
 	
-	Shape *shapes;
+	//Shapes *shapes;
+	//Shape shape;
+	
+	Rectangle rect;
 	
 	do
 	{

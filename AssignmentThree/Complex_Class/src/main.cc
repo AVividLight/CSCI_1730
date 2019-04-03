@@ -29,6 +29,7 @@ public:
 	friend Complex_Number operator- (const Complex_Number &number_one, const Complex_Number &number_two);
 	friend Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two);
 	friend Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two);
+	friend bool operator== (const Complex_Number &number_one, const Complex_Number &number_two);
 	friend std::ostream &operator<< (std::ostream &os, const Complex_Number number);
 	friend std::istream &operator>> (std::istream &is, Complex_Number &number);
 
@@ -164,6 +165,13 @@ Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number
 }
 
 
+bool operator== (const Complex_Number &number_one, const Complex_Number &number_two)
+{
+	
+	return ((number_one.real_part - number_two.real_part < 0.0000001 && number_one.imaginary_part - number_two.imaginary_part < 0.0000001) ? true : false);
+}
+
+
 std::ostream &operator<< (std::ostream &os, const Complex_Number number)
 {
 	
@@ -295,8 +303,11 @@ void equation ()
 	std::cout << std::endl << "Complex Solution:" << std::endl;
 	Complex_Number user_number;
 	
-	bool is_addition_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
-	bool is_subtraction_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
+	bool is_addition_solution = (user_number == calculate_equation (a, b, c, true));
+	bool is_subtraction_solution = (user_number == calculate_equation (a, b, c, false));
+	
+	//bool is_addition_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
+	//bool is_subtraction_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
 	
 	if (is_addition_solution == true || is_subtraction_solution == true)
 		std::cout << user_number << " is a solution to the quadratic equation." << std::endl;
