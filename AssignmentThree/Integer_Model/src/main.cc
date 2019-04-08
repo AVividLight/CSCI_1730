@@ -209,7 +209,7 @@ Sets::Sets ()
 	std::cout << "Enter number of sets to model between 2 and 26 (J = 10): ";
 	quantity = get_input (2, 26);
 	
-	delete[] sets;
+	//delete[] sets;
 	sets = new IntSet [quantity];
 	name_sets ();
 }
