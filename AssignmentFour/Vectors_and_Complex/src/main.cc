@@ -154,6 +154,22 @@ Complex_Number::Complex_Number (float a, float b)
 }
 
 
+Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two)
+{
+
+	return Complex_Number (((number_one.get_real () * number_two.get_real ()) - (number_one.get_imaginary () * number_two.get_imaginary ())), (number_one.get_imaginary () * number_two.get_real ()) + (number_two.get_imaginary () * number_one.get_real ()));
+}
+
+
+Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two)
+{
+	
+	float denominator = ((number_two.get_real () * number_two.get_real ()) + (number_two.get_imaginary () * number_two.get_imaginary ()));
+	
+	return Complex_Number (((number_one.get_real () * number_two.get_real ()) + (number_one.get_imaginary () * number_two.get_imaginary ()))/denominator, ((number_one.get_imaginary () * number_two.get_real ()) - (number_one.get_real () * number_two.get_imaginary ()))/denominator);;
+}
+
+
 void store_complex (Complex_Number *numbers)
 {
 	
@@ -198,6 +214,125 @@ void display_complex (Complex_Number *numbers)
 }
 
 
+float get_equation_input (const char coefficient, const bool &nonzero = false)
+{
+	
+	float value;
+	
+	while (true)
+	{
+		
+		std::cout << "Enter a value for " << coefficient << ": ";
+		std::cin >> value;
+		
+		if (value != 0)
+			break;
+		else if (nonzero == true)
+		{
+			
+			std::cout << coefficient << " may not be 0." << std::endl;
+		} else
+			break;
+	}
+	
+	return value;
+}
+
+
+Complex_Number calculate_equation (const float a, const float b, const float c, bool add)
+{
+
+	const float radicand = ((b*b) - 4*a*c);
+	
+	if (radicand == 0) //Case: (b^2 - 4ac = 0) : REPEATED
+	{
+		
+		return (*new Complex_Number ((((-1)*b + sqrt(radicand))/(a*2)), 0));
+	} else if (radicand > 0) { //Case: (b^2 - 4ac > 0) : TWO REAL
+		
+		if (add)
+			return (*new Complex_Number ((((-1)*b + sqrt(radicand))/(a*2)), 0));
+		else
+			return (*new Complex_Number ((((-1)*b - sqrt(radicand))/(a*2)), 0));
+		
+	} else { //Case: (b^2 - 4ac < 0) : IMAGINARY (*(-1) + 'i')
+		
+		if (add)
+			return (*new Complex_Number ((((-1)*b)/2*a), sqrt((-1)*radicand)/(2*a)));
+		else
+			return (*new Complex_Number ((((-1)*b)/2*a), (-1)*sqrt((-1)*radicand)/(2*a)));
+	}
+}
+
+
+void complex_equation ()
+{
+	
+	std::cout << "Quadratic Cofficients:" << std::endl;
+	const float a = get_equation_input ('A', true);
+	const float b = get_equation_input ('B');
+	const float c = get_equation_input ('C');
+	
+	std::cout << std::endl << "Complex Solution:" << std::endl;
+	Complex_Number user_number;
+	
+	bool is_addition_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
+	bool is_subtraction_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
+	
+	if (is_addition_solution == true || is_subtraction_solution == true)
+		std::cout << user_number << " is a solution to the quadratic equation." << std::endl;
+	else
+		std::cout << user_number << " is not a solution to the quadratic equation." << std::endl;
+}
+
+
+void complex_arithmatic (Complex_Number *numbers)
+{
+	
+	std::cout << "Enter an operation (+, -, *, /, =): ";
+	char *op = new char [1];
+	std::cin.getline (op, 1);
+	
+	if (op[0] == '=')
+	{
+		
+		complex_equation ();
+	} else {
+	
+		Complex_Number number_one;
+		Complex_Number number_two;
+		
+		switch (op[0])
+		{
+			
+			case '+':
+			std::cout << std::endl << number_one << ' ' << op[0] << ' ' << number_two << " = " << number_one + number_two;
+			break;
+			
+			case '-':
+			std::cout << std::endl << number_one << ' ' << op[0] << ' ' << number_two << " = " << number_one - number_two;
+			break;
+			
+			case '*':
+			case 'x':
+			case 'X':
+			std::cout << std::endl << number_one << ' ' << op[0] << ' ' << number_two << " = " << number_one * number_two;
+			break;
+			
+			case '/':
+			std::cout << std::endl << number_one << ' ' << op[0] << ' ' << number_two << " = " << number_one / number_two;
+			break;
+			
+			default:
+			std::cout << "unknown operation";
+			break;
+		}
+	}
+	
+	std::cout << std::endl << std::endl;
+}
+
+
 void cActions ()
 {	
 	
@@ -225,7 +360,7 @@ void cActions ()
 			break;
 			
 			case 3:
-			//complex (numbers);
+			complex_arithmatic (numbers);
 			break;
 			
 			default:
