@@ -1,14 +1,14 @@
-Incomplete as of 4/01/2019
+Incomplete as of 4/09/2019
 ===
 
 Vectors are math quantities that have both magnitude and direction. This problem involves the use of two-dimensional vectors – here are the math details:
 
-- A two-dimensional vector is a directed line segment from the origin of the xy-plane to a point, (a,b). This vector is denoted `<a,b>`.
-- Vector addition/subtraction: Two vectors can be added or subtracted resulting in a vector: 
+> - A two-dimensional vector is a directed line segment from the origin of the xy-plane to a point, (a,b). This vector is denoted `<a,b>`.
+> - Vector addition/subtraction: Two vectors can be added or subtracted resulting in a vector: 
 `<a,b> + <c,d> = <a+c,b+d>`  or  `<a,b> – <c,d> = <a–c,b–d>`
-- Vector dot product:  Two vectors can be multiplied resulting in a number – this operation is called the dot product of two vectors: `<a,b> * <c,d> = ac+bd`
-- Vector/scalar multiplication: A vector can be multiplied by a scalar (a number) resulting in a vector; for any scalar r, `<a,b>*r = <ra, rb>`
-- Equality of vectors: `<a,b> = <c,d>` means a = c and b = d.
+> - Vector dot product:  Two vectors can be multiplied resulting in a number – this operation is called the dot product of two vectors: `<a,b> * <c,d> = ac+bd`
+> - Vector/scalar multiplication: A vector can be multiplied by a scalar (a number) resulting in a vector; for any scalar r, `<a,b>*r = <ra, rb>`
+> - Equality of vectors: `<a,b> = <c,d>` means a = c and b = d.
 
 In the last two assignments, you wrote programs that modeled complex numbers. Once again, here are the math details:
 

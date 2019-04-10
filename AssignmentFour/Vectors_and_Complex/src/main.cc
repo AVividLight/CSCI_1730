@@ -1,12 +1,3 @@
-/*
-Bryant Yaurincela
-Logan Kreun
-Michael Bethke
-CSCI 1730-01
-Group 7
-*/
-
-
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
@@ -66,7 +57,7 @@ std::ostream &operator<< (std::ostream &os, const Pairs number)
 {
 	
 	os << number.leading_number;
-	if (!(number.trailing_number < 0))
+	if (number.trailing_number >= 0)
 		os << '+';
 	
 	os << number.trailing_number << 'i';
@@ -74,80 +65,7 @@ std::ostream &operator<< (std::ostream &os, const Pairs number)
 }
 
 
-class Complex_Number : public Pairs
-{
-	
-public:
-	
-	Complex_Number (bool create = false);
-	Complex_Number (float a, float b);
-	
-	const float get_real () const {return leading_number;}
-	const float get_imaginary () const {return trailing_number;}
-	
-	friend Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two);
-	friend Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two);
-	
-	friend std::istream &operator>> (std::istream &is, Complex_Number &number);
-private:
-	
-	float divide_input (const char *input, unsigned int &start_index);
-	void operations ();
-};
-
-
-Complex_Number::Complex_Number (bool create)
-{
-	
-	if (create)
-	{
-		
-		std::cout << "Enter a complex number: ";
-		std::cin.ignore ();
-		
-		char *input = new char [MAXIMUM_INPUT];
-		std::cin.getline (input, MAXIMUM_INPUT);
-    	
-		unsigned int index = 0;
-		leading_number = divide_input (input, index);
-		trailing_number = divide_input (input, index);
-	}
-}
-
-
-Complex_Number::Complex_Number (float a, float b)
-{
-	
-	leading_number = a;
-	trailing_number = b;
-}
-
-
-Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two)
-{
-
-	return Complex_Number (((number_one.get_real () * number_two.get_real ()) - (number_one.get_imaginary () * number_two.get_imaginary ())), (number_one.get_imaginary () * number_two.get_real ()) + (number_two.get_imaginary () * number_one.get_real ()));
-}
-
-
-Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two)
-{
-	
-	float denominator = ((number_two.get_real () * number_two.get_real ()) + (number_two.get_imaginary () * number_two.get_imaginary ()));
-	
-	return Complex_Number (((number_one.get_real () * number_two.get_real ()) + (number_one.get_imaginary () * number_two.get_imaginary ()))/denominator, ((number_one.get_imaginary () * number_two.get_real ()) - (number_one.get_real () * number_two.get_imaginary ()))/denominator);;
-}
-
-
-
-struct Solution_Set {
-	Complex_Number additive_result;
-	Complex_Number subtractive_result;
-	bool single_result;
-};
-
-
-float Complex_Number::divide_input (const char *input, unsigned int &start_index)
+float divide_input (const char *input, unsigned int &start_index)
 {
 	
 	char *target_array = new char [MAXIMUM_INPUT];
@@ -209,152 +127,75 @@ float Complex_Number::divide_input (const char *input, unsigned int &start_index
 }
 
 
-std::istream &operator>> (std::istream &is, Complex_Number &number)
+class Complex_Number : public Pairs
 {
 	
-	char *input = new char [MAXIMUM_INPUT];
-	is.getline (input, MAXIMUM_INPUT);
-
-	unsigned int index = 0;
-	number.leading_number = number.divide_input (input, index);
-	number.trailing_number = number.divide_input (input, index);
-	
-	return is;
-}
-
-
-Complex_Number calculate_equation (const float a, const float b, const float c, bool add)
-{
-
-	const float radicand = ((b*b) - 4*a*c);
-	
-	if (radicand == 0) //Case: (b^2 - 4ac = 0) : REPEATED
-	{
-		
-		return (*new Complex_Number ((((-1)*b + sqrt(radicand))/(a*2)), 0));
-	} else if (radicand > 0) { //Case: (b^2 - 4ac > 0) : TWO REAL
-		
-		if (add)
-			return (*new Complex_Number ((((-1)*b + sqrt(radicand))/(a*2)), 0));
-		else
-			return (*new Complex_Number ((((-1)*b - sqrt(radicand))/(a*2)), 0));
-		
-	} else { //Case: (b^2 - 4ac < 0) : IMAGINARY (*(-1) + 'i')
-		
-		if (add)
-			return (*new Complex_Number ((((-1)*b)/2*a), sqrt((-1)*radicand)/(2*a)));
-		else
-			return (*new Complex_Number ((((-1)*b)/2*a), (-1)*sqrt((-1)*radicand)/(2*a)));
-	}
-}
-
-
-float get_equation_input (const char coefficient, const bool &nonzero = false)
-{
-	
-	float value;
-	
-	while (true)
-	{
-		
-		std::cout << "Enter a value for " << coefficient << ": ";
-		std::cin >> value;
-		
-		if (value != 0)
-			break;
-		else if (nonzero == true)
-		{
-			
-			std::cout << coefficient << " may not be 0." << std::endl;
-		} else
-			break;
-	}
-	
-	return value;
-}
-
-
-void complex_equation ()
-{
-	
-	std::cout << "Quadratic Cofficients:" << std::endl;
-	const float a = get_equation_input ('A', true);
-	const float b = get_equation_input ('B');
-	const float c = get_equation_input ('C');
-	
-	std::cout << std::endl << "Complex Solution:" << std::endl;
-	Complex_Number user_number;
-	
-	bool is_addition_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
-	bool is_subtraction_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
-	
-	if (is_addition_solution == true || is_subtraction_solution == true)
-		std::cout << user_number << " is a solution to the quadratic equation." << std::endl;
-	else
-		std::cout << user_number << " is not a solution to the quadratic equation." << std::endl;
-}
-
-
-void complex ()
-{
-	
-	std::cout << "Enter an operation (+, -, *, /, =): ";
-	char op;
-	std::cin >> op;
-	
-	if (op == '=')
-	{
-		
-		complex_equation ();
-	} else {
-	
-		Complex_Number number_one = ;
-		Complex_Number number_two;
-		
-		switch (op)
-		{
-			
-			case '+':
-			std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one + number_two;
-			break;
-			
-			case '-':
-			std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one - number_two;
-			break;
-			
-			case '*':
-			case 'x':
-			case 'X':
-			std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one * number_two;
-			break;
-			
-			case '/':
-			std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one / number_two;
-			break;
-			
-			default:
-			std::cout << "unknown operation";
-			break;
-		}
-	}
-	
-	std::cout << std::endl << std::endl;
-}
-
-
-class Vector : public Pairs
-{
-
 public:
+	Complex_Number (float a = 0, float b = 0);
 	
-	Vector (float a = 0.0, float b = 0.0);
+	const float get_real () const {return leading_number;}
+	const float get_imaginary () const {return trailing_number;}
 	
-	friend Vector operator* (const Vector &number_one, const Vector &number_two);
-	friend Vector operator* (const Vector &number_one, const float number_two);
+	friend Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two);
+	friend Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two);
+	
+	//friend std::istream &operator>> (std::istream &is, Complex_Number &number);
 	
 private:
-
+	void operations ();
 };
+
+
+Complex_Number::Complex_Number (float a, float b)
+{
+	
+	leading_number = a;
+	trailing_number = b;
+}
+
+
+void store_complex (Complex_Number *numbers)
+{
+	
+	std::cout << "Enter a complex number: ";
+	
+	char *input = new char [MAXIMUM_INPUT];
+	std::cin.getline (input, MAXIMUM_INPUT);
+	
+	unsigned int index = 0;
+	Complex_Number temp (divide_input (input, index), divide_input (input, index));
+	
+	do
+	{
+		
+		std::cout << "Where do you want to store " << temp << " (a-z): ";
+	
+		std::cin.getline (input, MAXIMUM_INPUT);
+		input[0] = tolower (input[0]);
+		
+	} while (input[0] < 'a' || input[0] > 'z');
+	
+	numbers[input[0] - 'a'] = temp;
+}
+
+
+void display_complex (Complex_Number *numbers)
+{
+	
+	char *index = new char [MAXIMUM_INPUT];
+	
+	do
+	{
+		
+		std::cout << "Which complex number do you want to display (a-z): ";
+		
+		std::cin.getline (index, MAXIMUM_INPUT);
+		index[0] = tolower (index[0]);
+		
+	} while (index[0] < 'a' || index[0] > 'z');
+	
+	std::cout << numbers[index[0]- 'a'] << std::endl;
+}
 
 
 void cActions ()
@@ -376,14 +217,15 @@ void cActions ()
 		{
 			
 			case 1:
+			store_complex (numbers);
 			break;
 			
 			case 2:
+			display_complex (numbers);
 			break;
 			
 			case 3:
-			complex ();
-			//operations ();
+			//complex (numbers);
 			break;
 			
 			default:
@@ -393,28 +235,6 @@ void cActions ()
 	} while (menu_choice != 4);
 	
 	std::cout << std::endl;
-}
-
-
-Vector::Vector (float a, float b)
-{
-	
-	leading_number = a;
-	trailing_number = b;
-}
-
-
-Vector operator* (const Vector &number_one, const Vector &number_two)
-{
-
-	return Vector ((number_one.leading_number * number_two.leading_number), (number_one.trailing_number * number_two.trailing_number));
-}
-
-
-Vector operator* (const Vector &number_one, const float number_two)
-{
-
-	return Vector ((number_one.leading_number * number_two), (number_one.trailing_number * number_two));
 }
 
 
