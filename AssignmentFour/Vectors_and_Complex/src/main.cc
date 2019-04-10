@@ -79,7 +79,7 @@ class Complex_Number : public Pairs
 	
 public:
 	
-	Complex_Number ();
+	Complex_Number (bool create = false);
 	Complex_Number (float a, float b);
 	
 	const float get_real () const {return leading_number;}
@@ -96,18 +96,22 @@ private:
 };
 
 
-Complex_Number::Complex_Number ()
+Complex_Number::Complex_Number (bool create)
 {
 	
-	std::cout << "Enter a complex number: ";
-	std::cin.ignore ();
-	
-	char *input = new char [MAXIMUM_INPUT];
-	std::cin.getline (input, MAXIMUM_INPUT);
-
-	unsigned int index = 0;
-	leading_number = divide_input (input, index);
-	trailing_number = divide_input (input, index);
+	if (create)
+	{
+		
+		std::cout << "Enter a complex number: ";
+		std::cin.ignore ();
+		
+		char *input = new char [MAXIMUM_INPUT];
+		std::cin.getline (input, MAXIMUM_INPUT);
+    	
+		unsigned int index = 0;
+		leading_number = divide_input (input, index);
+		trailing_number = divide_input (input, index);
+	}
 }
 
 
@@ -294,41 +298,44 @@ void complex_equation ()
 void complex ()
 {
 	
-	Complex_Number number_one;
-	Complex_Number number_two;
-	
 	std::cout << "Enter an operation (+, -, *, /, =): ";
 	char op;
 	std::cin >> op;
 	
-	switch (op)
+	if (op == '=')
 	{
 		
-		case '+':
-		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one + number_two;
-		break;
-		
-		case '-':
-		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one - number_two;
-		break;
-		
-		case '*':
-		case 'x':
-		case 'X':
-		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one * number_two;
-		break;
-		
-		case '/':
-		std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one / number_two;
-		break;
-		
-		case '=':
 		complex_equation ();
-		break;
+	} else {
+	
+		Complex_Number number_one = ;
+		Complex_Number number_two;
 		
-		default:
-		std::cout << "unknown operation";
-		break;
+		switch (op)
+		{
+			
+			case '+':
+			std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one + number_two;
+			break;
+			
+			case '-':
+			std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one - number_two;
+			break;
+			
+			case '*':
+			case 'x':
+			case 'X':
+			std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one * number_two;
+			break;
+			
+			case '/':
+			std::cout << std::endl << number_one << ' ' << op << ' ' << number_two << " = " << number_one / number_two;
+			break;
+			
+			default:
+			std::cout << "unknown operation";
+			break;
+		}
 	}
 	
 	std::cout << std::endl << std::endl;
