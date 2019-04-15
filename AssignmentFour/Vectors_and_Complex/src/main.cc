@@ -18,7 +18,6 @@ public:
 	
 	friend std::ostream &operator<< (std::ostream &os, const Pairs number);
 	
-protected:
 	float leading_number;
 	float trailing_number;
 };
@@ -32,21 +31,24 @@ Pairs::Pairs (float a, float b)
 }
 
 
-Pairs operator+ (const Pairs &number_one, const Pairs &number_two)
+template <class T>
+T operator+ (const T &number_one, const T &number_two)
 {
 	
-	return Pairs ((number_one.leading_number + number_two.leading_number), (number_one.trailing_number + number_two.trailing_number));
+	return T ((number_one.leading_number + number_two.leading_number), (number_one.trailing_number + number_two.trailing_number));
 }
 
 
-Pairs operator- (const Pairs &number_one, const Pairs &number_two)
+template <class T>
+T operator- (const T &number_one, const T &number_two)
 {
 	
-	return Pairs ((number_one.leading_number - number_two.leading_number), (number_one.trailing_number - number_two.trailing_number));
+	return T ((number_one.leading_number - number_two.leading_number), (number_one.trailing_number - number_two.trailing_number));
 }
 
 
-bool operator== (const Pairs &number_one, const Pairs &number_two)
+template <class T>
+bool operator== (const T &number_one, const T &number_two)
 {
 	
 	return ((number_one.leading_number == number_two.leading_number && number_one.trailing_number == number_two.trailing_number) ? true : false);
@@ -170,6 +172,24 @@ Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number
 }
 
 
+void set_complex (Complex_Number &store, Complex_Number *numbers)
+{
+	
+	char *input = new char [MAXIMUM_INPUT];
+	do
+	{
+		
+		std::cout << "Where do you want to store " << store << " (a-z): ";
+	
+		std::cin.getline (input, MAXIMUM_INPUT);
+		input[0] = tolower (input[0]);
+		
+	} while (input[0] < 'a' || input[0] > 'z');
+	
+	numbers[input[0] - 'a'] = store;
+}
+
+
 void store_complex (Complex_Number *numbers)
 {
 	
@@ -181,21 +201,11 @@ void store_complex (Complex_Number *numbers)
 	unsigned int index = 0;
 	Complex_Number temp (divide_input (input, index), divide_input (input, index));
 	
-	do
-	{
-		
-		std::cout << "Where do you want to store " << temp << " (a-z): ";
-	
-		std::cin.getline (input, MAXIMUM_INPUT);
-		input[0] = tolower (input[0]);
-		
-	} while (input[0] < 'a' || input[0] > 'z');
-	
-	numbers[input[0] - 'a'] = temp;
+	set_complex (temp, numbers);
 }
 
 
-void display_complex (Complex_Number *numbers)
+Complex_Number &get_complex (Complex_Number *numbers)
 {
 	
 	char *index = new char [MAXIMUM_INPUT];
@@ -203,14 +213,21 @@ void display_complex (Complex_Number *numbers)
 	do
 	{
 		
-		std::cout << "Which complex number do you want to display (a-z): ";
+		std::cout << "Which complex number do you want to access (a-z): ";
 		
 		std::cin.getline (index, MAXIMUM_INPUT);
 		index[0] = tolower (index[0]);
 		
 	} while (index[0] < 'a' || index[0] > 'z');
 	
-	std::cout << numbers[index[0]- 'a'] << std::endl;
+	return numbers[index[0] - 'a'];
+}
+
+
+void display_complex (Complex_Number *numbers)
+{
+	
+	std::cout << get_complex (numbers) << std::endl;
 }
 
 
@@ -290,8 +307,8 @@ void complex_arithmatic (Complex_Number *numbers)
 {
 	
 	std::cout << "Enter an operation (+, -, *, /, =): ";
-	char *op = new char [1];
-	std::cin.getline (op, 1);
+	char *op = new char [2];
+	std::cin.getline (op, 2);
 	
 	if (op[0] == '=')
 	{
@@ -299,32 +316,40 @@ void complex_arithmatic (Complex_Number *numbers)
 		complex_equation ();
 	} else {
 	
-		Complex_Number number_one;
-		Complex_Number number_two;
+		Complex_Number &number_one = get_complex (numbers);
+		
+		std::cout << "Second number:" << std::endl;
+		Complex_Number &number_two = get_complex (numbers);
+		
+		Complex_Number result;
 		
 		switch (op[0])
 		{
 			
 			case '+':
-			std::cout << std::endl << number_one << ' ' << op[0] << ' ' << number_two << " = " << number_one + number_two;
+			result = number_one + number_two;
+			set_complex (result, numbers);
 			break;
 			
 			case '-':
-			std::cout << std::endl << number_one << ' ' << op[0] << ' ' << number_two << " = " << number_one - number_two;
+			result = number_one - number_two;
+			set_complex (result, numbers);
 			break;
 			
 			case '*':
 			case 'x':
 			case 'X':
-			std::cout << std::endl << number_one << ' ' << op[0] << ' ' << number_two << " = " << number_one * number_two;
+			result = number_one * number_two;
+			set_complex (result, numbers);
 			break;
 			
 			case '/':
-			std::cout << std::endl << number_one << ' ' << op[0] << ' ' << number_two << " = " << number_one / number_two;
+			result = number_one / number_two;
+			set_complex (result, numbers);
 			break;
 			
 			default:
-			std::cout << "unknown operation";
+			std::cout << op[0] << " is an unknown operation";
 			break;
 		}
 	}
