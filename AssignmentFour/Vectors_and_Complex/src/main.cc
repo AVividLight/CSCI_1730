@@ -365,50 +365,75 @@ void complex_arithmatic (Complex_Number *numbers)
 }
 
 
-void cActions ()
-{	
+static const char *MENU_OPTIONS[4] = {"Store an Expression" , "Display an Expression", "Display a Scalar", "Perform Arithmatic or Equality Check"};
+
+
+#define cActions() menu(true)
+#define vActions() menu(false)
+void menu (bool complex)
+{
 	
 	unsigned short int menu_choice;
 	Complex_Number numbers[26];
 	
 	do
 	{
+	
+		std::cout << "Select an operation:" << std::endl;
+		
+		unsigned short int count = 1;
+		for (int i = 0; i < 4; i += 1)
+		{
 			
-		std::cout << "Select an operation:" << std::endl << "\t1 - Store a Complex Number" << std::endl << "\t2 - Display a Complex Number" << std::endl << "\t3 - Perform Complex Number Arithmatic or Equality Check" << std::endl << "\t4 - Return" << std::endl;
+			if (complex && i == 2)
+				continue;
+			
+			std::cout << "\t" << count << " - " << MENU_OPTIONS[i] << std::endl;
+			count += 1;
+		}
+		
+		std::cout << "\t0 - Exit" << std::endl;
 		
 		std::cin >> menu_choice;
 		std::cin.clear ();
-		std::cin.ignore (1000, '\n');
+		std::cin.ignore ();
 		
 		switch (menu_choice)
 		{
 			
 			case 1:
-			store_complex (numbers);
+			if (complex)
+				store_complex (numbers);
+			else
+				break;//store_vector
 			break;
 			
 			case 2:
-			display_complex (numbers);
+			if (complex)
+				display_complex (numbers);
+			else
+				break;//display_vector
 			break;
 			
 			case 3:
-			complex_arithmatic (numbers);
+			if (complex)
+				complex_arithmatic (numbers);
+			else
+				break;//display_scalar
+			break;
+			
+			case 4:
+			if(!complex)
+				break;//vector_arithmatic
 			break;
 			
 			default:
 			break;
 		}
 		
-	} while (menu_choice != 4);
+	} while (menu_choice != 0);
 	
 	std::cout << std::endl;
-}
-
-
-void vActions ()
-{
-	
-	
 }
 
 
