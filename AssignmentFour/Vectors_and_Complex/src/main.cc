@@ -3,7 +3,8 @@
 #include <cstdlib>
 
 
-const static unsigned int MAXIMUM_INPUT = 256;
+static const unsigned int MAXIMUM_INPUT = 256;
+static const char *MENU_OPTIONS[4] = {"Store an Expression" , "Display an Expression", "Display a Scalar", "Perform Arithmatic or Equality Check"};
 
 
 class Pairs
@@ -172,7 +173,35 @@ Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number
 }
 
 
-void set_complex (Complex_Number &store, Complex_Number *numbers)
+class Vector : public Pairs
+{
+	
+public:
+	Vector (float a = 0, float b = 0);
+	
+	const float get_real () const {return leading_number;}
+	const float get_imaginary () const {return trailing_number;}
+	
+	friend Vector operator* (const Vector &number_one, const Vector &number_two);
+	friend Vector operator* (const float scalar, const Vector &number_one);
+	friend Vector operator/ (const Vector &number_one, const Vector &number_two);
+	
+	//friend std::istream &operator>> (std::istream &is, Vector &number);
+	
+private:
+	void operations ();
+};
+
+
+Vector::Vector (float a, float b)
+{
+	
+	leading_number = a;
+	trailing_number = b;
+}
+
+
+void set_number (Pairs *store, Pairs *numbers[])
 {
 	
 	char *input = new char [MAXIMUM_INPUT];
@@ -190,7 +219,40 @@ void set_complex (Complex_Number &store, Complex_Number *numbers)
 }
 
 
-void store_complex (Complex_Number *numbers)
+void store_number (Pairs *numbers[])
+{
+	
+	std::cout << "Enter an expression: ";
+	
+	char *input = new char [MAXIMUM_INPUT];
+	std::cin.getline (input, MAXIMUM_INPUT);
+	
+	unsigned int index = 0;
+	Complex_Number temp (divide_input (input, index), divide_input (input, index));
+	
+	set_number (&temp, numbers);
+}
+
+
+/*void set_complex (Complex_Number &store, Complex_Number *numbers)
+{
+	
+	char *input = new char [MAXIMUM_INPUT];
+	do
+	{
+		
+		std::cout << "Where do you want to store " << store << " (a-z): ";
+	
+		std::cin.getline (input, MAXIMUM_INPUT);
+		input[0] = tolower (input[0]);
+		
+	} while (input[0] < 'a' || input[0] > 'z');
+	
+	numbers[input[0] - 'a'] = store;
+}*/
+
+
+/*void store_complex (Complex_Number *numbers)
 {
 	
 	std::cout << "Enter a complex number: ";
@@ -202,7 +264,7 @@ void store_complex (Complex_Number *numbers)
 	Complex_Number temp (divide_input (input, index), divide_input (input, index));
 	
 	set_complex (temp, numbers);
-}
+}*/
 
 
 Complex_Number &get_complex (Complex_Number *numbers)
@@ -282,7 +344,7 @@ Complex_Number calculate_equation (const float a, const float b, const float c, 
 }
 
 
-void complex_equation (Complex_Number *numbers)
+void complex_equation (Complex_Number *numbers[])
 {
 	
 	std::cout << "Quadratic Cofficients:" << std::endl;
@@ -294,7 +356,7 @@ void complex_equation (Complex_Number *numbers)
 	std::cin.ignore ();
 	
 	std::cout << std::endl << "Complex Solution:" << std::endl;
-	Complex_Number &user_number = get_complex (numbers);
+	Complex_Number &user_number = get_complex (*numbers);
 	
 	bool is_addition_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
 	bool is_subtraction_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
@@ -306,7 +368,7 @@ void complex_equation (Complex_Number *numbers)
 }
 
 
-void complex_arithmatic (Complex_Number *numbers)
+void complex_arithmatic (Complex_Number *numbers[])
 {
 	
 	std::cout << "Enter an operation (+, -, *, /, =, q [quadratic equality]): ";
@@ -319,10 +381,10 @@ void complex_arithmatic (Complex_Number *numbers)
 		complex_equation (numbers);
 	} else {
 	
-		Complex_Number &number_one = get_complex (numbers);
+		Complex_Number &number_one = get_complex (*numbers);
 	
 		std::cout << "Second number:" << std::endl;
-		Complex_Number &number_two = get_complex (numbers);
+		Complex_Number &number_two = get_complex (*numbers);
 	
 		Complex_Number result;
 	
@@ -331,24 +393,28 @@ void complex_arithmatic (Complex_Number *numbers)
 		
 			case '+':
 			result = number_one + number_two;
-			set_complex (result, numbers);
+			set_number (&result, numbers);
+			//set_complex (result, numbers);
 			break;
 		
 			case '-':
 			result = number_one - number_two;
-			set_complex (result, numbers);
+			set_number (&result, numbers);
+			//set_complex (result, numbers);
 			break;
 		
 			case '*':
 			case 'x':
 			case 'X':
 			result = number_one * number_two;
-			set_complex (result, numbers);
+			set_number (&result, numbers);
+			//set_complex (result, numbers);
 			break;
 		
 			case '/':
 			result = number_one / number_two;
-			set_complex (result, numbers);
+			set_number (&result, numbers);
+			//set_complex (result, numbers);
 			break;
 		
 			case '=':
@@ -365,16 +431,15 @@ void complex_arithmatic (Complex_Number *numbers)
 }
 
 
-static const char *MENU_OPTIONS[4] = {"Store an Expression" , "Display an Expression", "Display a Scalar", "Perform Arithmatic or Equality Check"};
-
-
 #define cActions() menu(true)
 #define vActions() menu(false)
 void menu (bool complex)
 {
 	
 	unsigned short int menu_choice;
-	Complex_Number numbers[26];
+	//Complex_Number numbers[26];
+	//Vector vectors[26];
+	Pairs *numbers[26];
 	
 	do
 	{
@@ -403,7 +468,7 @@ void menu (bool complex)
 			
 			case 1:
 			if (complex)
-				store_complex (numbers);
+				store_number (numbers);
 			else
 				break;//store_vector
 			break;
