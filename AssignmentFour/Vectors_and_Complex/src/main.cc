@@ -282,7 +282,7 @@ Complex_Number calculate_equation (const float a, const float b, const float c, 
 }
 
 
-void complex_equation ()
+void complex_equation (Complex_Number *numbers)
 {
 	
 	std::cout << "Quadratic Cofficients:" << std::endl;
@@ -290,8 +290,11 @@ void complex_equation ()
 	const float b = get_equation_input ('B');
 	const float c = get_equation_input ('C');
 	
+	std::cin.clear ();
+	std::cin.ignore ();
+	
 	std::cout << std::endl << "Complex Solution:" << std::endl;
-	Complex_Number user_number;
+	Complex_Number &user_number = get_complex (numbers);
 	
 	bool is_addition_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
 	bool is_subtraction_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
@@ -306,48 +309,52 @@ void complex_equation ()
 void complex_arithmatic (Complex_Number *numbers)
 {
 	
-	std::cout << "Enter an operation (+, -, *, /, =): ";
+	std::cout << "Enter an operation (+, -, *, /, =, q [quadratic equality]): ";
 	char *op = new char [2];
 	std::cin.getline (op, 2);
 	
-	if (op[0] == '=')
+	if (op[0] == 'q')
 	{
 		
-		complex_equation ();
+		complex_equation (numbers);
 	} else {
 	
 		Complex_Number &number_one = get_complex (numbers);
-		
+	
 		std::cout << "Second number:" << std::endl;
 		Complex_Number &number_two = get_complex (numbers);
-		
+	
 		Complex_Number result;
-		
+	
 		switch (op[0])
 		{
-			
+		
 			case '+':
 			result = number_one + number_two;
 			set_complex (result, numbers);
 			break;
-			
+		
 			case '-':
 			result = number_one - number_two;
 			set_complex (result, numbers);
 			break;
-			
+		
 			case '*':
 			case 'x':
 			case 'X':
 			result = number_one * number_two;
 			set_complex (result, numbers);
 			break;
-			
+		
 			case '/':
 			result = number_one / number_two;
 			set_complex (result, numbers);
 			break;
-			
+		
+			case '=':
+			std::cout << number_one << " & " << number_two << (number_one == number_two ? " are " : " are not ") << "equal.";
+			break;
+		
 			default:
 			std::cout << op[0] << " is an unknown operation";
 			break;
