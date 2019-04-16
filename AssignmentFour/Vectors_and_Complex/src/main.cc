@@ -13,6 +13,8 @@ class Pairs
 public:
 	Pairs (float a = 0.0, float b = 0.0);
 	
+	virtual ~Pairs () {}
+	
 	friend Pairs operator+ (const Pairs &number_one, const Pairs &number_two);
 	friend Pairs operator- (const Pairs &number_one, const Pairs &number_two);
 	friend bool operator== (const Pairs &number_one, const Pairs &number_two);
@@ -208,7 +210,7 @@ void set_number (Pairs *store, Pairs *numbers[])
 	do
 	{
 		
-		std::cout << "Where do you want to store " << store << " (a-z): ";
+		std::cout << "Where do you want to store " << *store << " (a-z): ";
 	
 		std::cin.getline (input, MAXIMUM_INPUT);
 		input[0] = tolower (input[0]);
@@ -267,7 +269,7 @@ void store_number (Pairs *numbers[])
 }*/
 
 
-Complex_Number &get_complex (Complex_Number *numbers)
+Complex_Number *get_complex (Pairs *numbers [])
 {
 	
 	char *index = new char [MAXIMUM_INPUT];
@@ -282,11 +284,11 @@ Complex_Number &get_complex (Complex_Number *numbers)
 		
 	} while (index[0] < 'a' || index[0] > 'z');
 	
-	return numbers[index[0] - 'a'];
+	return dynamic_cast<Complex_Number*> (numbers[index[0] - 'a']);
 }
 
 
-void display_complex (Complex_Number *numbers)
+void display_complex (Pairs *numbers [])
 {
 	
 	std::cout << get_complex (numbers) << std::endl;
@@ -344,7 +346,7 @@ Complex_Number calculate_equation (const float a, const float b, const float c, 
 }
 
 
-void complex_equation (Complex_Number *numbers[])
+void complex_equation (Pairs *numbers[])
 {
 	
 	std::cout << "Quadratic Cofficients:" << std::endl;
@@ -356,10 +358,10 @@ void complex_equation (Complex_Number *numbers[])
 	std::cin.ignore ();
 	
 	std::cout << std::endl << "Complex Solution:" << std::endl;
-	Complex_Number &user_number = get_complex (*numbers);
+	Complex_Number *user_number = get_complex (numbers);
 	
-	bool is_addition_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
-	bool is_subtraction_solution = (abs (user_number.get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs (user_number.get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
+	bool is_addition_solution = (abs (user_number->get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number->get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
+	bool is_subtraction_solution = (abs (user_number->get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs (user_number->get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
 	
 	if (is_addition_solution == true || is_subtraction_solution == true)
 		std::cout << user_number << " is a solution to the quadratic equation." << std::endl;
@@ -368,7 +370,7 @@ void complex_equation (Complex_Number *numbers[])
 }
 
 
-void complex_arithmatic (Complex_Number *numbers[])
+void complex_arithmatic (Pairs *numbers[])
 {
 	
 	std::cout << "Enter an operation (+, -, *, /, =, q [quadratic equality]): ";
@@ -381,10 +383,10 @@ void complex_arithmatic (Complex_Number *numbers[])
 		complex_equation (numbers);
 	} else {
 	
-		Complex_Number &number_one = get_complex (*numbers);
+		Complex_Number *number_one = get_complex (numbers);
 	
 		std::cout << "Second number:" << std::endl;
-		Complex_Number &number_two = get_complex (*numbers);
+		Complex_Number *number_two = get_complex (numbers);
 	
 		Complex_Number result;
 	
@@ -392,13 +394,13 @@ void complex_arithmatic (Complex_Number *numbers[])
 		{
 		
 			case '+':
-			result = number_one + number_two;
+			result = *number_one + *number_two;
 			set_number (&result, numbers);
 			//set_complex (result, numbers);
 			break;
 		
 			case '-':
-			result = number_one - number_two;
+			result = *number_one - *number_two;
 			set_number (&result, numbers);
 			//set_complex (result, numbers);
 			break;
@@ -406,13 +408,13 @@ void complex_arithmatic (Complex_Number *numbers[])
 			case '*':
 			case 'x':
 			case 'X':
-			result = number_one * number_two;
+			result = *number_one * *number_two;
 			set_number (&result, numbers);
 			//set_complex (result, numbers);
 			break;
 		
 			case '/':
-			result = number_one / number_two;
+			result = *number_one / *number_two;
 			set_number (&result, numbers);
 			//set_complex (result, numbers);
 			break;
