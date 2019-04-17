@@ -1,4 +1,4 @@
-Incomplete as of 4/09/2019
+Incomplete as of 4/17/2019
 ===
 
 Vectors are math quantities that have both magnitude and direction. This problem involves the use of two-dimensional vectors – here are the math details:

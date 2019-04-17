@@ -12,15 +12,21 @@ class Pairs
 
 public:
 	Pairs (float a = 0.0, float b = 0.0);
-	
 	virtual ~Pairs () {}
 	
-	friend Pairs operator+ (const Pairs &number_one, const Pairs &number_two);
-	friend Pairs operator- (const Pairs &number_one, const Pairs &number_two);
-	friend bool operator== (const Pairs &number_one, const Pairs &number_two);
+	Pairs operator+ (const Pairs &number_two);
+	Pairs operator- (const Pairs &number_two);
+	bool operator== (const Pairs &number_two);
 	
 	friend std::ostream &operator<< (std::ostream &os, const Pairs number);
 	
+	const float get_leading () const {return leading_number;}
+	const float get_trailing () const {return trailing_number;}
+	
+	const void set_leading (const float i) {leading_number = i;}
+	const void set_trailing (const float i) {trailing_number = i;}
+	
+private:
 	float leading_number;
 	float trailing_number;
 };
@@ -34,11 +40,32 @@ Pairs::Pairs (float a, float b)
 }
 
 
-template <class T>
+Pairs Pairs::operator+ (const Pairs &number_two)
+{
+	
+	return Pairs ((leading_number + number_two.leading_number), (trailing_number + number_two.trailing_number));
+}
+
+
+Pairs Pairs::operator- (const Pairs &number_two)
+{
+	
+	return Pairs ((leading_number - number_two.leading_number), (trailing_number - number_two.trailing_number));
+}
+
+
+bool Pairs::operator== (const Pairs &number_two)
+{
+	
+	return ((leading_number == number_two.leading_number && trailing_number == number_two.trailing_number) ? true : false);
+}
+
+
+/*template <class T>
 T operator+ (const T &number_one, const T &number_two)
 {
 	
-	return T ((number_one.leading_number + number_two.leading_number), (number_one.trailing_number + number_two.trailing_number));
+	return T ((number_one.get_leading () + number_two.get_leading ()), (number_one.get_trailing () + number_two.get_trailing ()));
 }
 
 
@@ -46,7 +73,7 @@ template <class T>
 T operator- (const T &number_one, const T &number_two)
 {
 	
-	return T ((number_one.leading_number - number_two.leading_number), (number_one.trailing_number - number_two.trailing_number));
+	return T ((number_one.get_leading () - number_two.get_leading ()), (number_one.get_trailing () - number_two.get_trailing ()));
 }
 
 
@@ -54,8 +81,8 @@ template <class T>
 bool operator== (const T &number_one, const T &number_two)
 {
 	
-	return ((number_one.leading_number == number_two.leading_number && number_one.trailing_number == number_two.trailing_number) ? true : false);
-}
+	return ((number_one.get_leading () == number_two.get_leading () && number_one.get_trailing () == number_two.get_trailing ()) ? true : false);
+}*/
 
 
 std::ostream &operator<< (std::ostream &os, const Pairs number)
@@ -138,40 +165,44 @@ class Complex_Number : public Pairs
 public:
 	Complex_Number (float a = 0, float b = 0);
 	
-	const float get_real () const {return leading_number;}
-	const float get_imaginary () const {return trailing_number;}
+	void operator= (const Pairs &parent);
 	
 	friend Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two);
 	friend Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two);
 	
 	//friend std::istream &operator>> (std::istream &is, Complex_Number &number);
-	
-private:
-	void operations ();
 };
 
 
 Complex_Number::Complex_Number (float a, float b)
 {
 	
-	leading_number = a;
-	trailing_number = b;
+	set_leading (a);
+	set_trailing (b);
+}
+
+
+void Complex_Number::operator= (const Pairs &parent)
+{
+	
+	set_leading (parent.get_leading ());
+	set_trailing (parent.get_trailing ());
 }
 
 
 Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two)
 {
 
-	return Complex_Number (((number_one.get_real () * number_two.get_real ()) - (number_one.get_imaginary () * number_two.get_imaginary ())), (number_one.get_imaginary () * number_two.get_real ()) + (number_two.get_imaginary () * number_one.get_real ()));
+	return Complex_Number (((number_one.get_leading () * number_two.get_leading ()) - (number_one.get_trailing () * number_two.get_trailing ())), (number_one.get_trailing () * number_two.get_leading ()) + (number_two.get_trailing () * number_one.get_leading ()));
 }
 
 
 Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two)
 {
 	
-	float denominator = ((number_two.get_real () * number_two.get_real ()) + (number_two.get_imaginary () * number_two.get_imaginary ()));
+	float denominator = ((number_two.get_leading () * number_two.get_leading ()) + (number_two.get_trailing () * number_two.get_trailing ()));
 	
-	return Complex_Number (((number_one.get_real () * number_two.get_real ()) + (number_one.get_imaginary () * number_two.get_imaginary ()))/denominator, ((number_one.get_imaginary () * number_two.get_real ()) - (number_one.get_real () * number_two.get_imaginary ()))/denominator);;
+	return Complex_Number (((number_one.get_leading () * number_two.get_leading ()) + (number_one.get_trailing () * number_two.get_trailing ()))/denominator, ((number_one.get_trailing () * number_two.get_leading ()) - (number_one.get_leading () * number_two.get_trailing ()))/denominator);;
 }
 
 
@@ -181,25 +212,19 @@ class Vector : public Pairs
 public:
 	Vector (float a = 0, float b = 0);
 	
-	const float get_real () const {return leading_number;}
-	const float get_imaginary () const {return trailing_number;}
-	
 	friend Vector operator* (const Vector &number_one, const Vector &number_two);
 	friend Vector operator* (const float scalar, const Vector &number_one);
 	friend Vector operator/ (const Vector &number_one, const Vector &number_two);
 	
 	//friend std::istream &operator>> (std::istream &is, Vector &number);
-	
-private:
-	void operations ();
 };
 
 
 Vector::Vector (float a, float b)
 {
 	
-	leading_number = a;
-	trailing_number = b;
+	set_leading (a);
+	set_trailing (b);
 }
 
 
@@ -229,10 +254,10 @@ void store_number (Pairs *numbers[])
 	char *input = new char [MAXIMUM_INPUT];
 	std::cin.getline (input, MAXIMUM_INPUT);
 	
-	unsigned int index = 0;
-	Complex_Number temp (divide_input (input, index), divide_input (input, index));
+	unsigned int split_index = 0;
+	Complex_Number new_expression (divide_input (input, split_index), divide_input (input, split_index));
 	
-	set_number (&temp, numbers);
+	set_number (&new_expression, numbers);
 }
 
 
@@ -269,7 +294,7 @@ void store_number (Pairs *numbers[])
 }*/
 
 
-Complex_Number *get_complex (Pairs *numbers [])
+Complex_Number get_complex (Pairs *numbers [])
 {
 	
 	char *index = new char [MAXIMUM_INPUT];
@@ -284,7 +309,9 @@ Complex_Number *get_complex (Pairs *numbers [])
 		
 	} while (index[0] < 'a' || index[0] > 'z');
 	
-	return dynamic_cast<Complex_Number*> (numbers[index[0] - 'a']);
+	Complex_Number *temp = static_cast<Complex_Number*> (numbers[index[0] - 'a']);
+	
+	return *temp;
 }
 
 
@@ -306,13 +333,9 @@ float get_equation_input (const char coefficient, const bool &nonzero = false)
 		std::cout << "Enter a value for " << coefficient << ": ";
 		std::cin >> value;
 		
-		if (value != 0)
-			break;
-		else if (nonzero == true)
-		{
-			
+		if (value == 0 && nonzero == true)
 			std::cout << coefficient << " may not be 0." << std::endl;
-		} else
+		else
 			break;
 	}
 	
@@ -358,10 +381,10 @@ void complex_equation (Pairs *numbers[])
 	std::cin.ignore ();
 	
 	std::cout << std::endl << "Complex Solution:" << std::endl;
-	Complex_Number *user_number = get_complex (numbers);
+	Complex_Number user_number = get_complex (numbers);
 	
-	bool is_addition_solution = (abs (user_number->get_real () - calculate_equation (a, b, c, true).get_real ()) < 0.000001 && abs (user_number->get_imaginary () - calculate_equation (a, b, c, true).get_imaginary ()) < 0.000001);
-	bool is_subtraction_solution = (abs (user_number->get_real () - calculate_equation (a, b, c, false).get_real ()) < 0.000001 && abs (user_number->get_imaginary () - calculate_equation (a, b, c, false).get_imaginary ()) < 0.000001);
+	bool is_addition_solution = (abs (user_number.get_leading () - calculate_equation (a, b, c, true).get_leading ()) < 0.000001 && abs (user_number.get_trailing () - calculate_equation (a, b, c, true).get_trailing ()) < 0.000001);
+	bool is_subtraction_solution = (abs (user_number.get_leading () - calculate_equation (a, b, c, false).get_leading ()) < 0.000001 && abs (user_number.get_trailing () - calculate_equation (a, b, c, false).get_trailing ()) < 0.000001);
 	
 	if (is_addition_solution == true || is_subtraction_solution == true)
 		std::cout << user_number << " is a solution to the quadratic equation." << std::endl;
@@ -383,10 +406,10 @@ void complex_arithmatic (Pairs *numbers[])
 		complex_equation (numbers);
 	} else {
 	
-		Complex_Number *number_one = get_complex (numbers);
+		Complex_Number number_one = get_complex (numbers);
 	
 		std::cout << "Second number:" << std::endl;
-		Complex_Number *number_two = get_complex (numbers);
+		Complex_Number number_two = get_complex (numbers);
 	
 		Complex_Number result;
 	
@@ -394,13 +417,12 @@ void complex_arithmatic (Pairs *numbers[])
 		{
 		
 			case '+':
-			result = *number_one + *number_two;
+			result = number_one + number_two;
 			set_number (&result, numbers);
-			//set_complex (result, numbers);
 			break;
 		
 			case '-':
-			result = *number_one - *number_two;
+			result = number_one - number_two;
 			set_number (&result, numbers);
 			//set_complex (result, numbers);
 			break;
@@ -408,13 +430,13 @@ void complex_arithmatic (Pairs *numbers[])
 			case '*':
 			case 'x':
 			case 'X':
-			result = *number_one * *number_two;
+			result = number_one * number_two;
 			set_number (&result, numbers);
 			//set_complex (result, numbers);
 			break;
 		
 			case '/':
-			result = *number_one / *number_two;
+			result = number_one / number_two;
 			set_number (&result, numbers);
 			//set_complex (result, numbers);
 			break;
@@ -443,6 +465,12 @@ void menu (bool complex)
 	//Vector vectors[26];
 	Pairs *numbers[26];
 	
+	for (int i = 0; i < 26; i += 1)
+	{
+		
+		numbers[i] = new Pairs;
+	}
+	
 	do
 	{
 	
@@ -469,10 +497,7 @@ void menu (bool complex)
 		{
 			
 			case 1:
-			if (complex)
-				store_number (numbers);
-			else
-				break;//store_vector
+			store_number (numbers);
 			break;
 			
 			case 2:
