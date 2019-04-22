@@ -70,38 +70,10 @@ bool Pairs::operator== (const Pairs &number_two)
 }
 
 
-/*template <class T>
-T operator+ (const T &number_one, const T &number_two)
-{
-	
-	return T ((number_one.get_leading () + number_two.get_leading ()), (number_one.get_trailing () + number_two.get_trailing ()));
-}
-
-
-template <class T>
-T operator- (const T &number_one, const T &number_two)
-{
-	
-	return T ((number_one.get_leading () - number_two.get_leading ()), (number_one.get_trailing () - number_two.get_trailing ()));
-}
-
-
-template <class T>
-bool operator== (const T &number_one, const T &number_two)
-{
-	
-	return ((number_one.get_leading () == number_two.get_leading () && number_one.get_trailing () == number_two.get_trailing ()) ? true : false);
-}*/
-
-
 std::ostream &operator<< (std::ostream &os, const Pairs number)
 {
 	
-	os << number.leading_number;
-	if (number.trailing_number >= 0)
-		os << '+';
-	
-	os << number.trailing_number << 'i';
+	os << '(' << number.get_leading () << ", " << number.get_trailing () << ')';
 	return os;
 }
 
@@ -179,6 +151,8 @@ public:
 	friend Complex_Number operator* (const Complex_Number &number_one, const Complex_Number &number_two);
 	friend Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two);
 	
+	friend std::ostream &operator<< (std::ostream &os, const Complex_Number number);
+	
 	//friend std::istream &operator>> (std::istream &is, Complex_Number &number);
 };
 
@@ -212,6 +186,18 @@ Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number
 	float denominator = ((number_two.get_leading () * number_two.get_leading ()) + (number_two.get_trailing () * number_two.get_trailing ()));
 	
 	return Complex_Number (((number_one.get_leading () * number_two.get_leading ()) + (number_one.get_trailing () * number_two.get_trailing ()))/denominator, ((number_one.get_trailing () * number_two.get_leading ()) - (number_one.get_leading () * number_two.get_trailing ()))/denominator);;
+}
+
+
+std::ostream &operator<< (std::ostream &os, const Complex_Number number)
+{
+	
+	os << number.get_leading ();
+	if (number.get_trailing () >= 0)
+		os << '+';
+	
+	os << number.get_trailing () << 'i';
+	return os;
 }
 
 
@@ -264,43 +250,10 @@ void store_number (Pairs *numbers[])
 	std::cin.getline (input, MAXIMUM_INPUT);
 	
 	unsigned int split_index = 0;
-	Complex_Number *new_expression = new Complex_Number (divide_input (input, split_index), divide_input (input, split_index));
+	Pairs *new_expression = new Complex_Number (divide_input (input, split_index), divide_input (input, split_index));
 	
 	set_number (new_expression, numbers);
 }
-
-
-/*void set_complex (Complex_Number &store, Complex_Number *numbers)
-{
-	
-	char *input = new char [MAXIMUM_INPUT];
-	do
-	{
-		
-		std::cout << "Where do you want to store " << store << " (a-z): ";
-	
-		std::cin.getline (input, MAXIMUM_INPUT);
-		input[0] = tolower (input[0]);
-		
-	} while (input[0] < 'a' || input[0] > 'z');
-	
-	numbers[input[0] - 'a'] = store;
-}*/
-
-
-/*void store_complex (Complex_Number *numbers)
-{
-	
-	std::cout << "Enter a complex number: ";
-	
-	char *input = new char [MAXIMUM_INPUT];
-	std::cin.getline (input, MAXIMUM_INPUT);
-	
-	unsigned int index = 0;
-	Complex_Number temp (divide_input (input, index), divide_input (input, index));
-	
-	set_complex (temp, numbers);
-}*/
 
 
 Pairs *get_number (Pairs *numbers [])
@@ -322,10 +275,13 @@ Pairs *get_number (Pairs *numbers [])
 }
 
 
-void display_complex (Pairs *numbers [])
+void display_number (Pairs *numbers [], bool complex = false)
 {
 	
-	std::cout << *get_number (numbers) << std::endl;
+	if (complex)
+		std::cout << *static_cast<Complex_Number*> (get_number(numbers)) << std::endl;
+	else
+		std::cout << *static_cast<Vector*> (get_number(numbers)) << std::endl;
 }
 
 
@@ -388,7 +344,7 @@ void complex_equation (Pairs *numbers[])
 	std::cin.ignore ();
 	
 	std::cout << std::endl << "Complex Solution:" << std::endl;
-	Complex_Number *user_number = static_cast<Complex_Number*> (get_number(numbers)); //get_complex (numbers);
+	Complex_Number *user_number = static_cast<Complex_Number*> (get_number(numbers));
 	
 	bool is_addition_solution = (abs (user_number->get_leading () - calculate_equation (a, b, c, true).get_leading ()) < 0.000001 && abs (user_number->get_trailing () - calculate_equation (a, b, c, true).get_trailing ()) < 0.000001);
 	bool is_subtraction_solution = (abs (user_number->get_leading () - calculate_equation (a, b, c, false).get_leading ()) < 0.000001 && abs (user_number->get_trailing () - calculate_equation (a, b, c, false).get_trailing ()) < 0.000001);
@@ -413,10 +369,10 @@ void complex_arithmatic (Pairs *numbers[])
 		complex_equation (numbers);
 	} else {
 	
-		Complex_Number *number_one = static_cast<Complex_Number*> (get_number (numbers)); //get_complex (numbers);
+		Complex_Number *number_one = static_cast<Complex_Number*> (get_number (numbers));
 	
 		std::cout << "Second number:" << std::endl;
-		Complex_Number *number_two = static_cast<Complex_Number*> (get_number (numbers)); //get_complex (numbers);
+		Complex_Number *number_two = static_cast<Complex_Number*> (get_number (numbers));
 	
 		Complex_Number result;
 	
@@ -431,7 +387,6 @@ void complex_arithmatic (Pairs *numbers[])
 			case '-':
 			result = *number_one - *number_two;
 			set_number (&result, numbers);
-			//set_complex (result, numbers);
 			break;
 		
 			case '*':
@@ -439,13 +394,11 @@ void complex_arithmatic (Pairs *numbers[])
 			case 'X':
 			result = *number_one * *number_two;
 			set_number (&result, numbers);
-			//set_complex (result, numbers);
 			break;
 		
 			case '/':
 			result = *number_one / *number_two;
 			set_number (&result, numbers);
-			//set_complex (result, numbers);
 			break;
 		
 			case '=':
@@ -468,10 +421,8 @@ void menu (bool complex)
 {
 	
 	unsigned short int menu_choice;
-	//Complex_Number numbers[26];
-	//Vector vectors[26];
-	Pairs *numbers[26];// = new Pairs *[26];
 	
+	Pairs *numbers[26];
 	for (int i = 0; i < 26; i += 1)
 		numbers[i] = new Pairs ();
 	
@@ -505,10 +456,7 @@ void menu (bool complex)
 			break;
 			
 			case 2:
-			if (complex)
-				display_complex (numbers);
-			else
-				break;//display_vector
+			display_number (numbers, complex);
 			break;
 			
 			case 3:
