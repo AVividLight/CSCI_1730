@@ -429,6 +429,13 @@ void complex_arithmatic (Pairs *numbers[])
 }
 
 
+void display_scalar ()
+{
+	
+	//reads last result from dot product (a*c + b*d)
+}
+
+
 #define cActions() menu(true)
 #define vActions() menu(false)
 void menu (bool complex)
@@ -477,7 +484,7 @@ void menu (bool complex)
 			if (complex)
 				complex_arithmatic (numbers);
 			else
-				break;//display_scalar
+				display_scalar ();
 			break;
 			
 			case 4:
