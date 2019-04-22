@@ -251,7 +251,7 @@ void set_number (Pairs *store, Pairs *numbers[])
 		
 	} while (input[0] < 'a' || input[0] > 'z');
 	
-	numbers[input[0] - 'a'] = store;
+	*numbers[input[0] - 'a'] = *store;
 }
 
 
@@ -303,7 +303,7 @@ void store_number (Pairs *numbers[])
 }*/
 
 
-Pairs *get_complex (Pairs *numbers [])
+Pairs *get_number (Pairs *numbers [])
 {
 	
 	char *index = new char [MAXIMUM_INPUT];
@@ -318,16 +318,14 @@ Pairs *get_complex (Pairs *numbers [])
 		
 	} while (index[0] < 'a' || index[0] > 'z');
 	
-	//Complex_Number *temp = static_cast<Complex_Number*> (numbers[index[0] - 'a']);
-	
-	return numbers[index[0] - 'a']; //*temp;
+	return numbers[index[0] - 'a'];
 }
 
 
 void display_complex (Pairs *numbers [])
 {
 	
-	std::cout << *get_complex (numbers) << std::endl;
+	std::cout << *get_number (numbers) << std::endl;
 }
 
 
@@ -390,7 +388,7 @@ void complex_equation (Pairs *numbers[])
 	std::cin.ignore ();
 	
 	std::cout << std::endl << "Complex Solution:" << std::endl;
-	Complex_Number *user_number = static_cast<Complex_Number*> (get_complex(numbers)); //get_complex (numbers);
+	Complex_Number *user_number = static_cast<Complex_Number*> (get_number(numbers)); //get_complex (numbers);
 	
 	bool is_addition_solution = (abs (user_number->get_leading () - calculate_equation (a, b, c, true).get_leading ()) < 0.000001 && abs (user_number->get_trailing () - calculate_equation (a, b, c, true).get_trailing ()) < 0.000001);
 	bool is_subtraction_solution = (abs (user_number->get_leading () - calculate_equation (a, b, c, false).get_leading ()) < 0.000001 && abs (user_number->get_trailing () - calculate_equation (a, b, c, false).get_trailing ()) < 0.000001);
@@ -415,10 +413,10 @@ void complex_arithmatic (Pairs *numbers[])
 		complex_equation (numbers);
 	} else {
 	
-		Complex_Number *number_one = static_cast<Complex_Number*> (get_complex(numbers)); //get_complex (numbers);
+		Complex_Number *number_one = static_cast<Complex_Number*> (get_number (numbers)); //get_complex (numbers);
 	
 		std::cout << "Second number:" << std::endl;
-		Complex_Number *number_two = static_cast<Complex_Number*> (get_complex(numbers)); //get_complex (numbers);
+		Complex_Number *number_two = static_cast<Complex_Number*> (get_number (numbers)); //get_complex (numbers);
 	
 		Complex_Number result;
 	
@@ -472,7 +470,10 @@ void menu (bool complex)
 	unsigned short int menu_choice;
 	//Complex_Number numbers[26];
 	//Vector vectors[26];
-	Pairs **numbers = new Pairs *[26];
+	Pairs *numbers[26];// = new Pairs *[26];
+	
+	for (int i = 0; i < 26; i += 1)
+		numbers[i] = new Pairs ();
 	
 	do
 	{
