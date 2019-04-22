@@ -12,7 +12,7 @@ class Pairs
 
 public:
 	Pairs (float a = 0.0, float b = 0.0);
-	virtual ~Pairs () {}
+	~Pairs ();
 	
 	Pairs operator+ (const Pairs &number_two);
 	Pairs operator- (const Pairs &number_two);
@@ -37,6 +37,15 @@ Pairs::Pairs (float a, float b)
 	
 	leading_number = a;
 	trailing_number = b;
+	
+	//std::cout << "Construct!" << std::endl;
+}
+
+
+Pairs::~Pairs ()
+{
+	
+	//std::cout << "Destruct!" << std::endl;
 }
 
 
@@ -255,9 +264,9 @@ void store_number (Pairs *numbers[])
 	std::cin.getline (input, MAXIMUM_INPUT);
 	
 	unsigned int split_index = 0;
-	Complex_Number new_expression (divide_input (input, split_index), divide_input (input, split_index));
+	Complex_Number *new_expression = new Complex_Number (divide_input (input, split_index), divide_input (input, split_index));
 	
-	set_number (&new_expression, numbers);
+	set_number (new_expression, numbers);
 }
 
 
@@ -294,7 +303,7 @@ void store_number (Pairs *numbers[])
 }*/
 
 
-Complex_Number get_complex (Pairs *numbers [])
+Pairs *get_complex (Pairs *numbers [])
 {
 	
 	char *index = new char [MAXIMUM_INPUT];
@@ -309,16 +318,16 @@ Complex_Number get_complex (Pairs *numbers [])
 		
 	} while (index[0] < 'a' || index[0] > 'z');
 	
-	Complex_Number *temp = static_cast<Complex_Number*> (numbers[index[0] - 'a']);
+	//Complex_Number *temp = static_cast<Complex_Number*> (numbers[index[0] - 'a']);
 	
-	return *temp;
+	return numbers[index[0] - 'a']; //*temp;
 }
 
 
 void display_complex (Pairs *numbers [])
 {
 	
-	std::cout << get_complex (numbers) << std::endl;
+	std::cout << *get_complex (numbers) << std::endl;
 }
 
 
@@ -381,10 +390,10 @@ void complex_equation (Pairs *numbers[])
 	std::cin.ignore ();
 	
 	std::cout << std::endl << "Complex Solution:" << std::endl;
-	Complex_Number user_number = get_complex (numbers);
+	Complex_Number *user_number = static_cast<Complex_Number*> (get_complex(numbers)); //get_complex (numbers);
 	
-	bool is_addition_solution = (abs (user_number.get_leading () - calculate_equation (a, b, c, true).get_leading ()) < 0.000001 && abs (user_number.get_trailing () - calculate_equation (a, b, c, true).get_trailing ()) < 0.000001);
-	bool is_subtraction_solution = (abs (user_number.get_leading () - calculate_equation (a, b, c, false).get_leading ()) < 0.000001 && abs (user_number.get_trailing () - calculate_equation (a, b, c, false).get_trailing ()) < 0.000001);
+	bool is_addition_solution = (abs (user_number->get_leading () - calculate_equation (a, b, c, true).get_leading ()) < 0.000001 && abs (user_number->get_trailing () - calculate_equation (a, b, c, true).get_trailing ()) < 0.000001);
+	bool is_subtraction_solution = (abs (user_number->get_leading () - calculate_equation (a, b, c, false).get_leading ()) < 0.000001 && abs (user_number->get_trailing () - calculate_equation (a, b, c, false).get_trailing ()) < 0.000001);
 	
 	if (is_addition_solution == true || is_subtraction_solution == true)
 		std::cout << user_number << " is a solution to the quadratic equation." << std::endl;
@@ -406,10 +415,10 @@ void complex_arithmatic (Pairs *numbers[])
 		complex_equation (numbers);
 	} else {
 	
-		Complex_Number number_one = get_complex (numbers);
+		Complex_Number *number_one = static_cast<Complex_Number*> (get_complex(numbers)); //get_complex (numbers);
 	
 		std::cout << "Second number:" << std::endl;
-		Complex_Number number_two = get_complex (numbers);
+		Complex_Number *number_two = static_cast<Complex_Number*> (get_complex(numbers)); //get_complex (numbers);
 	
 		Complex_Number result;
 	
@@ -417,12 +426,12 @@ void complex_arithmatic (Pairs *numbers[])
 		{
 		
 			case '+':
-			result = number_one + number_two;
+			result = *number_one + *number_two;
 			set_number (&result, numbers);
 			break;
 		
 			case '-':
-			result = number_one - number_two;
+			result = *number_one - *number_two;
 			set_number (&result, numbers);
 			//set_complex (result, numbers);
 			break;
@@ -430,13 +439,13 @@ void complex_arithmatic (Pairs *numbers[])
 			case '*':
 			case 'x':
 			case 'X':
-			result = number_one * number_two;
+			result = *number_one * *number_two;
 			set_number (&result, numbers);
 			//set_complex (result, numbers);
 			break;
 		
 			case '/':
-			result = number_one / number_two;
+			result = *number_one / *number_two;
 			set_number (&result, numbers);
 			//set_complex (result, numbers);
 			break;
@@ -463,13 +472,7 @@ void menu (bool complex)
 	unsigned short int menu_choice;
 	//Complex_Number numbers[26];
 	//Vector vectors[26];
-	Pairs *numbers[26];
-	
-	for (int i = 0; i < 26; i += 1)
-	{
-		
-		numbers[i] = new Pairs;
-	}
+	Pairs **numbers = new Pairs *[26];
 	
 	do
 	{
