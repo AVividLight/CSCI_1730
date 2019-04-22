@@ -78,7 +78,7 @@ std::ostream &operator<< (std::ostream &os, const Pairs number)
 }
 
 
-float divide_input (const char *input, unsigned int &start_index)
+float divide_input (const char *input, unsigned int &start_index, const bool complex)
 {
 	
 	char *target_array = new char [MAXIMUM_INPUT];
@@ -120,7 +120,7 @@ float divide_input (const char *input, unsigned int &start_index)
 					target_index += 1;
 				}
 				
-				if (input[i] == '+' || input[i] == '-')
+				if (input[i] == (complex ? '+' : ',') || input[i] == (complex ? '-' : ','))
 				{
 					
 					start_index = i + 1;
@@ -211,6 +211,8 @@ public:
 	friend Vector operator* (const float scalar, const Vector &number_one);
 	friend Vector operator/ (const Vector &number_one, const Vector &number_two);
 	
+	friend std::ostream &operator<< (std::ostream &os, const Vector number);
+	
 	//friend std::istream &operator>> (std::istream &is, Vector &number);
 };
 
@@ -223,14 +225,22 @@ Vector::Vector (float a, float b)
 }
 
 
-void set_number (Pairs *store, Pairs *numbers[])
+std::ostream &operator<< (std::ostream &os, const Vector number)
+{
+	
+	os << '<' << number.get_leading () << ", " << number.get_trailing () << '>';
+	return os;
+}
+
+
+void set_number (Pairs *store, Pairs *numbers[], bool complex)
 {
 	
 	char *input = new char [MAXIMUM_INPUT];
 	do
 	{
 		
-		std::cout << "Where do you want to store " << *store << " (a-z): ";
+		std::cout << "Where do you want to store this (a-z): ";
 	
 		std::cin.getline (input, MAXIMUM_INPUT);
 		input[0] = tolower (input[0]);
@@ -241,7 +251,7 @@ void set_number (Pairs *store, Pairs *numbers[])
 }
 
 
-void store_number (Pairs *numbers[])
+void store_number (Pairs *numbers[], bool complex)
 {
 	
 	std::cout << "Enter an expression: ";
@@ -250,9 +260,13 @@ void store_number (Pairs *numbers[])
 	std::cin.getline (input, MAXIMUM_INPUT);
 	
 	unsigned int split_index = 0;
-	Pairs *new_expression = new Complex_Number (divide_input (input, split_index), divide_input (input, split_index));
+	Pairs *new_expression;
+	if (complex)
+		new_expression = new Complex_Number (divide_input (input, split_index, true), divide_input (input, split_index, true));
+	else
+		new_expression = new Vector (divide_input (input, split_index, false), divide_input (input, split_index, false));
 	
-	set_number (new_expression, numbers);
+	set_number (new_expression, numbers, complex);
 }
 
 
@@ -381,24 +395,24 @@ void complex_arithmatic (Pairs *numbers[])
 		
 			case '+':
 			result = *number_one + *number_two;
-			set_number (&result, numbers);
+			set_number (&result, numbers, true);
 			break;
 		
 			case '-':
 			result = *number_one - *number_two;
-			set_number (&result, numbers);
+			set_number (&result, numbers, true);
 			break;
 		
 			case '*':
 			case 'x':
 			case 'X':
 			result = *number_one * *number_two;
-			set_number (&result, numbers);
+			set_number (&result, numbers, true);
 			break;
 		
 			case '/':
 			result = *number_one / *number_two;
-			set_number (&result, numbers);
+			set_number (&result, numbers, true);
 			break;
 		
 			case '=':
@@ -452,7 +466,7 @@ void menu (bool complex)
 		{
 			
 			case 1:
-			store_number (numbers);
+			store_number (numbers, complex);
 			break;
 			
 			case 2:
