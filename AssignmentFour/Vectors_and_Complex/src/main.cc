@@ -4,7 +4,7 @@
 
 
 static const unsigned int MAXIMUM_INPUT = 256;
-static const char *MENU_OPTIONS[5] = {"Store an Expression" , "Display an Expression", "Display a Scalar", "Perform Arithmatic or Equality Check", "Exit"};
+static const char *MENU_OPTIONS[5] = {"Store an Expression" , "Display an Expression", "Perform Arithmatic or Equality Check", "Scalar Result", "Exit"};
 
 
 class Pairs
@@ -12,7 +12,7 @@ class Pairs
 
 public:
 	Pairs (float a = 0.0, float b = 0.0);
-	~Pairs ();
+	//~Pairs ();
 	
 	Pairs operator+ (const Pairs &number_two);
 	Pairs operator- (const Pairs &number_two);
@@ -37,16 +37,14 @@ Pairs::Pairs (float a, float b)
 	
 	leading_number = a;
 	trailing_number = b;
-	
-	//std::cout << "Construct!" << std::endl;
 }
 
 
-Pairs::~Pairs ()
+/*Pairs::~Pairs ()
 {
 	
-	//std::cout << "Destruct!" << std::endl;
-}
+	std::cout << "Destruct!" << std::endl;
+}*/
 
 
 Pairs Pairs::operator+ (const Pairs &number_two)
@@ -212,8 +210,8 @@ class Vector : public Pairs
 public:
 	Vector (float a = 0, float b = 0);
 	
-	friend Vector operator* (const Vector &number_one, const Vector &number_two);
-	friend Vector operator* (const float scalar, const Vector &number_one);
+	friend Vector operator* (const Vector &number_one, const Vector &number_two); //Dot product
+	friend Vector operator* (const float scalar, const Vector &number_one); //Scalar
 	friend Vector operator/ (const Vector &number_one, const Vector &number_two);
 	
 	friend std::ostream &operator<< (std::ostream &os, const Vector number);
@@ -253,6 +251,8 @@ void set_number (Pairs *store, Pairs *numbers[], bool complex)
 	} while (input[0] < 'a' || input[0] > 'z');
 	
 	*numbers[input[0] - 'a'] = *store;
+	
+	delete[] input;
 }
 
 
@@ -272,6 +272,8 @@ void store_number (Pairs *numbers[], bool complex)
 		new_expression = new Vector (divide_input (input, split_index, false), divide_input (input, split_index, false));
 	
 	set_number (new_expression, numbers, complex);
+	
+	delete new_expression;
 }
 
 
@@ -304,27 +306,6 @@ void display_number (Pairs *numbers [], bool complex = false)
 }
 
 
-float get_equation_input (const char coefficient, const bool &nonzero = false)
-{
-	
-	float value;
-	
-	while (true)
-	{
-		
-		std::cout << "Enter a value for " << coefficient << ": ";
-		std::cin >> value;
-		
-		if (value == 0 && nonzero == true)
-			std::cout << coefficient << " may not be 0." << std::endl;
-		else
-			break;
-	}
-	
-	return value;
-}
-
-
 Complex_Number calculate_equation (const float a, const float b, const float c, bool add)
 {
 
@@ -348,6 +329,27 @@ Complex_Number calculate_equation (const float a, const float b, const float c, 
 		else
 			return (*new Complex_Number ((((-1)*b)/2*a), (-1)*sqrt((-1)*radicand)/(2*a)));
 	}
+}
+
+
+float get_equation_input (const char coefficient, const bool &nonzero = false)
+{
+	
+	float value;
+	
+	while (true)
+	{
+		
+		std::cout << "Enter a value for " << coefficient << ": ";
+		std::cin >> value;
+		
+		if (value == 0 && nonzero == true)
+			std::cout << coefficient << " may not be 0." << std::endl;
+		else
+			break;
+	}
+	
+	return value;
 }
 
 
@@ -375,14 +377,33 @@ void complex_equation (Pairs *numbers[])
 }
 
 
-void complex_arithmatic (Pairs *numbers[])
+void arithmatic (Pairs *numbers[], bool complex)
 {
 	
-	std::cout << "Enter an operation (+, -, *, /, =, q [quadratic equality]): ";
+	std::cout << "Enter an operation (=, +, -, *" << (complex ? ", /, q [quadratic equality]" : " [scalar multiplication], . [dot product]") << "): ";
+	
 	char *op = new char [2];
 	std::cin.getline (op, 2);
 	
-	if (op[0] == 'q')
+	Pairs *number_one;
+	Pairs *number_two;
+	
+	switch (op[0]) {
+		case '=':
+		break;
+		
+		case 'q':
+		if (complex) {
+			complex_equation (numbers);
+			break;
+		}
+		
+		default:
+		std::cout << op[0] << " is an unknown operation";
+		break;
+	}
+	
+	/*if (op[0] == 'q')
 	{
 		
 		complex_equation (numbers);
@@ -399,6 +420,10 @@ void complex_arithmatic (Pairs *numbers[])
 	
 		switch (op[0])
 		{
+			
+			case '=':
+			std::cout << *number_one << " & " << *number_two << (number_one == number_two ? " are " : " are not ") << "equal." << std::endl;;
+			break;
 		
 			case '+':
 			result = *number_one + *number_two;
@@ -416,30 +441,35 @@ void complex_arithmatic (Pairs *numbers[])
 			result = *number_one * *number_two;
 			set_number (&result, numbers, true);
 			break;
-		
-			case '/':
-			result = *number_one / *number_two;
-			set_number (&result, numbers, true);
+			
+			case '.':
+			if (!complex) {
+				result = *number_one * *number_two;
+				numbers[27] = &result;
+			}
 			break;
 		
-			case '=':
-			std::cout << number_one << " & " << number_two << (number_one == number_two ? " are " : " are not ") << "equal.";
+			case '/':
+			if (complex) {
+				result = *number_one / *number_two;
+				set_number (&result, numbers, true);
+			}
 			break;
 		
 			default:
 			std::cout << op[0] << " is an unknown operation";
 			break;
 		}
-	}
+	}*/
 	
-	//std::cout << std::endl << std::endl;
+	delete[] op;
 }
 
 
-void display_scalar ()
+void display_scalar (Pairs *numbers[])
 {
 	
-	//reads last result from dot product (a*c + b*d)
+	std::cout << "Latest scalar result: " << *static_cast<Vector*> (numbers[26]) << std::endl;
 }
 
 
@@ -450,8 +480,8 @@ void menu (bool complex)
 	
 	unsigned short int menu_choice;
 	
-	Pairs *numbers[26];
-	for (int i = 0; i < 26; i += 1)
+	Pairs *numbers[27]; //26 letters + 1 scalar result
+	for (int i = 0; i < 27; i += 1)
 		numbers[i] = new Pairs ();
 	
 	bool exit = false;
@@ -464,7 +494,7 @@ void menu (bool complex)
 		for (int i = 0; i < 5; i += 1)
 		{
 			
-			if (complex && i == 2)
+			if (complex && i == 3)
 				continue;
 			
 			std::cout << "\t" << count << " - " << MENU_OPTIONS[i] << std::endl;
@@ -487,15 +517,12 @@ void menu (bool complex)
 			break;
 			
 			case 3:
-			if (complex)
-				complex_arithmatic (numbers);
-			else
-				display_scalar ();
+			arithmatic (numbers, complex);
 			break;
 			
 			case 4:
 			if(!complex)
-				break;//vector_arithmatic
+				display_scalar (numbers);
 			else
 				exit = true;
 			break;
@@ -511,7 +538,8 @@ void menu (bool complex)
 		
 	} while (!exit);
 	
-	std::cout << std::endl;
+	for (int d = 0; d < 27; d += 1)
+		delete numbers[d];
 }
 
 

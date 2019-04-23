@@ -182,8 +182,9 @@ Select an option:
     (3) Perform arithmetic or equality check
     (4) Exit
 4
-Bye...
-Select an option - (1) perform complex number actions
+Bye...</pre>
+
+<pre>Select an option - (1) perform complex number actions
                    (2) perform vector actions
                    (3) exit
 2
