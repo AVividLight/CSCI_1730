@@ -4,7 +4,7 @@
 
 
 static const unsigned int MAXIMUM_INPUT = 256;
-static const char *MENU_OPTIONS[4] = {"Store an Expression" , "Display an Expression", "Display a Scalar", "Perform Arithmatic or Equality Check"};
+static const char *MENU_OPTIONS[5] = {"Store an Expression" , "Display an Expression", "Display a Scalar", "Perform Arithmatic or Equality Check", "Exit"};
 
 
 class Pairs
@@ -193,10 +193,15 @@ std::ostream &operator<< (std::ostream &os, const Complex_Number number)
 {
 	
 	os << number.get_leading ();
-	if (number.get_trailing () >= 0)
-		os << '+';
 	
-	os << number.get_trailing () << 'i';
+	if (number.get_trailing () != 0)
+	{
+		
+		if (number.get_trailing () > 0)
+			os << '+';
+		
+		os << number.get_trailing () << 'i';
+	}
 	return os;
 }
 
@@ -357,16 +362,16 @@ void complex_equation (Pairs *numbers[])
 	std::cin.clear ();
 	std::cin.ignore ();
 	
-	std::cout << std::endl << "Complex Solution:" << std::endl;
+	std::cout << std::endl << "Complex Solution:" << std::endl << '\t';
 	Complex_Number *user_number = static_cast<Complex_Number*> (get_number(numbers));
 	
 	bool is_addition_solution = (abs (user_number->get_leading () - calculate_equation (a, b, c, true).get_leading ()) < 0.000001 && abs (user_number->get_trailing () - calculate_equation (a, b, c, true).get_trailing ()) < 0.000001);
 	bool is_subtraction_solution = (abs (user_number->get_leading () - calculate_equation (a, b, c, false).get_leading ()) < 0.000001 && abs (user_number->get_trailing () - calculate_equation (a, b, c, false).get_trailing ()) < 0.000001);
 	
 	if (is_addition_solution == true || is_subtraction_solution == true)
-		std::cout << user_number << " is a solution to the quadratic equation." << std::endl;
+		std::cout << *user_number << " is a solution to the quadratic equation." << std::endl;
 	else
-		std::cout << user_number << " is not a solution to the quadratic equation." << std::endl;
+		std::cout << *user_number << " is not a solution to the quadratic equation." << std::endl;
 }
 
 
@@ -383,11 +388,13 @@ void complex_arithmatic (Pairs *numbers[])
 		complex_equation (numbers);
 	} else {
 	
+		std::cout << "First number:" << std::endl << '\t';
 		Complex_Number *number_one = static_cast<Complex_Number*> (get_number (numbers));
 	
-		std::cout << "Second number:" << std::endl;
+		std::cout << std::endl << "Second number:" << std::endl << '\t';
 		Complex_Number *number_two = static_cast<Complex_Number*> (get_number (numbers));
-	
+		
+		std::cout << std::endl << "Result:" << std::endl << '\t';
 		Complex_Number result;
 	
 		switch (op[0])
@@ -425,7 +432,7 @@ void complex_arithmatic (Pairs *numbers[])
 		}
 	}
 	
-	std::cout << std::endl << std::endl;
+	//std::cout << std::endl << std::endl;
 }
 
 
@@ -447,13 +454,14 @@ void menu (bool complex)
 	for (int i = 0; i < 26; i += 1)
 		numbers[i] = new Pairs ();
 	
+	bool exit = false;
 	do
 	{
 	
 		std::cout << "Select an operation:" << std::endl;
 		
 		unsigned short int count = 1;
-		for (int i = 0; i < 4; i += 1)
+		for (int i = 0; i < 5; i += 1)
 		{
 			
 			if (complex && i == 2)
@@ -462,8 +470,6 @@ void menu (bool complex)
 			std::cout << "\t" << count << " - " << MENU_OPTIONS[i] << std::endl;
 			count += 1;
 		}
-		
-		std::cout << "\t0 - Exit" << std::endl;
 		
 		std::cin >> menu_choice;
 		std::cin.clear ();
@@ -490,13 +496,20 @@ void menu (bool complex)
 			case 4:
 			if(!complex)
 				break;//vector_arithmatic
+			else
+				exit = true;
+			break;
+			
+			case 5:
+			if (!complex)
+				exit = true;
 			break;
 			
 			default:
 			break;
 		}
 		
-	} while (menu_choice != 0);
+	} while (!exit);
 	
 	std::cout << std::endl;
 }
