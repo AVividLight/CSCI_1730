@@ -5,6 +5,7 @@
 
 static const unsigned int MAXIMUM_INPUT = 256;
 static const char *MENU_OPTIONS[5] = {"Store an Expression" , "Display an Expression", "Perform Arithmatic or Equality Check", "Scalar Result", "Exit"};
+static float dot_product_result = 0;
 
 
 class Pairs
@@ -150,8 +151,6 @@ public:
 	friend Complex_Number operator/ (const Complex_Number &number_one, const Complex_Number &number_two);
 	
 	friend std::ostream &operator<< (std::ostream &os, const Complex_Number number);
-	
-	//friend std::istream &operator>> (std::istream &is, Complex_Number &number);
 };
 
 
@@ -210,13 +209,10 @@ class Vector : public Pairs
 public:
 	Vector (float a = 0, float b = 0);
 	
-	friend Vector operator* (const Vector &number_one, const Vector &number_two); //Dot product
-	friend Vector operator* (const float scalar, const Vector &number_one); //Scalar
-	friend Vector operator/ (const Vector &number_one, const Vector &number_two);
+	friend float operator* (const Vector &number_one, const Vector &number_two); //Dot product
+	friend Vector operator* (const Vector &number_one, const float scalar); //Scalar
 	
 	friend std::ostream &operator<< (std::ostream &os, const Vector number);
-	
-	//friend std::istream &operator>> (std::istream &is, Vector &number);
 };
 
 
@@ -225,6 +221,20 @@ Vector::Vector (float a, float b)
 	
 	set_leading (a);
 	set_trailing (b);
+}
+
+
+float operator* (const Vector &number_one, const Vector &number_two)
+{
+
+	return ((number_one.get_leading () * number_two.get_leading ()) + (number_one.get_trailing () * number_two.get_trailing ()));
+}
+
+
+Vector operator* (const Vector &number_one, const float scalar)
+{
+
+	return Vector ((number_one.get_leading () * scalar), (number_one.get_trailing () * scalar));
 }
 
 
@@ -387,89 +397,85 @@ void arithmatic (Pairs *numbers[], bool complex)
 	
 	Pairs *number_one;
 	Pairs *number_two;
+	Pairs result;
+	float scalar;
+	
+	if (op[0] == '=' || op[0] == '+' || op[0] == '-' || op[0] == '/' || op[0] == '*' || op[0] == '.')
+	{
+		
+		std::cout << "First number:" << std::endl << '\t';
+		number_one = get_number (numbers);
+		
+		if (complex || op[0] != '*') {
+			std::cout << std::endl << "Second number:" << std::endl << '\t';
+			number_two = get_number (numbers);
+		} else if (!complex && op[0] == '*') {
+			std::cout << "Scalar: ";
+			std::cin >> scalar;
+			std::cin.clear ();
+			std::cin.ignore ();
+		}
+		
+		std::cout << std::endl;
+	}
 	
 	switch (op[0]) {
 		case '=':
+		if (complex)
+			std::cout << *static_cast<Complex_Number*> (number_one) << " & " << *static_cast<Complex_Number*> (number_two);
+		else
+			std::cout << *static_cast<Vector*> (number_one) << " & " << *static_cast<Vector*> (number_two);
+		std::cout << (*number_one == *number_two ? " are " : " are not ") << "equal." << std::endl;
+		break;
+	
+		case '+':
+		result = *number_one + *number_two;
+		set_number (&result, numbers, complex);
+		break;
+	
+		case '-':
+		result = *number_one - *number_two;
+		set_number (&result, numbers, complex);
+		break;
+		
+		case '*':
+		if (complex) {
+			result = *static_cast<Complex_Number*> (number_one) * *static_cast<Complex_Number*> (number_two);
+			set_number (&result, numbers, complex);
+		} else {
+			result = *static_cast<Vector*> (number_one) * scalar;
+			set_number (&result, numbers, complex);
+		}
+		break;
+		
+		case '/':
+		if (complex) {
+			result = *static_cast<Complex_Number*> (number_one) / *static_cast<Complex_Number*> (number_two);
+			set_number (&result, numbers, true);
+		} else
+			std::cout << '\'' << op[0] << "\' is an unknown operation" << std::endl;
 		break;
 		
 		case 'q':
-		if (complex) {
+		if (complex)
 			complex_equation (numbers);
-			break;
-		}
+		else
+			std::cout << '\'' << op[0] << "\' is an unknown operation" << std::endl;
+		break;
+		
+		case '.':
+		if (!complex) {
+			dot_product_result = *static_cast<Vector*> (number_one) * *static_cast<Vector*> (number_two);
+		} else
+			std::cout << '\'' << op[0] << "\' is an unknown operation" << std::endl;
+		break;
 		
 		default:
-		std::cout << op[0] << " is an unknown operation";
+		std::cout << '\'' << op[0] << "\' is an unknown operation" << std::endl;
 		break;
 	}
 	
-	/*if (op[0] == 'q')
-	{
-		
-		complex_equation (numbers);
-	} else {
-	
-		std::cout << "First number:" << std::endl << '\t';
-		Complex_Number *number_one = static_cast<Complex_Number*> (get_number (numbers));
-	
-		std::cout << std::endl << "Second number:" << std::endl << '\t';
-		Complex_Number *number_two = static_cast<Complex_Number*> (get_number (numbers));
-		
-		std::cout << std::endl << "Result:" << std::endl << '\t';
-		Complex_Number result;
-	
-		switch (op[0])
-		{
-			
-			case '=':
-			std::cout << *number_one << " & " << *number_two << (number_one == number_two ? " are " : " are not ") << "equal." << std::endl;;
-			break;
-		
-			case '+':
-			result = *number_one + *number_two;
-			set_number (&result, numbers, true);
-			break;
-		
-			case '-':
-			result = *number_one - *number_two;
-			set_number (&result, numbers, true);
-			break;
-		
-			case '*':
-			case 'x':
-			case 'X':
-			result = *number_one * *number_two;
-			set_number (&result, numbers, true);
-			break;
-			
-			case '.':
-			if (!complex) {
-				result = *number_one * *number_two;
-				numbers[27] = &result;
-			}
-			break;
-		
-			case '/':
-			if (complex) {
-				result = *number_one / *number_two;
-				set_number (&result, numbers, true);
-			}
-			break;
-		
-			default:
-			std::cout << op[0] << " is an unknown operation";
-			break;
-		}
-	}*/
-	
 	delete[] op;
-}
-
-
-void display_scalar (Pairs *numbers[])
-{
-	
-	std::cout << "Latest scalar result: " << *static_cast<Vector*> (numbers[26]) << std::endl;
 }
 
 
@@ -480,8 +486,8 @@ void menu (bool complex)
 	
 	unsigned short int menu_choice;
 	
-	Pairs *numbers[27]; //26 letters + 1 scalar result
-	for (int i = 0; i < 27; i += 1)
+	Pairs *numbers[26];
+	for (int i = 0; i < 26; i += 1)
 		numbers[i] = new Pairs ();
 	
 	bool exit = false;
@@ -522,7 +528,7 @@ void menu (bool complex)
 			
 			case 4:
 			if(!complex)
-				display_scalar (numbers);
+				std::cout << "Latest scalar result: " << dot_product_result << std::endl;
 			else
 				exit = true;
 			break;
@@ -538,7 +544,7 @@ void menu (bool complex)
 		
 	} while (!exit);
 	
-	for (int d = 0; d < 27; d += 1)
+	for (int d = 0; d < 26; d += 1)
 		delete numbers[d];
 }
 
