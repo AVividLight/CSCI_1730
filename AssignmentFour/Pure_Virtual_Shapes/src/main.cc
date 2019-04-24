@@ -155,34 +155,71 @@ private:
 };
 
 
-const char get_input () {
+const char get_bool_input () {
 	std::string input;
-	
 	do {	
 		std::getline (std::cin, input);
 	} while (tolower (input[0]) != 'y' && tolower (input[0]) != 'n');
-	
 	return tolower (input[0]);
 }
 
 
 bool another_shape () {
-	std::cout << std::endl << "Examine another file? (y/n): ";
-	return (get_input () == 'y' ? true : false);
+	std::cout << std::endl << "Enter another shape? (y/n) ";
+	return (get_bool_input () == 'y' ? true : false);
 }
 
 
 int main (int argc, char const *argv[]) {
 	std::cout << "Project 3 from Assignment 4" << std::endl << "Pure Virtual Shapes" << std::endl << "This program uses pure virtual functions to model primitive shapes." << std::endl << std::endl;
 	
-	//Shapes *shapes;
-	//Shape shape;
+	Shape *shapes[20];
 	
-	Rectangle rect;
-	
-	do {
+	int menu_choice = 0;
+	int index = 0;
+	for (index = 0; index < 20; index += 1) {
+		std::cout << "Enter the number of the shape type:" << std::endl << "\t1 - Rectangle" << std::endl << "\t2 - Circle" << std::endl << "\t3 - Triangle" << std::endl << "\t4 - Box" << std::endl << "\t5 - Can" << std::endl << "\t6 - Cone" << std::endl << "\t7 - Ball" << std::endl;
 		
-	} while (another_shape ());
+		/*//###	###	###
+		
+			GET INPUT
+			=========
+		
+		*///###	###	###
+		
+		switch (menu_choice) {
+			case 1:
+			break;
+			
+			case 2:
+			break;
+			
+			case 3:
+			break;
+			
+			case 4:
+			break;
+			
+			case 5:
+			break;
+			
+			case 6:
+			break;
+			
+			case 7:
+			break;
+			
+			default:
+			break;
+		}
+		
+		if (!another_shape ())
+			break;
+	}
+	
+	for (int i = 0; i < index; i += 1) {
+		shapes[i]->display ();
+	}
 	
 	return 0;
 }
