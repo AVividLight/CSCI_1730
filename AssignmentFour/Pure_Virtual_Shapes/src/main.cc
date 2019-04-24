@@ -9,6 +9,7 @@ const double pi = 3.14159265358979323846;
 class Shape {
 public:
 	Shape (std::size_t dim);
+	virtual ~Shape () {}
 	
 	virtual void display () = 0;
 	virtual void GetDimensions () = 0;
@@ -19,6 +20,7 @@ public:
 	void set_size (int dim) {size = dim;}
 	const std::size_t get_size () const {return size;}
 	
+	void set_dimension_at_index (const unsigned short int pos, const float dim);
 	float get_dimension_at_index (const unsigned short int pos);
 	
 private:
@@ -43,10 +45,18 @@ float Shape::get_dimension_at_index (const unsigned short int pos) {
 }
 
 
+void Shape::set_dimension_at_index (const unsigned short int pos, const float dim) {
+	if (pos > size)
+		throw;
+	
+	dimension[pos] = dim;
+}
+
+
 
 class Rectangle : public Shape {
 public:
-	Rectangle () : Shape (SIDES) {}
+	Rectangle (float x, float y) : Shape (SIDES) {set_dimension_at_index (0, x); set_dimension_at_index (1, y);}
 	
 	void display () {std::cout << "Rectangle of length " << get_dimension_at_index (0) << " and width " << get_dimension_at_index (1) << std::endl;}
     void GetDimensions () {}
@@ -61,7 +71,7 @@ private:
 
 class Circle : public Shape {
 public:
-	Circle () : Shape (SIDES) {}
+	Circle (float r) : Shape (SIDES) {set_dimension_at_index (0, r);}
 	
 	void display () {std::cout << "Circle of radius " << get_dimension_at_index (0) << std::endl;}
     void GetDimensions () {}
@@ -76,7 +86,7 @@ private:
 
 class Triangle : public Shape {
 public:
-	Triangle () : Shape (SIDES) {}
+	Triangle (float x, float y, float z) : Shape (SIDES) {set_dimension_at_index (0, x); set_dimension_at_index (1, y); set_dimension_at_index (2, z);}
 	
 	void display () {std::cout << "Triangle of size " << get_dimension_at_index (0) << ", " << get_dimension_at_index (1) << ", and " << get_dimension_at_index (2) << std::endl;}
     void GetDimensions () {}
@@ -97,12 +107,12 @@ void Triangle::Area () {
 
 class Box : public Shape {
 public:
-	Box () : Shape (SIDES) {}
+	Box (float x, float y, float z) : Shape (SIDES) {set_dimension_at_index (0, x); set_dimension_at_index (1, y); set_dimension_at_index (2, z);}
 	
 	void display () {std::cout << "Box of size " << get_dimension_at_index (0) << ", " << get_dimension_at_index (1) << ", and " << get_dimension_at_index (2) << std::endl;}
     void GetDimensions () {}
     void Area () {std::cout << "Area: " << 2 * (get_dimension_at_index (0) * get_dimension_at_index (1) + get_dimension_at_index (0) * get_dimension_at_index (2) + get_dimension_at_index (1) * get_dimension_at_index (2)) << std::endl;}
-    void Perimeter (); //Do nothing for 3D shape
+    void Perimeter () {} //Do nothing for 3D shape
     void Volume () {std::cout << "Volume: " << get_dimension_at_index (0) * get_dimension_at_index (1) * get_dimension_at_index (2) << std::endl;}
 	
 private:
@@ -112,12 +122,12 @@ private:
 
 class Can : public Shape {
 public:
-	Can () : Shape (SIDES) {}
+	Can (float r, float h) : Shape (SIDES) {set_dimension_at_index (0, r); set_dimension_at_index (1, h);}
 	
-	void display () {std::cout << "Can of radius " << get_dimension_at_index (0) << " and height" << get_dimension_at_index (1) << std::endl;}
+	void display () {std::cout << "Can of radius " << get_dimension_at_index (0) << " and height " << get_dimension_at_index (1) << std::endl;}
     void GetDimensions () {}
     void Area () {std::cout << "Area: " << 2 * pi * (get_dimension_at_index (0) * get_dimension_at_index (0)) + 2 * pi * get_dimension_at_index (0) * get_dimension_at_index (1) << std::endl;}
-    void Perimeter (); //Do nothing for 3D shape
+    void Perimeter () {} //Do nothing for 3D shape
     void Volume () {std::cout << "Volume: " << pi * get_dimension_at_index (0) * get_dimension_at_index (0) * get_dimension_at_index (1) << std::endl;}
 	
 private:
@@ -127,12 +137,12 @@ private:
 
 class Cone : public Shape {
 public:
-	Cone () : Shape (SIDES) {}
+	Cone (float r, float h) : Shape (SIDES) {set_dimension_at_index (0, r); set_dimension_at_index (1, h);}
 	
-	void display () {std::cout << "Cone of radius " << get_dimension_at_index (0) << " and height" << get_dimension_at_index (1) << std::endl;}
+	void display () {std::cout << "Cone of radius " << get_dimension_at_index (0) << " and height " << get_dimension_at_index (1) << std::endl;}
     void GetDimensions () {}
     void Area () {std::cout << "Area: " << pi * (get_dimension_at_index (0) * get_dimension_at_index (0)) + pi * get_dimension_at_index (0) * sqrt (get_dimension_at_index (1) * get_dimension_at_index (1) + get_dimension_at_index (0) * get_dimension_at_index (0)) << std::endl;}
-    void Perimeter (); //Do nothing for 3D shape
+    void Perimeter () {} //Do nothing for 3D shape
     void Volume () {std::cout << "Volume: " << 1.0/3.0 * pi * get_dimension_at_index (0) * get_dimension_at_index (0) * get_dimension_at_index (1) << std::endl;}
 	
 private:
@@ -142,17 +152,38 @@ private:
 
 class Ball : public Shape {
 public:
-	Ball () : Shape (SIDES) {}
+	Ball (float r) : Shape (SIDES) {set_dimension_at_index (0, r);}
 	
 	void display () {std::cout << "Ball of radius " << get_dimension_at_index (0) << std::endl;}
     void GetDimensions () {}
     void Area () {std::cout << "Area: " << 4 * pi * get_dimension_at_index (0) * get_dimension_at_index (0) << std::endl;}
-    void Perimeter (); //Do nothing for 3D shape
+    void Perimeter () {} //Do nothing for 3D shape
     void Volume () {std::cout << "Volume: " << 4.0/3.0 * pi * get_dimension_at_index (0) * get_dimension_at_index (0) * get_dimension_at_index (0) << std::endl;}
 	
 private:
 	static const std::size_t SIDES = 1;
 };
+
+
+const float get_number_input (float min = 0.0, float max = 1000000.0) {
+	float input;
+	while (true) {
+		std::cin >> input;
+		
+		if (input < min || input > max) {
+			std::cout << "Please enter a number between " << min << " and " << max << '.' << std::endl;
+			
+			std::cin.clear ();
+			std::cin.ignore ();
+		} else
+			break;
+	}
+	
+	std::cin.clear ();
+	std::cin.ignore ();
+	
+	return input;
+}
 
 
 const char get_bool_input () {
@@ -173,43 +204,79 @@ bool another_shape () {
 int main (int argc, char const *argv[]) {
 	std::cout << "Project 3 from Assignment 4" << std::endl << "Pure Virtual Shapes" << std::endl << "This program uses pure virtual functions to model primitive shapes." << std::endl << std::endl;
 	
-	Shape *shapes[20];
+	Shape **shapes = new Shape *[20];
 	
 	int menu_choice = 0;
 	int index = 0;
 	for (index = 0; index < 20; index += 1) {
 		std::cout << "Enter the number of the shape type:" << std::endl << "\t1 - Rectangle" << std::endl << "\t2 - Circle" << std::endl << "\t3 - Triangle" << std::endl << "\t4 - Box" << std::endl << "\t5 - Can" << std::endl << "\t6 - Cone" << std::endl << "\t7 - Ball" << std::endl;
 		
-		/*//###	###	###
-		
-			GET INPUT
-			=========
-		
-		*///###	###	###
-		
-		switch (menu_choice) {
-			case 1:
-			break;
+		switch ((int) get_number_input (1, 7)) {
+			case 1: {
+				std::cout << "Enter side length: ";
+				const float l = get_number_input ();
+				
+				std::cout << "Enter side width: ";
+				const float w = get_number_input ();
+				shapes[index] = new Rectangle (l, w);
+			} break;
 			
-			case 2:
-			break;
+			case 2: {
+				std::cout << "Enter radius length: ";
+				const float r = get_number_input ();
+				shapes[index] = new Circle (r);
+			} break;
 			
-			case 3:
-			break;
+			case 3: {
+				std::cout << "Enter side x: ";
+				const float x = get_number_input ();
+				
+				std::cout << "Enter side y: ";
+				const float y = get_number_input ();
+				
+				std::cout << "Enter side z: ";
+				const float z = get_number_input ();
+				shapes[index] = new Triangle (x, y, z);
+			} break;
 			
-			case 4:
-			break;
+			case 4: {
+				std::cout << "Enter length: ";
+				const float x = get_number_input ();
+				
+				std::cout << "Enter width: ";
+				const float y = get_number_input ();
+				
+				std::cout << "Enter height: ";
+				const float z = get_number_input ();
+				shapes[index] = new Box (x, y, z);
+			} break;
 			
-			case 5:
-			break;
+			case 5: {
+				std::cout << "Enter radius: ";
+				const float r = get_number_input ();
+				
+				std::cout << "Enter height: ";
+				const float h = get_number_input ();
+				shapes[index] = new Can (r, h);
+			} break;
 			
-			case 6:
-			break;
+			case 6: {
+				std::cout << "Enter radius: ";
+				const float r = get_number_input ();
+				
+				std::cout << "Enter height: ";
+				const float h = get_number_input ();
+				shapes[index] = new Cone (r, h);
+			} break;
 			
-			case 7:
-			break;
+			case 7: {
+				std::cout << "Enter radius length: ";
+				const float r = get_number_input ();
+				shapes[index] = new Ball (r);
+			} break;
 			
 			default:
+			std::cout << "default" << std::endl;
 			break;
 		}
 		
@@ -217,8 +284,9 @@ int main (int argc, char const *argv[]) {
 			break;
 	}
 	
-	for (int i = 0; i < index; i += 1) {
+	for (int i = 0; i < index + 1; i += 1) {
 		shapes[i]->display ();
+		delete shapes[i];
 	}
 	
 	return 0;
