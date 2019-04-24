@@ -58,8 +58,8 @@ class Rectangle : public Shape {
 public:
 	Rectangle (float x, float y) : Shape (SIDES) {set_dimension_at_index (0, x); set_dimension_at_index (1, y);}
 	
-	void display () {std::cout << "Rectangle of length " << get_dimension_at_index (0) << " and width " << get_dimension_at_index (1) << std::endl;}
-    void GetDimensions () {}
+	void display () {std::cout << "Rectangle, "; GetDimensions (); Area (); Perimeter (); Volume ();}
+    void GetDimensions () {std::cout << "length " << get_dimension_at_index (0) << " and width " << get_dimension_at_index (1) << std::endl;}
     void Area () {std::cout << "Area: " << (pi * get_dimension_at_index (0) * get_dimension_at_index (0)) << std::endl;}
     void Perimeter () {std::cout << "Perimeter: " << (2 * pi * get_dimension_at_index (0)) << std::endl;}
     void Volume () {} //Do nothing for 2D shape
@@ -73,9 +73,9 @@ class Circle : public Shape {
 public:
 	Circle (float r) : Shape (SIDES) {set_dimension_at_index (0, r);}
 	
-	void display () {std::cout << "Circle of radius " << get_dimension_at_index (0) << std::endl;}
-    void GetDimensions () {}
-    void Area () {std::cout << "Area: " << (get_dimension_at_index (0) * get_dimension_at_index (1)) << std::endl;}
+	void display () {std::cout << "Circle, "; GetDimensions (); Area (); Perimeter (); Volume ();}
+    void GetDimensions () {std::cout << "radius " << get_dimension_at_index (0) << std::endl;}
+    void Area () {std::cout << "Area: " << (pi * get_dimension_at_index (0) * get_dimension_at_index (0)) << std::endl;}
     void Perimeter () {std::cout << "Perimeter: " << (2 * get_dimension_at_index (0) + 2 * get_dimension_at_index (1)) << std::endl;}
     void Volume () {} //Do nothing for 2D shape
 	
@@ -88,8 +88,8 @@ class Triangle : public Shape {
 public:
 	Triangle (float x, float y, float z) : Shape (SIDES) {set_dimension_at_index (0, x); set_dimension_at_index (1, y); set_dimension_at_index (2, z);}
 	
-	void display () {std::cout << "Triangle of size " << get_dimension_at_index (0) << ", " << get_dimension_at_index (1) << ", and " << get_dimension_at_index (2) << std::endl;}
-    void GetDimensions () {}
+	void display () {std::cout << "Triangle, "; GetDimensions (); Area (); Perimeter (); Volume ();}
+    void GetDimensions () {std::cout << "of size " << get_dimension_at_index (0) << ", " << get_dimension_at_index (1) << ", and " << get_dimension_at_index (2) << std::endl;}
     void Area ();
     void Perimeter () {std::cout << "Perimeter: " << (get_dimension_at_index (0) + get_dimension_at_index (1) + get_dimension_at_index (2)) << std::endl;}
     void Volume () {} //Do nothing for 2D shape
@@ -109,8 +109,8 @@ class Box : public Shape {
 public:
 	Box (float x, float y, float z) : Shape (SIDES) {set_dimension_at_index (0, x); set_dimension_at_index (1, y); set_dimension_at_index (2, z);}
 	
-	void display () {std::cout << "Box of size " << get_dimension_at_index (0) << ", " << get_dimension_at_index (1) << ", and " << get_dimension_at_index (2) << std::endl;}
-    void GetDimensions () {}
+	void display () {std::cout << "Box, "; GetDimensions (); Area (); Perimeter (); Volume ();}
+    void GetDimensions () {std::cout << "size " << get_dimension_at_index (0) << ", " << get_dimension_at_index (1) << ", and " << get_dimension_at_index (2) << std::endl;}
     void Area () {std::cout << "Area: " << 2 * (get_dimension_at_index (0) * get_dimension_at_index (1) + get_dimension_at_index (0) * get_dimension_at_index (2) + get_dimension_at_index (1) * get_dimension_at_index (2)) << std::endl;}
     void Perimeter () {} //Do nothing for 3D shape
     void Volume () {std::cout << "Volume: " << get_dimension_at_index (0) * get_dimension_at_index (1) * get_dimension_at_index (2) << std::endl;}
@@ -124,8 +124,8 @@ class Can : public Shape {
 public:
 	Can (float r, float h) : Shape (SIDES) {set_dimension_at_index (0, r); set_dimension_at_index (1, h);}
 	
-	void display () {std::cout << "Can of radius " << get_dimension_at_index (0) << " and height " << get_dimension_at_index (1) << std::endl;}
-    void GetDimensions () {}
+	void display () {std::cout << "Can, "; GetDimensions (); Area (); Perimeter (); Volume ();}
+    void GetDimensions () {std::cout << "radius " << get_dimension_at_index (0) << " and height " << get_dimension_at_index (1) << std::endl;}
     void Area () {std::cout << "Area: " << 2 * pi * (get_dimension_at_index (0) * get_dimension_at_index (0)) + 2 * pi * get_dimension_at_index (0) * get_dimension_at_index (1) << std::endl;}
     void Perimeter () {} //Do nothing for 3D shape
     void Volume () {std::cout << "Volume: " << pi * get_dimension_at_index (0) * get_dimension_at_index (0) * get_dimension_at_index (1) << std::endl;}
@@ -139,8 +139,8 @@ class Cone : public Shape {
 public:
 	Cone (float r, float h) : Shape (SIDES) {set_dimension_at_index (0, r); set_dimension_at_index (1, h);}
 	
-	void display () {std::cout << "Cone of radius " << get_dimension_at_index (0) << " and height " << get_dimension_at_index (1) << std::endl;}
-    void GetDimensions () {}
+	void display () {std::cout << "Cone, "; GetDimensions (); Area (); Perimeter (); Volume ();}
+    void GetDimensions () {std::cout << "radius " << get_dimension_at_index (0) << " and height " << get_dimension_at_index (1) << std::endl;}
     void Area () {std::cout << "Area: " << pi * (get_dimension_at_index (0) * get_dimension_at_index (0)) + pi * get_dimension_at_index (0) * sqrt (get_dimension_at_index (1) * get_dimension_at_index (1) + get_dimension_at_index (0) * get_dimension_at_index (0)) << std::endl;}
     void Perimeter () {} //Do nothing for 3D shape
     void Volume () {std::cout << "Volume: " << 1.0/3.0 * pi * get_dimension_at_index (0) * get_dimension_at_index (0) * get_dimension_at_index (1) << std::endl;}
@@ -154,8 +154,8 @@ class Ball : public Shape {
 public:
 	Ball (float r) : Shape (SIDES) {set_dimension_at_index (0, r);}
 	
-	void display () {std::cout << "Ball of radius " << get_dimension_at_index (0) << std::endl;}
-    void GetDimensions () {}
+	void display () {std::cout << "Ball, "; GetDimensions (); Area (); Perimeter (); Volume ();}
+    void GetDimensions () {std::cout << " radius " << get_dimension_at_index (0) << std::endl;}
     void Area () {std::cout << "Area: " << 4 * pi * get_dimension_at_index (0) * get_dimension_at_index (0) << std::endl;}
     void Perimeter () {} //Do nothing for 3D shape
     void Volume () {std::cout << "Volume: " << 4.0/3.0 * pi * get_dimension_at_index (0) * get_dimension_at_index (0) * get_dimension_at_index (0) << std::endl;}
@@ -285,6 +285,7 @@ int main (int argc, char const *argv[]) {
 	}
 	
 	for (int i = 0; i < index + 1; i += 1) {
+		std::cout << std::endl;
 		shapes[i]->display ();
 		delete shapes[i];
 	}
