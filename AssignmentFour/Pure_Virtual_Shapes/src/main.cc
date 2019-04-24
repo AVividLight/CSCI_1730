@@ -60,8 +60,8 @@ public:
 	
 	void display () {std::cout << "Rectangle, "; GetDimensions (); Area (); Perimeter (); Volume ();}
     void GetDimensions () {std::cout << "length " << get_dimension_at_index (0) << " and width " << get_dimension_at_index (1) << std::endl;}
-    void Area () {std::cout << "Area: " << (pi * get_dimension_at_index (0) * get_dimension_at_index (0)) << std::endl;}
-    void Perimeter () {std::cout << "Perimeter: " << (2 * pi * get_dimension_at_index (0)) << std::endl;}
+    void Area () {std::cout << "Area: " << (get_dimension_at_index (0) * get_dimension_at_index (1)) << std::endl;}
+    void Perimeter () {std::cout << "Perimeter: " << (2 * (get_dimension_at_index (0) + get_dimension_at_index (1))) << std::endl;}
     void Volume () {} //Do nothing for 2D shape
 	
 private:
@@ -76,7 +76,7 @@ public:
 	void display () {std::cout << "Circle, "; GetDimensions (); Area (); Perimeter (); Volume ();}
     void GetDimensions () {std::cout << "radius " << get_dimension_at_index (0) << std::endl;}
     void Area () {std::cout << "Area: " << (pi * get_dimension_at_index (0) * get_dimension_at_index (0)) << std::endl;}
-    void Perimeter () {std::cout << "Perimeter: " << (2 * get_dimension_at_index (0) + 2 * get_dimension_at_index (1)) << std::endl;}
+    void Perimeter () {std::cout << "Perimeter: " << (2 * pi * get_dimension_at_index (0)) << std::endl;}
     void Volume () {} //Do nothing for 2D shape
 	
 private:
