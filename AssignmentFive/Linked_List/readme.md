@@ -1,4 +1,4 @@
-Incomplete as of 4/25/2019
+Incomplete as of 5/01/2019
 ===
 
 Write a class `LinkList`, which implements a sorted linked list of `floats`. The class should have member functions that handle the following tasks:
@@ -9,7 +9,10 @@ Write a class `LinkList`, which implements a sorted linked list of `floats`. The
 - Find a float value in the list and return the position number of the value in the list (assume position number counting starts with one). If the value is not found, this function should return zero.
 - Find the nth link in the list and return the address of the link. If the list does not have an nth  link, or if the list is empty, this function should return NULL.
 - Delete the nth link in the list. If n is more than the number of links in the list, delete nothing, and give the user an error message.
-- Show these list statistics – the total number of values in the list, the mean value, and the median value. Note: If there are an odd number of values in the list, the median is the middle value; otherwise, it is the average of the two middle values.
+- Show these list statistics:
+	- the total number of values in the list
+	- the mean value
+	- the median value. Note: If there are an odd number of values in the list, the median is the middle value; otherwise, it is the average of the two middle values.
 
 Note: The structure you create to represent the nodes of your linked list should contain only two member variables: a variable to store a floating-point number and a pointer to the structure.
 
@@ -52,7 +55,6 @@ Make a selection:
 7 - Exit the program
 => <b>6</b>
 3.14159
-
 
 Make a selection:
 1 - Add a value (a decimal number)
