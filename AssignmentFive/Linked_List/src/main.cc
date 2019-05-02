@@ -1,15 +1,19 @@
 #include <iostream>
 
-#if __has_include(<type_traits>) && defined __cpp_lib_concepts
-#  include <type_traits>
+#if defined __cpp_lib_concepts && __has_include(<type_traits>)
+#  include <type_traits> //-std=c++14
 #  define ENSURE_TYPE
+#endif
+
+#ifndef nullptr
+#define nullptr null
 #endif
 
 
 template <typename T>
 class LinkNode {
 public:
-	LinkNode () {link = NULL; value = 0.0;}
+	LinkNode () {link = nullptr; value = 0.0;}
 	LinkNode (LinkNode *l, T v) {link = l; value = v;}
 	
 	LinkNode *get_link () {return link;}
@@ -26,23 +30,57 @@ private:
 
 template <typename T>
 #ifdef ENSURE_TYPE
-concept Arithmetic = requires (T type) {
+concept Arithmetic = requires (T type) { //-std=c++2a
 	std::is_arithmetic<type> == true;
 };
-
 template<Arithmetic T>
 #endif
 	
 class LinkedList {
 public:
-	void insert ();
-#define push_back () insert ()
+	LinkedList<T> ();
+	
+	LinkNode<T> *search (T *match, LinkNode<T> *start = head);
+	
+	void insert_head (LinkNode<T> *node);
+	void insert (LinkNode<T> *node, LinkNode<T> *after);
 	
 	LinkNode<T> &remove ();
-#define pop_back () remove ();
 private:
 	LinkNode<T> *head;
 };
+
+
+template <typename T>
+LinkedList<T>::LinkedList () {
+	head = nullptr;
+}
+
+
+template <typename T>
+LinkNode<T> LinkedList<T>::*search (T *match, LinkNode<T> *start) {
+	LinkNode<T> *index = start;
+	
+	while (index != nullptr && index->get_value != match->get_value ()) {
+		index = index->get_link ();
+	}
+	
+	return index;
+}
+
+
+template <typename T>
+void LinkedList<T>::insert_head (LinkNode<T> *node) {
+	node->set_link (head);
+	head = node;
+}
+
+
+template <typename T>
+void LinkedList<T>::insert (LinkNode<T> *node, LinkNode<T> *after) {
+	node->set_link (after->get_link ());
+	after->set_link (node);
+}
 
 
 int main (int argc, char const *argv[]) {

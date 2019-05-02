@@ -1,4 +1,4 @@
-Incomplete as of 5/01/2019
+Incomplete as of 5/02/2019
 ===
 
 Write a class `LinkList`, which implements a sorted linked list of `floats`. The class should have member functions that handle the following tasks:
