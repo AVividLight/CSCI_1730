@@ -9,33 +9,43 @@ class Node {
 public:
 	Node () {value = 0.0; link = nullptr;}
 	Node (float v, Node *l = nullptr) {value = v; link = l;}
-
-	Node *get_link () {return link;}
-	void set_link (Node *node) {link = node;}
+	Node (Node *copy) {value = copy->get_value (); link = copy->get_link ();}
+	
+	//~Node () {};
 
 	const float get_value () const {return value;}
 	void set_value (float v) {value = v;}
+
+	Node *get_link () {return link;}
+	void set_link (Node *node) {link = node;}
 	
 	bool operator== (const Node *comp) {return (value == comp->get_value ());}
+	Node *operator= (Node *other);
 private:
-	Node *link;
 	float value;
+	Node *link;
 };
+
+
+Node *Node::operator= (Node *other) {
+	value = other->get_value ();
+	link = other->get_link ();
+	return this;
+}
 
 	
 class LinkedList {
 public:
 	LinkedList ();
+	~LinkedList ();
 	
-	unsigned int search (const float match, Node *start);
-	
+	unsigned int search (const float match, Node *start, const bool exact = true);
 	Node *traverse (const unsigned int index);
-	
-	void insert (Node *node, Node *after);
+	void insert_after (Node *node, Node *after);
+	void insert_head (Node *node);
 	float remove_index (const unsigned int index);
-	//Node *remove_fist_value (const float match);
-	
 	Node *get_last ();
+	unsigned int get_last_index (); 
 	
 	void set_head (Node *h) {head = h;}
 	Node *get_head () {return head;}
@@ -50,11 +60,26 @@ LinkedList::LinkedList () {
 }
 
 
-unsigned int LinkedList::search (const float match, Node *start) {
+LinkedList::~LinkedList () {
+	Node *current = head;
+	Node *next;
+	
+	while (current != nullptr) {
+		next = current->get_link ();
+		delete current;
+		current = next;
+	}
+}
+
+
+unsigned int LinkedList::search (const float match, Node *start, const bool exact) {
 	Node *index = start;
 	
 	unsigned int position = 1;
-	while (index != nullptr && index->get_value () != match) {
+	while (index != nullptr) {
+		if ((exact && index->get_value () != match) || (!exact && index->get_value () >= match))
+			break;
+		
 		index = index->get_link ();
 		position += 1;
 	}
@@ -76,9 +101,15 @@ Node *LinkedList::traverse (const unsigned int index) {
 }
 
 
-void LinkedList::insert (Node *node, Node *after) {
+void LinkedList::insert_after (Node *node, Node *after) {
 		node->set_link (after->get_link ());
 		after->set_link (node);
+}
+
+
+void LinkedList::insert_head (Node *node) {
+	node->set_link (head);
+	head = node;
 }
 
 
@@ -105,6 +136,19 @@ Node *LinkedList::get_last () {
 	}
 	
 	return n;
+}
+
+
+unsigned int LinkedList::get_last_index () {
+	Node *n = head;
+	
+	unsigned int i = 1;
+	while (n->get_link () != nullptr) {
+		n = n->get_link ();
+		i += 1;
+	}
+	
+	return i;
 }
 
 
@@ -142,9 +186,25 @@ void menu_add (LinkedList &linked_list) {
 	if (linked_list.get_head () == nullptr)
 		linked_list.set_head (new Node (get_input<float> ()));
 	else {
-		linked_list.insert (new Node (get_input<float> ()), linked_list.get_last ());
+		Node *new_node = new Node (get_input<float> ());
 		
-		//sort
+		const int insert_position = linked_list.search (new_node->get_value (), linked_list.get_head(), false) - 1;
+		if (insert_position == 1) { //head
+			
+			std::cout << "Insert head: " << new_node->get_value () << " is less than current head, " << linked_list.get_head () << std::endl;
+			
+			linked_list.insert_head (new_node);
+		} else if (insert_position == 0) { //tail
+			
+			std::cout << "Insert tail: " << new_node->get_value () << " is greater than the last value, " << linked_list.get_last ()->get_value () << std::endl;
+			
+			linked_list.insert_after (new_node, linked_list.get_last ());
+		} else { //middle
+			
+			std::cout << "Insert middle: " << new_node->get_value () << " is less than, " << linked_list.traverse (insert_position)->get_value () << std::endl;
+			
+			linked_list.insert_after (new_node, linked_list.traverse (insert_position));
+		}
 	}
 }
 
@@ -258,6 +318,5 @@ int main (int argc, char const *argv[]) {
 			break;
 		}
 	} while (menu != 7);
-	
 	return 0;
 }
