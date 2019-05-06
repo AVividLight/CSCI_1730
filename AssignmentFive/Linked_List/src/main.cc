@@ -1,7 +1,7 @@
 #include <iostream>
 
 #ifndef nullptr
-#define nullptr null
+#define nullptr NULL
 #endif
 
 
@@ -188,26 +188,25 @@ void menu_stats (LinkedList &linked_list) {
 	float median = 0.0;
 	
 	Node *iter = linked_list.get_head ();
-	while (true) {
-		if (iter == nullptr)
-			break;
-		
+	while (iter != nullptr) {
 		count += 1;
 		mean += iter->get_value ();
 		
 		iter = iter->get_link ();
 	}
 	
-	mean /= count;
+	if (count > 0) {
+		mean /= count;
 	
-	if (count % 2 != 0)
-		median = linked_list.traverse(count / 2 + 1)->get_value ();
-	else {
-		median = linked_list.traverse(count / 2)->get_value ();
-		median += linked_list.traverse(count / 2 + 1)->get_value ();
-		median /= 2;
+		if (count % 2 != 0)
+			median = linked_list.traverse(count / 2 + 1)->get_value ();
+		else {
+			median = linked_list.traverse(count / 2)->get_value ();
+			median += linked_list.traverse(count / 2 + 1)->get_value ();
+			median /= 2;
+		}
 	}
-	
+
 	std::cout << "There are " << count << " elements in the linked list, the average of their values is " << mean << ", and the median value is " << median;
 }
 
