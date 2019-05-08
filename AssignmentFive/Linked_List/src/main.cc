@@ -10,8 +10,6 @@ public:
 	Node () {value = 0.0; link = nullptr;}
 	Node (float v, Node *l = nullptr) {value = v; link = l;}
 	Node (Node *copy) {value = copy->get_value (); link = copy->get_link ();}
-	
-	//~Node () {};
 
 	const float get_value () const {return value;}
 	void set_value (float v) {value = v;}
@@ -77,7 +75,7 @@ unsigned int LinkedList::search (const float match, Node *start, const bool exac
 	
 	unsigned int position = 1;
 	while (index != nullptr) {
-		if ((exact && index->get_value () != match) || (!exact && index->get_value () >= match))
+		if ((exact && index->get_value () == match) || (!exact && index->get_value () >= match))
 			break;
 		
 		index = index->get_link ();
@@ -189,22 +187,12 @@ void menu_add (LinkedList &linked_list) {
 		Node *new_node = new Node (get_input<float> ());
 		
 		const int insert_position = linked_list.search (new_node->get_value (), linked_list.get_head(), false);
-		if (insert_position == 1) { //head
-			
-			//std::cout << "Insert head: " << new_node->get_value () << " is less than current head, " << linked_list.get_head ()->get_value () << std::endl;
-			
+		if (insert_position == 1) //head
 			linked_list.insert_head (new_node);
-		} else if (insert_position == 0) { //tail
-			
-			//std::cout << "Insert tail: " << new_node->get_value () << " is greater than the last value, " << linked_list.get_last ()->get_value () << std::endl;
-			
+		else if (insert_position == 0) //tail
 			linked_list.insert_after (new_node, linked_list.get_last ());
-		} else { //middle
-			
-			//std::cout << "Insert middle: " << new_node->get_value () << " is less than, " << linked_list.traverse (insert_position)->get_value () << std::endl;
-			
+		else //middle
 			linked_list.insert_after (new_node, linked_list.traverse (insert_position - 1));
-		}
 	}
 }
 
