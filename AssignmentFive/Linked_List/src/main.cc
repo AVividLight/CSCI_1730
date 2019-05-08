@@ -188,22 +188,22 @@ void menu_add (LinkedList &linked_list) {
 	else {
 		Node *new_node = new Node (get_input<float> ());
 		
-		const int insert_position = linked_list.search (new_node->get_value (), linked_list.get_head(), false) - 1;
+		const int insert_position = linked_list.search (new_node->get_value (), linked_list.get_head(), false);
 		if (insert_position == 1) { //head
 			
-			std::cout << "Insert head: " << new_node->get_value () << " is less than current head, " << linked_list.get_head () << std::endl;
+			//std::cout << "Insert head: " << new_node->get_value () << " is less than current head, " << linked_list.get_head ()->get_value () << std::endl;
 			
 			linked_list.insert_head (new_node);
 		} else if (insert_position == 0) { //tail
 			
-			std::cout << "Insert tail: " << new_node->get_value () << " is greater than the last value, " << linked_list.get_last ()->get_value () << std::endl;
+			//std::cout << "Insert tail: " << new_node->get_value () << " is greater than the last value, " << linked_list.get_last ()->get_value () << std::endl;
 			
 			linked_list.insert_after (new_node, linked_list.get_last ());
 		} else { //middle
 			
-			std::cout << "Insert middle: " << new_node->get_value () << " is less than, " << linked_list.traverse (insert_position)->get_value () << std::endl;
+			//std::cout << "Insert middle: " << new_node->get_value () << " is less than, " << linked_list.traverse (insert_position)->get_value () << std::endl;
 			
-			linked_list.insert_after (new_node, linked_list.traverse (insert_position));
+			linked_list.insert_after (new_node, linked_list.traverse (insert_position - 1));
 		}
 	}
 }
