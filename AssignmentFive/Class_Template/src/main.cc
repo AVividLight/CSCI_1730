@@ -8,30 +8,30 @@
 
 /* *** ** * Code from professor * ** *** */
 using namespace std;
-class Distance                           //English Distance class
+class Distance							 //English Distance class
 {
    private:
-      int feet;
-      float inches;
+	  int feet;
+	  float inches;
    public:
-      Distance() : feet(0), inches(0.0)  //constructor (no args)
-      {  }
-                                         //constructor (two args)
-      Distance(int ft, float in) : feet(ft), inches(in)
+	  Distance() : feet(0), inches(0.0)	 //constructor (no args)
+	  {	 }
+										 //constructor (two args)
+	  Distance(int ft, float in) : feet(ft), inches(in)
 
-      {  }
-      Distance( float fltfeet )          //constructor (one arg)
-      {                                  //convert float to Distance
-         feet = int(fltfeet);            //feet is integer part
-         inches = 12*(fltfeet-feet);     //inches is what's left
-      }
-      bool operator < (Distance) const;  //compare distances
-      friend istream& operator >> (istream& s, Distance& d);
+	  {	 }
+	  Distance( float fltfeet )			 //constructor (one arg)
+	  {									 //convert float to Distance
+		 feet = int(fltfeet);			 //feet is integer part
+		 inches = 12*(fltfeet-feet);	 //inches is what's left
+	  }
+	  bool operator < (Distance) const;	 //compare distances
+	  friend istream& operator >> (istream& s, Distance& d);
 
-      friend ostream& operator << (ostream& s, Distance& d);
+	  friend ostream& operator << (ostream& s, Distance& d);
 };
 bool Distance::operator < (Distance d2) const 
-      {
+	  {
    float bf1 = feet + inches/12;
    float bf2 = d2.feet + d2.inches/12;
    return (bf1 < bf2) ? true : false;
@@ -39,18 +39,18 @@ bool Distance::operator < (Distance d2) const
 
 
 //--------------------------------------------------------------
-istream& operator >> (istream& s, Distance& d)  //get Distance
-{                                               //from user
-   cout << "\nEnter feet: ";  s >> d.feet;      //using
-   cout << "Enter inches: ";  s >> d.inches;    //overloaded
-   return s;                                    //>> operator
+istream& operator >> (istream& s, Distance& d)	//get Distance
+{												//from user
+   cout << "\nEnter feet: ";  s >> d.feet;		//using
+   cout << "Enter inches: ";  s >> d.inches;	//overloaded
+   return s;									//>> operator
 }
 //--------------------------------------------------------------
-ostream& operator << (ostream& s, Distance& d)  //display
-{                                               //Distance
-   s << d.feet << "\'-" << d.inches << '"';    //using
-   return s;                                    //overloaded
-}                                               //<< operator
+ostream& operator << (ostream& s, Distance& d)	//display
+{												//Distance
+   s << d.feet << "\'-" << d.inches << '"';	   //using
+   return s;									//overloaded
+}												//<< operator
 /* *** ** * End code from professor * ** *** */
 
 
@@ -85,6 +85,20 @@ void display (Element<T> *list[5]) {
 
 
 template <typename T>
+void sort (Element<T> *list[5]) {
+	for (int i = 0; i < 5 - 1; i += 1) {
+		for (int j = 0; j < 5 - i - 1; j += 1) {
+			if (list[j]->get_data () < list[j+1]->get_data ()) {
+				T temp = list[j]->get_data ();
+				list[j]->set_data (list[j + 1]->get_data ());
+				list[j + 1]->set_data (temp);
+			}
+		}
+	}
+}
+
+
+template <typename T>
 void demo (T flag) {
 	std::cin.clear ();
 	std::cin.ignore ();
@@ -95,8 +109,36 @@ void demo (T flag) {
 		new_element->set_data (flag);
 		list[i] = new_element;
 	}
-	std::cout << "New blank list created" << std::endl;
+	std::cout << "New blank list created" << std::endl << "List values -> ";
+	display (list);
 	
+	std::cout << "Enter values into the list" << std::endl;
+
+	for (int i = 0; i < 5; i += 1) {
+		T d;
+		std::cout << "Enter element " << (i + 1) << ": ";
+		std::cin >> d;
+		list[i]->set_data (d);
+	}
+	
+	std::cout << "List entered -> ";
+	display (list);
+	
+	std::cout << "Create a second list initialized to the first" << std::endl;
+	
+	Element<T> *dup_list[5];
+	for (int i = 0; i < 5; i += 1) {
+		Element<T> *new_element = new Element<T>;
+		new_element->set_data (list[i]->get_data ());
+		dup_list[i] = new_element;
+	}
+	std::cout << "List created -> ";
+	display (dup_list);
+	
+	std::cout << "Sort the first list" << std::endl;
+	sort (list);
+	
+	std::cout << "Sorted list -> ";
 	display (list);
 }
 
@@ -108,36 +150,36 @@ static int _STARTUP = (_PREEMPT(), 0);
 /* *** ** * Code from professor * ** *** */
 int main()
 {
-    int sel;
-    bool end=false;
-    int iFlag=0;
-    float fFlag=0;
-    char cFlag=0;
-    Distance dFlag;
-    cout << "TEMPLATE DEMO PROGRAM\n";
-    do{
-        cout << "Enter list type (1=int 2=float 3=char 4=Distance 5=exit): ";
-        cin >> sel;
-        switch (sel)
-        {
-        case 1:
-            demo(iFlag);
-            break;
-        case 2:
-            demo(fFlag);
-            break;
-        case 3:
-            demo(cFlag);
-            break;
-        case 4:
+	int sel;
+	bool end=false;
+	int iFlag=0;
+	float fFlag=0;
+	char cFlag=0;
+	Distance dFlag;
+	cout << "TEMPLATE DEMO PROGRAM\n";
+	do{
+		cout << "Enter list type (1=int 2=float 3=char 4=Distance 5=exit): ";
+		cin >> sel;
+		switch (sel)
+		{
+		case 1:
+			demo(iFlag);
+			break;
+		case 2:
+			demo(fFlag);
+			break;
+		case 3:
+			demo(cFlag);
+			break;
+		case 4:
 			demo(dFlag);
-            break;
-        default:
-            end=true;
-            cout << "Bye...\n";
-            break;
-        }
-    }while(!end);
-    return 0;
+			break;
+		default:
+			end=true;
+			cout << "Bye...\n";
+			break;
+		}
+	}while(!end);
+	return 0;
 }
 /* *** ** * End code from professor * ** *** */

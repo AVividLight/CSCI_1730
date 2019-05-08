@@ -1,4 +1,4 @@
-Incomplete as of 4/25/2019
+Complete as of 5/08/2019
 ===
 
 Write a class template List for modeling a list of five elements which will have values from one of four different data types (`int`, `float`, `char`, `Distance`). This class should support these list manipulation tasks:
